@@ -1,0 +1,1 @@
+global using Classificador.Api.Presentation.IoC.Swagger;
