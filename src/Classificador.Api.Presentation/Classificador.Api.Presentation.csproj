@@ -13,8 +13,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Classificador.Api.Infrasctructure\Classificador.Api.Infrasctructure.csproj" />
     <ProjectReference Include="..\Classificador.Api.Application\Classificador.Api.Application.csproj" />
+    <ProjectReference Include="..\Classificador.Api.Infrastructure.Data\Classificador.Api.Infrastructure.Data.csproj" />
+    <ProjectReference Include="..\Classificador.Api.Infrastructure.Service\Classificador.Api.Infrastructure.Service.csproj" />
   </ItemGroup>
 
 </Project>

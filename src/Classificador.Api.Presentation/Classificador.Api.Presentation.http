@@ -1,0 +1,6 @@
+@Classificador.Api.Presentation_HostAddress = http://localhost:5114
+
+GET {{Classificador.Api.Presentation_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
