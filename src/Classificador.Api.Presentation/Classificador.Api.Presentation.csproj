@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="8.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
@@ -16,6 +17,7 @@
     <ProjectReference Include="..\Classificador.Api.Application\Classificador.Api.Application.csproj" />
     <ProjectReference Include="..\Classificador.Api.Infrastructure.Data\Classificador.Api.Infrastructure.Data.csproj" />
     <ProjectReference Include="..\Classificador.Api.Infrastructure.Service\Classificador.Api.Infrastructure.Service.csproj" />
+    <ProjectReference Include="..\Classificador.Api.SharedKernel\Classificador.Api.SharedKernel.csproj" />
   </ItemGroup>
 
 </Project>

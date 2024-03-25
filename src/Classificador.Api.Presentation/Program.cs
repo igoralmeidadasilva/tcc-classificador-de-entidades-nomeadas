@@ -1,11 +1,15 @@
-using Classificador.Api.Presentation.IoC.Swagger;
+using Classificador.Api.Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddControllers()
+    .AddNewtonsoftJson();
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSwaggerConfiguration();
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+builder.Services.AddProblemDetails();
 
 var app = builder.Build();
 
@@ -15,6 +19,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseExceptionHandler();
+
+app.UseAuthorization();
+
 app.UseHttpsRedirection();
+app.MapControllers();
 
 app.Run();

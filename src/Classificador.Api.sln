@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classificador.Api.Applicati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classificador.Api.Domain", "Classificador.Api.Domain\Classificador.Api.Domain.csproj", "{EF772C95-E189-47CE-A62C-60A4EF2591B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classificador.Api.Domain.Shared", "Classificador.Api.Domain.Shared\Classificador.Api.Domain.Shared.csproj", "{F5A745FD-4C0A-40D5-92CA-D08968F13D74}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classificador.Api.Infrastructure.Data", "Classificador.Api.Infrastructure.Data\Classificador.Api.Infrastructure.Data.csproj", "{1C36249A-91F0-4EDA-B5A4-B992E119CC18}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classificador.Api.Infrastructure.Service", "Classificador.Api.Infrastructure.Service\Classificador.Api.Infrastructure.Service.csproj", "{C1763CB5-32E7-4545-A850-E23D0E65F2A4}"
@@ -16,6 +14,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classificador.Api.Presentation", "Classificador.Api.Presentation\Classificador.Api.Presentation.csproj", "{31955FFC-8D94-4467-A8BF-D4924FCDBAD3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classificador.Api.Tests.Unit", "Classificador.Api.Tests.Unit\Classificador.Api.Tests.Unit.csproj", "{3F5C9401-95E8-4026-973E-4AD10F85207B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classificador.Api.SharedKernel", "Classificador.Api.SharedKernel\Classificador.Api.SharedKernel.csproj", "{CB06DE67-6679-41D0-9FDD-730F29A3FA96}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,10 +34,6 @@ Global
 		{EF772C95-E189-47CE-A62C-60A4EF2591B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF772C95-E189-47CE-A62C-60A4EF2591B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF772C95-E189-47CE-A62C-60A4EF2591B9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F5A745FD-4C0A-40D5-92CA-D08968F13D74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F5A745FD-4C0A-40D5-92CA-D08968F13D74}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F5A745FD-4C0A-40D5-92CA-D08968F13D74}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F5A745FD-4C0A-40D5-92CA-D08968F13D74}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1C36249A-91F0-4EDA-B5A4-B992E119CC18}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1C36249A-91F0-4EDA-B5A4-B992E119CC18}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C36249A-91F0-4EDA-B5A4-B992E119CC18}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -54,5 +50,9 @@ Global
 		{3F5C9401-95E8-4026-973E-4AD10F85207B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F5C9401-95E8-4026-973E-4AD10F85207B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F5C9401-95E8-4026-973E-4AD10F85207B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB06DE67-6679-41D0-9FDD-730F29A3FA96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB06DE67-6679-41D0-9FDD-730F29A3FA96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB06DE67-6679-41D0-9FDD-730F29A3FA96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB06DE67-6679-41D0-9FDD-730F29A3FA96}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

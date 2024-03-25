@@ -2,6 +2,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Classificador.Api.Application\Classificador.Api.Application.csproj" />
+    <ProjectReference Include="..\Classificador.Api.SharedKernel\Classificador.Api.SharedKernel.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

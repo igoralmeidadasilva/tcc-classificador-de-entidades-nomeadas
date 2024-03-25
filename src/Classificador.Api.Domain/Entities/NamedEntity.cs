@@ -2,20 +2,18 @@ using Classificador.Api.Domain.Interfaces;
 
 namespace Classificador.Api.Domain.Entities;
 
-public sealed record BiomedicalText : BaseEntity<BiomedicalText>, IEntity<BiomedicalText>
+public sealed record NamedEntity : BaseEntity<NamedEntity>, IEntity<NamedEntity>, IAggregateRoot
 {
-    public string Name { get; private set; }
-    public string Text { get; private set; }
+    public string Name { get; init; }
     public string? Description { get; private set; }
 
-    public BiomedicalText(string name, string text, string description = "") : base(Guid.NewGuid())
+    public NamedEntity(string name, string? description = "") : base(Guid.NewGuid())
     {
         Name = name;
-        Text = text;
         Description = description;
     }
 
-    public override BiomedicalText Update(BiomedicalText entity)
+    public override NamedEntity Update(NamedEntity entity)
     {
         throw new NotImplementedException();
     }
@@ -24,4 +22,5 @@ public sealed record BiomedicalText : BaseEntity<BiomedicalText>, IEntity<Biomed
     {
         throw new NotImplementedException();
     }
+
 }

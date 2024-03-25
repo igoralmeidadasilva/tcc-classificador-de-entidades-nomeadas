@@ -1,6 +1,7 @@
 namespace Classificador.Api.Domain.Enums;
 
-public enum NamedEntitieType
+public enum UserRole
 {
-    
+    Standard,
+    Admin
 }
