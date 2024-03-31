@@ -1,4 +1,4 @@
-namespace Classificador.Api.SharedKernel;
+namespace Classificador.Api.SharedKernel.Shared;
 
 public static class ArgumentValidator
 {
