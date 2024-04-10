@@ -5,6 +5,10 @@
     <ProjectReference Include="..\Classificador.Api.SharedKernel\Classificador.Api.SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="mediatr" Version="12.2.0" />
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
