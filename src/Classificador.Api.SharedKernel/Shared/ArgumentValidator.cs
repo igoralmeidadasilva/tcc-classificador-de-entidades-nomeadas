@@ -1,5 +1,3 @@
-using System.Numerics;
-
 namespace Classificador.Api.SharedKernel.Shared;
 
 public static class ArgumentValidator

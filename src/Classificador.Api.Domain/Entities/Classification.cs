@@ -1,5 +1,3 @@
-using Classificador.Api.Domain.Interfaces;
-
 namespace Classificador.Api.Domain.Entities;
 
 public sealed record Classification : Entity<Classification>, IAggregateRoot

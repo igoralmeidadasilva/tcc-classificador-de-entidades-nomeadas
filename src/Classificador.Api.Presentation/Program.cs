@@ -1,6 +1,3 @@
-using Classificador.Api.Infrastructure.IoC;
-using Classificador.Api.Presentation.Middlewares;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()

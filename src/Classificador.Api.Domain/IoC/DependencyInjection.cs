@@ -1,6 +1,3 @@
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace Classificador.Api.Domain.IoC;
 
 public static class DependencyInjection

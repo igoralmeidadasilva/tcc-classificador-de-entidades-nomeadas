@@ -1,6 +1,3 @@
-using Classificador.Api.Domain.Interfaces;
-using Classificador.Api.SharedKernel.Shared;
-
 namespace Classificador.Api.Domain.Entities;
 
 public sealed record User : Entity<User>, IAggregateRoot

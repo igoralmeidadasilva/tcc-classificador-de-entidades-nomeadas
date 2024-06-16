@@ -1,4 +1,4 @@
-namespace Classificador.Api.Application.Exceptions;
+namespace Classificador.Api.Infrastructure.Exceptions;
 
 public abstract class InfrastructureException : Exception
 {

@@ -1,8 +1,3 @@
-using Classificador.Api.Infrastructure.Context;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace Classificador.Api.Infrastructure.IoC;
 
 public static class DependencyInjection
