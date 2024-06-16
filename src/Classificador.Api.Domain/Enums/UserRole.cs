@@ -1,7 +1,8 @@
 namespace Classificador.Api.Domain.Enums;
 
-public enum UserRole
+[Flags]
+public enum UserRole : byte
 {
-    Standard,
-    Admin
+    None = 0,
+    Admin = 2
 }

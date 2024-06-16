@@ -3,7 +3,7 @@ using Classificador.Api.Domain.Enums;
 
 namespace Classificador.Api.Tests.Unit.Domain.Tests.Entities;
 
-public class UserTests
+public class UserTest
 {
     [Fact]
     public void CreateUser_ValidInput_SuccessfullyCreateUser()

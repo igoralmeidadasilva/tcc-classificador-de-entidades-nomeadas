@@ -1,25 +1,14 @@
-using Classificador.Api.Domain.Interfaces;
-
 namespace Classificador.Api.Domain.Entities;
 
-public sealed record Specialty : BaseEntity<Specialty>, IEntity<Specialty>
+// TODO: Finalizar de pensar o relacionamento, essa classe é uma entidade ou um objeto de valor?
+public sealed record Specialty 
 {
     public string Name { get; set; }
     public string? Description { get; set; }    
-    public ICollection<UserSpecialty>? Specializations { get; set; }
-    public Specialty(Guid id, DateTime createdAt, string name, string? description = "") : base(Guid.NewGuid())
+    public Specialty(string name, string? description = "")
     {
         Name = name;
         Description = description;
     }
 
-    public override Specialty Update(Specialty entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Validate()
-    {
-        throw new NotImplementedException();
-    }
 }

@@ -1,6 +1,6 @@
 namespace Classificador.Api.Domain.Interfaces;
 
-public interface IAggregateRoot
-{ 
-
+public interface IValueObject
+{
+    
 }

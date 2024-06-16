@@ -1,25 +1,15 @@
-using Classificador.Api.Domain.Interfaces;
-
 namespace Classificador.Api.Domain.Entities;
 
-public sealed record Category : BaseEntity<Category>, IEntity<Category>
+// TODO: Finalizar de pensar o relacionamento, essa classe é uma entidade ou um objeto de valor?
+public sealed record Category 
 {
-    public string Name { get; set; }
-    public string? Description { get; set; }
+    public string Name { get; init; }
+    public string? Description { get; init; }
 
-    public Category(string name, string description = "") : base(Guid.NewGuid())
+    public Category(string name, string description = "")
     {
         Name = name;
         Description = description;
     }
 
-    public override Category Update(Category entity)
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void Validate()
-    {
-        throw new NotImplementedException();
-    }
 }
