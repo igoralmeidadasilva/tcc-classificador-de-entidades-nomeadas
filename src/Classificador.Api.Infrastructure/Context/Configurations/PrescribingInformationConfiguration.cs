@@ -1,14 +1,24 @@
-using Classificador.Api.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace Classificador.Api.Infrastructure.Context.Configurations;
 
-public class PrescribingInformationConfiguration : IEntityTypeConfiguration<PrescribingInformation>
+public class PrescribingInformationConfiguration : EntityConfiguration<PrescribingInformation>
 {
-    public void Configure(EntityTypeBuilder<PrescribingInformation> builder)
+    public override void Configure(EntityTypeBuilder<PrescribingInformation> builder)
     {
-        throw new NotImplementedException();
+        base.Configure(builder);
+
+        builder.ToTable("bulas");
+
+        builder.Property(x => x.Name)
+            .HasColumnName("nome")
+            .HasMaxLength(Constants.Constraints.PRESCRIBING_INFORMATION_NAME_MAX_LENGHT)
+            .IsRequired();
+
+        builder.Property(x => x.Text)
+            .HasColumnName("texto")
+            .IsRequired();
+        
+        builder.Property(x => x.Description)
+            .HasColumnName("descricao");
     }
 
 }

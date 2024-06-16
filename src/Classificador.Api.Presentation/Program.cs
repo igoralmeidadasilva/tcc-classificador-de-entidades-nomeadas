@@ -1,3 +1,4 @@
+using Classificador.Api.Infrastructure.IoC;
 using Classificador.Api.Presentation.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
+
+builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 

@@ -1,6 +1,6 @@
-namespace Classificador.Api.SharedKernel.Models;
+namespace Classificador.Api.SharedKernel.Shared;
 
-public sealed class Result
+public sealed record Result
 {
     public object Data { get; init; }
     public bool IsSuccess { get; }

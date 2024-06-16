@@ -6,8 +6,8 @@ public sealed record NamedEntity : Entity<NamedEntity>, IAggregateRoot
 {
     public string Name { get; init; }
     public string? Description { get; init; }
-    // TODO: Revisar esse relacionamento, ao meu ver, aqui nunca teremos um relacionamento 'N' para PrescribingInformation
-    public ICollection<PrescribingInformation>? PrescribingInformation { get; init; }
+    public ICollection<NamedEntityPrescribingInformation>? NamedEntityPrescribingsInformation { get; init; }  = [];
+    public ICollection<Classification>? Classifications { get; init; }  = [];
 
     public NamedEntity(string name, string? description = "") : base()
     {

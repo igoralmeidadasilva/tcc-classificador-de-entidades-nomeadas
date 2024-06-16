@@ -1,6 +1,6 @@
-namespace Classificador.Api.SharedKernel.Models;
+namespace Classificador.Api.SharedKernel.Shared;
 
-public sealed class Error
+public sealed record Error
 {
     public string Code { get; set; }
     public string Description { get; set; }

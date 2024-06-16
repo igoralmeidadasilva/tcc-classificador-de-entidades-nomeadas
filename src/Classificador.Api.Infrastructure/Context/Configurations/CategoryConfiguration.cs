@@ -1,16 +1,24 @@
-using Classificador.Api.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace Classificador.Api.Infrastructure.Context.Configurations;
 
-public sealed class CategoryConfiguration : IEntityTypeConfiguration<Category>
+public sealed class CategoryConfiguration : EntityConfiguration<Category>
 {
-    public void Configure(EntityTypeBuilder<Category> builder)
+    public override void Configure(EntityTypeBuilder<Category> builder)
     {
-        throw new NotImplementedException();
+        base.Configure(builder);
+
+        builder.ToTable("categorias");
+
+        builder.Property(x => x.Name)
+            .HasColumnName("nome")
+            .HasMaxLength(Constants.Constraints.CATEGORYS_NAME_MAX_LENGHT)
+            .IsRequired();
+        
+        builder.Property(x => x.Description)
+            .HasColumnName("descricao");
+
+        builder.HasMany(x => x.Classifications)
+            .WithOne(x => x.Category)
+            .HasForeignKey(x => x.IdCategory)
+            .IsRequired();
     }
-
 }
-    
-

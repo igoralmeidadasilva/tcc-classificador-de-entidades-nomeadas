@@ -1,14 +1,49 @@
-using Classificador.Api.Domain.Entities;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace Classificador.Api.Infrastructure.Context.Configurations;
 
-public sealed class UserConfiguration : IEntityTypeConfiguration<User>
+public sealed class UserConfiguration : EntityConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<User> builder)
+    public override void Configure(EntityTypeBuilder<User> builder)
     {
-        throw new NotImplementedException();
-    }
+        base.Configure(builder);
 
+        builder.ToTable("usuarios");
+
+        builder.Property(x => x.Email)
+            .HasColumnName("email")
+            .HasMaxLength(Constants.Constraints.USER_EMAIL_MAX_LENGHT)
+            .IsRequired();
+
+        builder.Property(x => x.HashedPassword)
+            .HasColumnName("senha")
+            .HasMaxLength(Constants.Constraints.USER_PASSWORD_MAX_LENGHT)
+            .IsRequired();
+
+        builder.Property(x => x.Name)
+            .HasColumnName("nome")
+            .HasMaxLength(Constants.Constraints.USER_FIRST_NAME_MAX_LENGHT)
+            .IsRequired();
+
+        builder.Property(x => x.Contact)
+            .HasColumnName("contato")
+            .HasMaxLength(Constants.Constraints.USER_CONTACT_MAX_LENGHT);
+        
+        builder.Property(x => x.Role)
+            .HasColumnName("funcao")
+            .HasConversion<string>();
+
+        builder.Property(x => x.IdSpecialty)
+            .HasColumnName("id_especialidade")
+            .IsRequired();
+
+        builder.HasOne(x => x.Specialty)
+            .WithMany(x => x.Users)
+            .HasForeignKey(x => x.IdSpecialty)
+            .IsRequired();
+
+
+        builder.HasMany(x => x.Classifications)
+            .WithOne(x => x.User)
+            .HasForeignKey(x => x.IdUser)
+            .IsRequired();
+    }
 }

@@ -12,7 +12,7 @@ public sealed record User : Entity<User>, IAggregateRoot
     public UserRole Role { get; private set; }
     public Guid IdSpecialty { get; init; }
     public Specialty? Specialty{ get; init; }
-    // public ICollection<Claim> UserClaims { get; } = new List<Claim>();
+    public ICollection<Classification>? Classifications { get; init; } = [];
 
     public User(string email, string hashedPassword, string name, string? contact, UserRole role, Guid idSpecialty) : base()
     {

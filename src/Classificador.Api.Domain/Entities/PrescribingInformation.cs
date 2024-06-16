@@ -5,7 +5,7 @@ public sealed record PrescribingInformation : Entity<PrescribingInformation>
     public string Name { get; init; }
     public string Text { get; init; }
     public string? Description { get; init; }
-    public ICollection<NamedEntity>? NamedEntities { get; init; }  
+    public ICollection<NamedEntityPrescribingInformation>? NamedEntityPrescribingsInformation { get; init; } = []; 
 
     public PrescribingInformation(string name, string text, string? description = "") : base()
     {

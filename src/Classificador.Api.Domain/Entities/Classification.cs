@@ -6,16 +6,16 @@ public sealed record Classification : Entity<Classification>, IAggregateRoot
 {
     public string? Comment { get; private set; }
     public Guid IdNamedEntitie { get; private set; }
-    public Guid IdNameCategory { get; private set; }
+    public Guid IdCategory { get; private set; }
     public Guid IdUser { get; private set; }
     public NamedEntity? NamedEntitie { get; set; }
-    public Category? Category{ get; set; }
-    public User? User{ get; set; }
+    public Category? Category { get; set; }
+    public User? User { get; set; }
 
-    public Classification(Guid idNamedEntitie, Guid idNameCategory, Guid idUser, string? comment = "") : base()
+    public Classification(Guid idNamedEntitie, Guid idCategory, Guid idUser, string? comment = "") : base()
     {
         IdNamedEntitie = idNamedEntitie;
-        IdNameCategory = idNameCategory;
+        IdCategory = idCategory;
         IdUser = idUser;
         Comment = comment;
     }
