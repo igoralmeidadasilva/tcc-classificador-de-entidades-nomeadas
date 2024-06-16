@@ -5,7 +5,6 @@ namespace Classificador.Api.Domain.Entities;
 
 public sealed record User : Entity<User>, IAggregateRoot
 {
-
     public string Email { get; private set; }
     public string HashedPassword { get; private set; }
     public string Name { get; private set; }
