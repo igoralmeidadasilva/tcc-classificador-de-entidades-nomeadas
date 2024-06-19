@@ -26,10 +26,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Classificador.Api.Application\Classificador.Api.Application.csproj" />
     <ProjectReference Include="..\Classificador.Api.Domain\Classificador.Api.Domain.csproj" />
-    <ProjectReference Include="..\Classificador.Api.Infrastructure.Data\Classificador.Api.Infrastructure.Data.csproj" />
-    <ProjectReference Include="..\Classificador.Api.Infrastructure.Service\Classificador.Api.Infrastructure.Service.csproj" />
     <ProjectReference Include="..\Classificador.Api.Presentation\Classificador.Api.Presentation.csproj" />
     <ProjectReference Include="..\Classificador.Api.SharedKernel\Classificador.Api.SharedKernel.csproj" />
+    <ProjectReference Include="..\Classificador.Api.Infrastructure\Classificador.Api.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

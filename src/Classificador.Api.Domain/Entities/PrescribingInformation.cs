@@ -1,6 +1,6 @@
 namespace Classificador.Api.Domain.Entities;
 
-public sealed record PrescribingInformation : Entity<PrescribingInformation>
+public sealed class PrescribingInformation : Entity<PrescribingInformation>
 {
     public string Name { get; init; }
     public string Text { get; init; }

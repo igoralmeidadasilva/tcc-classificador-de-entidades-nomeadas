@@ -4,8 +4,9 @@ public static class ArgumentValidator
 {
     public static void ThrowIfNull(object value, string parameterName = null!)
     {
-        if ( value == null ) {
-            throw new ArgumentNullException( parameterName );
+        if (value == null)
+        {
+            throw new ArgumentNullException(parameterName);
         }
     }
     public static void ThrowIfNullOrEmpty(string value, string parameterName = null!)
@@ -18,20 +19,11 @@ public static class ArgumentValidator
 
     public static void ThrowIfNullOrWhitespace(string value, string parameterName = null!)
     {
-        if (value == null) {
+        if (value == null)
             throw new ArgumentNullException(parameterName);
-        }
 
-        if (value.Length == 0) {
-            throw new ArgumentException(String.Format("{0} cannot be an empty string.", parameterName ?? "Value"), parameterName);
-        }
-
-        for ( int i = 0 ; i < value.Length ; i++ ) {
-            if ( !Char.IsWhiteSpace( value, i ) ) {
-                return;
-            }
-        }
-        throw new ArgumentException(String.Format("{0} cannot consist entirely of whitespace.", parameterName ?? "Value"), parameterName);
+        if (string.IsNullOrWhiteSpace(value))
+            throw new ArgumentException(string.Format("{0} cannot be an empty string.", parameterName ?? "Value"), parameterName);
     }
     public static void ThrowIfNullOrDefault<T>(T obj, string? paramName = null)
     {

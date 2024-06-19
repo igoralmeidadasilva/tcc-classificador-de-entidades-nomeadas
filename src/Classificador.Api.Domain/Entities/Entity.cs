@@ -1,9 +1,9 @@
 namespace Classificador.Api.Domain.Entities;
 
-public abstract record Entity<T> : IEntity<T>
+public abstract class Entity<T> : IEntity<T>
 {
-    public Guid Id { get; private set; }
-    public DateTime CreatedAtOnUtc { get; private set; }
+    public Guid Id { get; init; }
+    public DateTime CreatedAtOnUtc { get; init; }
     public bool IsDeleted { get; private set; }
 
     protected Entity()

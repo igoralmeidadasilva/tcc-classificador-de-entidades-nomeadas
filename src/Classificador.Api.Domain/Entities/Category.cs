@@ -1,24 +1,31 @@
 namespace Classificador.Api.Domain.Entities;
 
-public sealed record Category : Entity<Category>
+public sealed class Category : Entity<Category>
 {
-    public string Name { get; init; }
-    public string? Description { get; init; }
+    public string? Name { get; private set; }
+    public string? Description { get; private set; }
     public ICollection<Classification>? Classifications { get; init; } = [];
 
-    public Category(string name, string description = "") : base()
+    public Category(string name, string description) : base()
     {
         Name = name;
         Description = description;
+
+        Validate();
     }
+
+    public Category(){} // ORM
 
     public override Category Update(Category entity)
     {
-        throw new NotImplementedException();
+        Name = entity.Name;
+        Description = entity.Description;
+        return this;
     }
 
     public override void Validate()
     {
-        throw new NotImplementedException();
+        ArgumentValidator.ThrowIfNullOrWhitespace(Name!, nameof(Name));
+        ArgumentValidator.ThrowIfNull(Description!, nameof(Description));
     }
 }

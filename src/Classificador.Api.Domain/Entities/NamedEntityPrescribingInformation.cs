@@ -1,6 +1,6 @@
 namespace Classificador.Api.Domain.Entities;
 
-public sealed record NamedEntityPrescribingInformation
+public sealed class NamedEntityPrescribingInformation
 {
     public Guid IdNamedEntity { get; init; }
     public NamedEntity? NamedEntity { get; init; }

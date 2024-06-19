@@ -1,6 +1,6 @@
 namespace Classificador.Api.Domain.Entities;
 
-public sealed record NamedEntity : Entity<NamedEntity>, IAggregateRoot
+public sealed class NamedEntity : Entity<NamedEntity>, IAggregateRoot
 {
     public string Name { get; init; }
     public string? Description { get; init; }

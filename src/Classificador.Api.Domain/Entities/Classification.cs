@@ -1,6 +1,6 @@
 namespace Classificador.Api.Domain.Entities;
 
-public sealed record Classification : Entity<Classification>, IAggregateRoot
+public sealed class Classification : Entity<Classification>, IAggregateRoot
 {
     public string? Comment { get; private set; }
     public Guid IdNamedEntitie { get; private set; }
