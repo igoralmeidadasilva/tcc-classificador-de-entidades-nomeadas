@@ -23,8 +23,4 @@ public sealed class Classification : Entity<Classification>, IAggregateRoot
         throw new NotImplementedException();
     }
 
-    public override void Validate()
-    {
-        throw new NotImplementedException();
-    }
 }

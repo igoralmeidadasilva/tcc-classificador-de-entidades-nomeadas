@@ -15,8 +15,6 @@ public abstract class Entity<T> : IEntity<T>
 
     public abstract T Update(T entity);
 
-    public abstract void Validate();
-
     public virtual void Delete()
     {
         this.IsDeleted = true;

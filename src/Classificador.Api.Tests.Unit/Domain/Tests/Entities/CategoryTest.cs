@@ -56,14 +56,4 @@ public class CategoryTest
         Assert.Equal("Updated Description", initialCategory.Description);
     }
 
-    [Fact]
-    public void Validate_ShouldNotThrowException_WhenValid()
-    {
-        // Arrange
-        var category = new Category("Name", "Description");
-
-        // Act & Assert
-        var exception = Record.Exception(() => category.Validate());
-        Assert.Null(exception);
-    }
 }

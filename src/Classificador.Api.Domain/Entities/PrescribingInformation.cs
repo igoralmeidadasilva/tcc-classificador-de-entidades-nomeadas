@@ -19,9 +19,4 @@ public sealed class PrescribingInformation : Entity<PrescribingInformation>
         throw new NotImplementedException();
     }
 
-    public override void Validate()
-    {
-        throw new NotImplementedException();
-    }
-
 }

@@ -87,10 +87,4 @@ public sealed class User : Entity<User>, IAggregateRoot
         return this;
     }
 
-    public override void Validate()
-    {
-        ArgumentValidator.ThrowIfNullOrEmpty(Email, nameof(Email));
-        ArgumentValidator.ThrowIfNullOrEmpty(HashedPassword, nameof(HashedPassword));
-        ArgumentValidator.ThrowIfNullOrEmpty(Name, nameof(Name));
-    }
 }

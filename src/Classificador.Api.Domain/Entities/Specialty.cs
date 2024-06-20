@@ -16,8 +16,4 @@ public sealed class Specialty : Entity<Specialty>
         throw new NotImplementedException();
     }
 
-    public override void Validate()
-    {
-        throw new NotImplementedException();
-    }
 }

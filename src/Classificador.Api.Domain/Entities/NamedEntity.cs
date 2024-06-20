@@ -18,9 +18,4 @@ public sealed class NamedEntity : Entity<NamedEntity>, IAggregateRoot
         throw new NotImplementedException();
     }
 
-    public override void Validate()
-    {
-        throw new NotImplementedException();
-    }
-
 }
