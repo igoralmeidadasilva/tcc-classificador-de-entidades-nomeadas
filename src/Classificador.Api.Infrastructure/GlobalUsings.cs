@@ -6,3 +6,4 @@ global using Classificador.Api.Infrastructure.Context.Configurations;
 global using Classificador.Api.Infrastructure.Context;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
+global using Classificador.Api.Domain.Interfaces.Repositories;

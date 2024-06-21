@@ -2,13 +2,13 @@ namespace Classificador.Api.Infrastructure.Context;
 
 public sealed class ClassifierContext : DbContext
 {
-    DbSet<NamedEntity> NamedEntities { get; init; }
-    DbSet<NamedEntityPrescribingInformation> NamedEntityPrescribingsInformation { get; init; }
-    DbSet<PrescribingInformation> PrescribingsInformation { get; init; }
-    DbSet<User> Users { get; init; }
-    DbSet<Specialty> Specialties{ get; init; }
-    DbSet<Classification> Classifications { get; init; }
-    DbSet<Category> Categories { get; init; }
+    public DbSet<NamedEntity> NamedEntities { get; init; }
+    public DbSet<NamedEntityPrescribingInformation> NamedEntityPrescribingsInformation { get; init; }
+    public DbSet<PrescribingInformation> PrescribingsInformation { get; init; }
+    public DbSet<User> Users { get; init; }
+    public DbSet<Specialty> Specialties{ get; init; }
+    public DbSet<Classification> Classifications { get; init; }
+    public DbSet<Category> Categories { get; init; }
 
     public ClassifierContext(DbContextOptions options) : base(options) { }
     public ClassifierContext() {}
