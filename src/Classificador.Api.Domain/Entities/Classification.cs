@@ -10,7 +10,7 @@ public sealed class Classification : Entity<Classification>, IAggregateRoot
     public Category? Category { get; set; }
     public User? User { get; set; }
 
-    public Classification(Guid idNamedEntitie, Guid idCategory, Guid idUser, string? comment="") : base()
+    public Classification(Guid idNamedEntitie, Guid idCategory, Guid idUser, string? comment) : base()
     {
         ArgumentValidator.ThrowIfNullOrDefault(idNamedEntitie, nameof(idNamedEntitie));
         ArgumentValidator.ThrowIfNullOrDefault(idCategory, nameof(idCategory));
