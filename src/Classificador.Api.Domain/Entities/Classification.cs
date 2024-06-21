@@ -10,8 +10,13 @@ public sealed class Classification : Entity<Classification>, IAggregateRoot
     public Category? Category { get; set; }
     public User? User { get; set; }
 
-    public Classification(Guid idNamedEntitie, Guid idCategory, Guid idUser, string? comment = "") : base()
+    public Classification(Guid idNamedEntitie, Guid idCategory, Guid idUser, string? comment="") : base()
     {
+        ArgumentValidator.ThrowIfNullOrDefault(idNamedEntitie, nameof(idNamedEntitie));
+        ArgumentValidator.ThrowIfNullOrDefault(idCategory, nameof(idCategory));
+        ArgumentValidator.ThrowIfNullOrDefault(idUser, nameof(idUser));
+        ArgumentValidator.ThrowIfNull(comment!, nameof(comment));
+
         IdNamedEntitie = idNamedEntitie;
         IdCategory = idCategory;
         IdUser = idUser;
@@ -20,7 +25,12 @@ public sealed class Classification : Entity<Classification>, IAggregateRoot
 
     public override Classification Update(Classification entity)
     {
-        throw new NotImplementedException();
+        IdNamedEntitie = entity.IdNamedEntitie;
+        IdCategory = entity.IdCategory;
+        IdUser = entity.IdUser;
+        Comment = entity.Comment;
+
+        return this;
     }
 
 }

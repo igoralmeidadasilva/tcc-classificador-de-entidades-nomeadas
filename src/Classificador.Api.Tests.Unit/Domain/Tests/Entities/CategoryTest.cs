@@ -2,7 +2,7 @@ using Moq;
 
 namespace Classificador.Api.Tests.Unit.Domain.Tests.Entities;
 
-public class CategoryTest
+public sealed class CategoryTest
 {
     [Fact]
     public void Constructor_ShouldInitializeProperties()
