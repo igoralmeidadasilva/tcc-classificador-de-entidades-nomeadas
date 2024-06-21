@@ -1,4 +1,3 @@
-using Classificador.Api.Domain.Errors;
 using Classificador.Api.Domain.Exceptions;
 
 namespace Classificador.Api.Infrastructure.Repositories.Persistence;
@@ -27,10 +26,10 @@ public class BasePersistenceRepository<TEntity> : IPersistenceRepository<TEntity
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var entity = await _context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken) 
-            ?? throw new EntityNotFoundException(BaseErrors.EntityNotFound(nameof(TEntity)).Description);
-
-        _context.Set<TEntity>().Remove(entity);
+        var entity = await _context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
+            ?? throw new EntityNotFoundException();
+        
+        _context.Set<TEntity>().Remove(entity!);
         await _context.SaveChangesAsync(cancellationToken);
     }
 
