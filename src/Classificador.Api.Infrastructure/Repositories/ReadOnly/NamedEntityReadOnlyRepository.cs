@@ -1,4 +1,3 @@
-
 namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public class NamedEntityReadOnlyRepository : BaseReadOnlyRepository<NamedEntity>, INamedEntityReadOnlyRepository

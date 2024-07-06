@@ -1,3 +1,16 @@
 global using MediatR;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
+global using Classificador.Api.Application.Errors;
+global using Classificador.Api.Application.Interfaces;
+global using FluentValidation;
+global using FluentValidation.Results;
+global using Classificador.Api.Domain;
+global using Classificador.Api.SharedKernel.Shared;
+global using System.Diagnostics;
+global using Microsoft.Extensions.Logging;
+global using Classificador.Api.Application.Behaviors;
+global using Classificador.Api.Application.Commands.CreateUser;
+global using Classificador.Api.Application.Extensions;
+global using System.Text.RegularExpressions;
+global using Classificador.Api.Domain.Entities;

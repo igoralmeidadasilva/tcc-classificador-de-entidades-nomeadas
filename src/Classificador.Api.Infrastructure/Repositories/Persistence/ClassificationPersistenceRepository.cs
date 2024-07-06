@@ -1,4 +1,3 @@
-
 namespace Classificador.Api.Infrastructure.Repositories.Persistence;
 
 public sealed class ClassificationPersistenceRepository : BasePersistenceRepository<Classification>, IClassificationPersistenceRepository

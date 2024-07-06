@@ -1,6 +1,3 @@
-using Classificador.Api.Domain.Entities;
-using Microsoft.EntityFrameworkCore.Diagnostics;
-
 namespace Classificador.Api.Infrastructure.Interceptors;
 
 public class SoftDeleteInterceptor : SaveChangesInterceptor

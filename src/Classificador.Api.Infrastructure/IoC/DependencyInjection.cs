@@ -1,7 +1,3 @@
-using Classificador.Api.Infrastructure.Interceptors;
-using Classificador.Api.Infrastructure.Repositories.Persistence;
-using Classificador.Api.Infrastructure.Repositories.ReadOnly;
-
 namespace Classificador.Api.Infrastructure.IoC;
 
 public static class DependencyInjection
@@ -9,7 +5,8 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services = AddDbContext(services, configuration);
-        services = AddRepositories(services);
+        services = AddRepositories(services, configuration);
+        services = AddServices(services, configuration);
         return services;
     }
 
@@ -25,7 +22,7 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    private static IServiceCollection AddRepositories(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IClassificationPersistenceRepository, ClassificationPersistenceRepository>();
         services.AddScoped<INamedEntityPersistenceRepository, NamedEntityPersistenceRepository>();
@@ -34,6 +31,13 @@ public static class DependencyInjection
         services.AddScoped<IClassificationReadOnlyRepository, ClassificationReadOnlyRepository>();
         services.AddScoped<INamedEntityReadOnlyRepository, NamedEntityReadOnlyRepository>();
         services.AddScoped<IUserReadOnlyRepository, UserReadOnlyRepository>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSingleton<IPasswordHashingService, PasswordHashingService>();
 
         return services;
     }

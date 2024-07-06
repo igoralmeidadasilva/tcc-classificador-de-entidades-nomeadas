@@ -1,5 +1,3 @@
-using Classificador.Api.Domain.Exceptions;
-
 namespace Classificador.Api.Infrastructure.Repositories.Persistence;
 
 public class BasePersistenceRepository<TEntity> : IPersistenceRepository<TEntity> where TEntity : Entity<TEntity>
@@ -26,6 +24,7 @@ public class BasePersistenceRepository<TEntity> : IPersistenceRepository<TEntity
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
+        // TODO: Verificar esse tipo de retorno, lançando exceções de dentro do repo
         var entity = await _context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
             ?? throw new EntityNotFoundException();
         
