@@ -15,6 +15,7 @@ internal static class ValidationErrors
         internal static Error PasswordFormatInvalidLowerCase => new("CreateUser.Password.FormatInvalid", "A senha deve conter ao menos uma letra minúscula.");
         internal static Error PasswordFormatInvalidNumber => new("CreateUser.Password.FormatInvalid", "A senha deve conter ao menos um número.");
         internal static Error PasswordFormatInvalidNonAlphanumeric => new("CreateUser.Password.FormatInvalid", "A senha deve conter ao menos um caractere especial.");
+        internal static Error PasswordsNotEquals => new("CreateUser.Password.NotEquals", "As senhas fornecidas devem ser igauis.");
         internal static Error NameIsRequired => new("CreateUser.Name.IsRequired", "O Nome não pode ser vazio.");
         internal static Error NameMaximumLenght => new("CreateUser.Name.MaximumLenght", $"O Nome não pode ser maior que {Constants.Constraints.USER_FIRST_NAME_MAX_LENGHT} caracteres.");
         internal static Error ContactMaximumLenght => new("CreateUser.Contact.MaximumLenght", $"O contato não pode ser maior que {Constants.Constraints.USER_CONTACT_MAX_LENGHT} caracteres.");

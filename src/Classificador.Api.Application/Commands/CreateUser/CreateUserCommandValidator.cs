@@ -25,7 +25,9 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
             .Must(RequireUppercase).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidUpperCase)
             .Must(RequiredLowerCase).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidLowerCase)
             .Must(RequireDigit).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNumber)
-            .Must(RequireNonAlphanumeric).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNonAlphanumeric);
+            .Must(RequireNonAlphanumeric).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNonAlphanumeric)
+            // TODO: Essa verificação não está fazendo uso do serviço de HashPasswrods
+            .Equal(x => x.Password).WithError(ValidationErrors.CreateUser.PasswordsNotEquals);
 
         RuleFor(x => x.Name)
             .NotEmpty().WithError(ValidationErrors.CreateUser.NameIsRequired)
@@ -71,5 +73,4 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
         }
         return false;
     }
-
 }
