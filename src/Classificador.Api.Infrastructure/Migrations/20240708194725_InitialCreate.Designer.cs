@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Classificador.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(ClassifierContext))]
-    [Migration("20240616181004_HotFixDataBaseColumnsNames")]
-    partial class HotFixDataBaseColumnsNames
+    [Migration("20240708194725_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -227,11 +227,11 @@ namespace Classificador.Api.Infrastructure.Migrations
 
                     b.Property<string>("HashedPassword")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)")
+                        .HasMaxLength(64)
+                        .HasColumnType("character varying(64)")
                         .HasColumnName("senha");
 
-                    b.Property<Guid>("IdSpecialty")
+                    b.Property<Guid?>("IdSpecialty")
                         .HasColumnType("uuid")
                         .HasColumnName("id_especialidade");
 
@@ -251,6 +251,9 @@ namespace Classificador.Api.Infrastructure.Migrations
                         .HasColumnName("funcao");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
 
                     b.HasIndex("IdSpecialty");
 

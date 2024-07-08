@@ -76,21 +76,21 @@ namespace Classificador.Api.Infrastructure.Migrations
                 name: "entidades_nomeadas_por_bula",
                 columns: table => new
                 {
-                    IdNamedEntity = table.Column<Guid>(type: "uuid", nullable: false),
-                    IdPrescribingInformation = table.Column<Guid>(type: "uuid", nullable: false)
+                    id_entidade_nomeada = table.Column<Guid>(type: "uuid", nullable: false),
+                    id_bula = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_entidades_nomeadas_por_bula", x => new { x.IdPrescribingInformation, x.IdNamedEntity });
+                    table.PrimaryKey("PK_entidades_nomeadas_por_bula", x => new { x.id_bula, x.id_entidade_nomeada });
                     table.ForeignKey(
-                        name: "FK_entidades_nomeadas_por_bula_bulas_IdPrescribingInformation",
-                        column: x => x.IdPrescribingInformation,
+                        name: "FK_entidades_nomeadas_por_bula_bulas_id_bula",
+                        column: x => x.id_bula,
                         principalTable: "bulas",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_entidades_nomeadas_por_bula_entidade_nomeada_IdNamedEntity",
-                        column: x => x.IdNamedEntity,
+                        name: "FK_entidades_nomeadas_por_bula_entidade_nomeada_id_entidade_no~",
+                        column: x => x.id_entidade_nomeada,
                         principalTable: "entidade_nomeada",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -102,11 +102,11 @@ namespace Classificador.Api.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     email = table.Column<string>(type: "character varying(45)", maxLength: 45, nullable: false),
-                    senha = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: false),
+                    senha = table.Column<string>(type: "character varying(64)", maxLength: 64, nullable: false),
                     nome = table.Column<string>(type: "character varying(45)", maxLength: 45, nullable: false),
                     contato = table.Column<string>(type: "character varying(30)", maxLength: 30, nullable: true),
                     funcao = table.Column<string>(type: "text", nullable: false),
-                    id_especialidade = table.Column<Guid>(type: "uuid", nullable: false),
+                    id_especialidade = table.Column<Guid>(type: "uuid", nullable: true),
                     data_criacao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     foi_deletado = table.Column<bool>(type: "boolean", nullable: false)
                 },
@@ -127,8 +127,8 @@ namespace Classificador.Api.Infrastructure.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     comentarios = table.Column<string>(type: "text", nullable: true),
-                    IdNamedEntitie = table.Column<Guid>(type: "uuid", nullable: false),
                     id_entidade_nomeada = table.Column<Guid>(type: "uuid", nullable: false),
+                    id_categoria = table.Column<Guid>(type: "uuid", nullable: false),
                     id_usuario = table.Column<Guid>(type: "uuid", nullable: false),
                     data_criacao = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     foi_deletado = table.Column<bool>(type: "boolean", nullable: false)
@@ -137,14 +137,14 @@ namespace Classificador.Api.Infrastructure.Migrations
                 {
                     table.PrimaryKey("PK_classificacoes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_classificacoes_categorias_id_entidade_nomeada",
-                        column: x => x.id_entidade_nomeada,
+                        name: "FK_classificacoes_categorias_id_categoria",
+                        column: x => x.id_categoria,
                         principalTable: "categorias",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_classificacoes_entidade_nomeada_IdNamedEntitie",
-                        column: x => x.IdNamedEntitie,
+                        name: "FK_classificacoes_entidade_nomeada_id_entidade_nomeada",
+                        column: x => x.id_entidade_nomeada,
                         principalTable: "entidade_nomeada",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -157,9 +157,9 @@ namespace Classificador.Api.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_classificacoes_IdNamedEntitie",
+                name: "IX_classificacoes_id_categoria",
                 table: "classificacoes",
-                column: "IdNamedEntitie");
+                column: "id_categoria");
 
             migrationBuilder.CreateIndex(
                 name: "IX_classificacoes_id_entidade_nomeada",
@@ -172,9 +172,15 @@ namespace Classificador.Api.Infrastructure.Migrations
                 column: "id_usuario");
 
             migrationBuilder.CreateIndex(
-                name: "IX_entidades_nomeadas_por_bula_IdNamedEntity",
+                name: "IX_entidades_nomeadas_por_bula_id_entidade_nomeada",
                 table: "entidades_nomeadas_por_bula",
-                column: "IdNamedEntity");
+                column: "id_entidade_nomeada");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_usuarios_email",
+                table: "usuarios",
+                column: "email",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_usuarios_id_especialidade",

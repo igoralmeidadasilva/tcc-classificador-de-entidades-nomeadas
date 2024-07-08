@@ -20,7 +20,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
         {
             Status = StatusCodes.Status500InternalServerError,
             Title = "Internal server error",
-            Detail = "Um erro inesperado aconteceu. Por favor entre em contato com o suporte."
+            Detail = Domain.Errors.DomainErrors.InternalServerError
         };
 
         httpContext.Response.StatusCode = problemDetails.Status.Value;
