@@ -2,7 +2,7 @@ namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public class BaseReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : Entity<TEntity>
 {
-    private readonly ClassifierContext _context;
+    protected readonly ClassifierContext _context;
 
     public BaseReadOnlyRepository(ClassifierContext context)
     {

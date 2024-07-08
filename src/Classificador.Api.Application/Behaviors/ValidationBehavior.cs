@@ -1,9 +1,11 @@
+using Classificador.Api.SharedKernel.Shared.Result;
+
 namespace Classificador.Api.Application.Behaviors;
 
 public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-    where TRequest : IRequest<TResponse>
+    where TRequest : class, IRequest<TResponse>
+    where TResponse : class, IResult 
 {
-
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
     public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
@@ -11,25 +13,19 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
         _validators = validators;
     }
 
-
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        if (request is IQuery<TResponse>)
+        if (_validators != null)
         {
-            return await next();
-        }
+            var context = new ValidationContext<TRequest>(request);
+            var validationResults = await Task.WhenAll(_validators.Select(v => v.ValidateAsync(context, cancellationToken)));
+            var failures = validationResults.SelectMany(r => r.Errors).Where(f => f != null).ToList();
 
-        ValidationContext<TRequest> context = new(request);
-
-        List<ValidationFailure> failures = _validators
-            .Select(validator => validator.Validate(context))
-            .SelectMany(result => result.Errors)
-            .Where(failure => failure != null)
-            .ToList();
-        
-        if (failures.Count != 0)
-        {
-            throw new ValidationException(ValidationErrors.ERROR_MESSAGE, failures);
+            if (failures.Count != 0)
+            {
+                List<Error> errors = failures.Select(failure => new Error(failure.ErrorCode, failure.ErrorMessage)).ToList();
+                return (TResponse)(IResult)Result.Failure(errors);
+            }
         }
 
         return await next();

@@ -3,11 +3,11 @@ namespace Classificador.Api.SharedKernel.Shared;
 public sealed record Error
 {
     public string Code { get; set; }
-    public string Description { get; set; }
-    public Error(string code, string description)
+    public string Message { get; set; }
+    public Error(string code, string message)
     {
         Code = code;
-        Description = description;
+        Message = message;
     }
     public static readonly Error None = new(string.Empty, string.Empty);
 }

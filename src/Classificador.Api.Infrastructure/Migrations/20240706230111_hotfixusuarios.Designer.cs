@@ -3,6 +3,7 @@ using System;
 using Classificador.Api.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Classificador.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(ClassifierContext))]
-    partial class ClassifierContextModelSnapshot : ModelSnapshot
+    [Migration("20240706230111_hotfixusuarios")]
+    partial class hotfixusuarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -228,7 +231,7 @@ namespace Classificador.Api.Infrastructure.Migrations
                         .HasColumnType("character varying(64)")
                         .HasColumnName("senha");
 
-                    b.Property<Guid?>("IdSpecialty")
+                    b.Property<Guid>("IdSpecialty")
                         .HasColumnType("uuid")
                         .HasColumnName("id_especialidade");
 
@@ -248,9 +251,6 @@ namespace Classificador.Api.Infrastructure.Migrations
                         .HasColumnName("funcao");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Email")
-                        .IsUnique();
 
                     b.HasIndex("IdSpecialty");
 

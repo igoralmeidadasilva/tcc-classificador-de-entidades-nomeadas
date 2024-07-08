@@ -2,7 +2,7 @@ namespace Classificador.Api.Infrastructure.Repositories.Persistence;
 
 public class BasePersistenceRepository<TEntity> : IPersistenceRepository<TEntity> where TEntity : Entity<TEntity>
 {
-    private readonly ClassifierContext _context;
+    protected readonly ClassifierContext _context;
 
     public BasePersistenceRepository(ClassifierContext context)
     {
@@ -24,10 +24,8 @@ public class BasePersistenceRepository<TEntity> : IPersistenceRepository<TEntity
 
     public async Task DeleteAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        // TODO: Verificar esse tipo de retorno, lançando exceções de dentro do repo
-        var entity = await _context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken)
-            ?? throw new EntityNotFoundException();
-        
+        var entity = await _context.Set<TEntity>().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
         _context.Set<TEntity>().Remove(entity!);
         await _context.SaveChangesAsync(cancellationToken);
     }

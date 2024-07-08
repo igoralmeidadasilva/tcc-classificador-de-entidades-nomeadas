@@ -7,6 +7,6 @@ public static class FluentValidationExtensions
         if (error is null)
             throw new ArgumentNullException(nameof(error), "The error is required");
         
-        return rule.WithErrorCode(error.Code).WithMessage(error.Description);
+        return rule.WithErrorCode(error.Code).WithMessage(error.Message);
     }
 }

@@ -26,7 +26,6 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
             .Must(RequiredLowerCase).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidLowerCase)
             .Must(RequireDigit).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNumber)
             .Must(RequireNonAlphanumeric).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNonAlphanumeric)
-            // TODO: Essa verificação não está fazendo uso do serviço de HashPasswrods
             .Equal(x => x.Password).WithError(ValidationErrors.CreateUser.PasswordsNotEquals);
 
         RuleFor(x => x.Name)
@@ -35,7 +34,8 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
 
         RuleFor(x => x.Contact)
             .MaximumLength(Constants.Constraints.USER_CONTACT_MAX_LENGHT).WithError(ValidationErrors.CreateUser.ContactMaximumLenght)
-            .Matches(@"^\(\d{2}\)\d{5}-\d{4}$").WithError(ValidationErrors.CreateUser.ContactFormat);
+            .Matches(@"^\(\d{2}\)\d{5}-\d{4}$").WithError(ValidationErrors.CreateUser.ContactFormat)
+            .When(x => x.Contact != string.Empty);
     }
 
     private bool RequireDigit(string value)

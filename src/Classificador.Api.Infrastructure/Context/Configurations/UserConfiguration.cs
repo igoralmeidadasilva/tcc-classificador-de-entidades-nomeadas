@@ -13,6 +13,9 @@ public sealed class UserConfiguration : EntityConfiguration<User>
             .HasMaxLength(Constants.Constraints.USER_EMAIL_MAX_LENGHT)
             .IsRequired();
 
+        builder.HasIndex(x => x.Email)
+            .IsUnique();
+
         builder.Property(x => x.HashedPassword)
             .HasColumnName("senha")
             .HasMaxLength(Constants.Constraints.USER_PASSWORD_MAX_LENGHT)
@@ -33,13 +36,11 @@ public sealed class UserConfiguration : EntityConfiguration<User>
 
         builder.Property(x => x.IdSpecialty)
             .HasColumnName("id_especialidade")
-            .IsRequired();
+            .IsRequired(false);
 
         builder.HasOne(x => x.Specialty)
             .WithMany(x => x.Users)
-            .HasForeignKey(x => x.IdSpecialty)
-            .IsRequired();
-
+            .HasForeignKey(x => x.IdSpecialty);
 
         builder.HasMany(x => x.Classifications)
             .WithOne(x => x.User)

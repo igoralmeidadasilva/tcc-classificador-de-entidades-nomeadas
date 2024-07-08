@@ -1,4 +1,5 @@
 using Classificador.Api.Application.Commands.CreateUser;
+using Classificador.Api.SharedKernel.Shared.Result;
 using MediatR;
 
 namespace Classificador.Api.Presentation.Controllers;
@@ -19,7 +20,13 @@ public sealed class MainController : ControllerBase
     [HttpPost(nameof(PostCriarUsuario))]
     public async Task<IActionResult> PostCriarUsuario(CreateUserCommand command)
     {
-        _ = await _mediator.Send(command);
-        return Created();
+        Result response = await _mediator.Send(command);
+        if (!response!.IsSuccess)
+        {
+            return BadRequest(response);
+        }
+
+        Result<Guid>? valueResponse = response as Result<Guid>;
+        return Created("", valueResponse!.Value);
     }
 }

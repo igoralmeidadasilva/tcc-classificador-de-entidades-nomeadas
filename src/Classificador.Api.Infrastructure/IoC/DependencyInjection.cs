@@ -16,7 +16,7 @@ public static class DependencyInjection
         services.AddDbContext<ClassifierContext>
         (   
             (sp, opt) => opt.UseNpgsql(connectionString)
-                .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>())
+                // .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>())
         );
 
         return services;

@@ -1,6 +1,8 @@
+using Classificador.Api.SharedKernel.Shared.Result;
+
 namespace Classificador.Api.Application.Commands.CreateUser;
 
-public sealed record CreateUserCommand : ICommand<Unit>
+public sealed record CreateUserCommand : ICommand<Result>
 {
     public string Email { get; init; } = string.Empty;
     public string Password { get; init; } = string.Empty;

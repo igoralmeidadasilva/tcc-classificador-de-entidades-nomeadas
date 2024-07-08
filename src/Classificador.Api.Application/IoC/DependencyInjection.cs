@@ -6,6 +6,7 @@ public static class DependencyInjection
     {
         services = AddMediatr(services, configuration);
         services = AddValidator(services, configuration);
+        services = AddAutoMapper(services, configuration);
         return services;
     }
 
@@ -25,6 +26,12 @@ public static class DependencyInjection
     {
         services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
 
+        return services;
+    }
+
+    private static IServiceCollection AddAutoMapper(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
         return services;
     }
 }

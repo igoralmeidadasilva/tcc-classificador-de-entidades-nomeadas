@@ -2,12 +2,12 @@ namespace Classificador.Api.Domain.Entities;
 
 public sealed class User : Entity<User>, IAggregateRoot
 {
-    public string Email { get; private set; }
-    public string HashedPassword { get; private set; }
-    public string Name { get; private set; }
+    public string Email { get; private set; } = string.Empty;
+    public string HashedPassword { get; private set; } = string.Empty;
+    public string Name { get; private set; } = string.Empty;
     public string? Contact { get; private set; }
     public UserRole Role { get; private set; }
-    public Guid IdSpecialty { get; private set; }
+    public Guid? IdSpecialty { get; private set; }
     public Specialty? Specialty{ get; init; }
     public ICollection<Classification>? Classifications { get; init; } = [];
 
@@ -27,6 +27,8 @@ public sealed class User : Entity<User>, IAggregateRoot
         IdSpecialty = idSpecialty;
         Contact = contact;
     }
+
+    public User( ){ }
 
     public override User Update(User entity)
     {

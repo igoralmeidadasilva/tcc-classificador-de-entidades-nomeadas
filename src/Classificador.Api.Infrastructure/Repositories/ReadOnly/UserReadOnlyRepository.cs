@@ -6,4 +6,9 @@ public class UserReadOnlyRepository : BaseReadOnlyRepository<User>, IUserReadOnl
     {
     }
 
+    public async Task<bool> IsEmailAlreadyExists(string email, CancellationToken cancellationToken = default)
+    {
+        return await _context.Users.AsNoTracking().AnyAsync(x => x.Email == email, cancellationToken);
+    }
+
 }
