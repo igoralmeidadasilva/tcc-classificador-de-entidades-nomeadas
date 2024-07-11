@@ -1,6 +1,6 @@
 namespace Classificador.Api.Infrastructure.Repositories.Persistence;
 
-public class BasePersistenceRepository<TEntity> : IPersistenceRepository<TEntity> where TEntity : Entity<TEntity>
+public abstract class BasePersistenceRepository<TEntity> : IPersistenceRepository<TEntity> where TEntity : Entity<TEntity>
 {
     protected readonly ClassifierContext _context;
 
