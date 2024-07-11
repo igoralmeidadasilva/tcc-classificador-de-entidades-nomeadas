@@ -13,10 +13,13 @@ public static class DependencyInjection
     private static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("PostgreSQL");
+
+        services.AddSingleton<SoftDeleteInterceptor>();
+
         services.AddDbContext<ClassifierContext>
         (   
             (sp, opt) => opt.UseNpgsql(connectionString)
-                // .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>())
+                .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>())
         );
 
         return services;
