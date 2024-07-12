@@ -1,4 +1,5 @@
 using AutoMapper;
+using Classificador.Api.Domain.Errors;
 using Classificador.Api.Domain.Interfaces.Repositories;
 using Classificador.Api.Domain.Interfaces.Services;
 using Classificador.Api.SharedKernel.Shared.Result;
@@ -32,7 +33,7 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
     {
         if(await _userReadOnlyRepository.IsEmailAlreadyExists(request.Email, cancellationToken))
         {
-            return Result.Failure(ValidationErrors.CreateUser.EmailAlreadyExists);
+            return Result.Failure(DomainErrors.User.EmailAlreadyExists);
         }
 
         User user = _mapper.Map<User>(request with 

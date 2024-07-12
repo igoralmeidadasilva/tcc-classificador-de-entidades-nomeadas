@@ -28,4 +28,9 @@ app.UseAuthorization();
 app.UseHttpsRedirection();
 app.MapControllers();
 
+var seeder = app.Services.GetService<IDatabaseSeedService>();
+
+await seeder!.ExecuteMigrationAsync();
+await seeder!.ExecuteSeedAsync();
+
 app.Run();

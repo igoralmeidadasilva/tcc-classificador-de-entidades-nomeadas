@@ -28,7 +28,7 @@ public sealed class User : Entity<User>, IAggregateRoot
         Contact = contact;
     }
 
-    public User( ){ }
+    public User( ){ } // ORM
 
     public override User Update(User entity)
     {
@@ -42,7 +42,15 @@ public sealed class User : Entity<User>, IAggregateRoot
 
     public User UpdateHashedPassword(string password)
     {
-        throw new NotImplementedException();
+        ArgumentValidator.ThrowIfNullOrWhitespace(password, nameof(password));
+        HashedPassword = password;
+        return this;
+    }
+
+    public User UpdateRole(UserRole role)
+    {
+        Role = role;
+        return this;
     }
 
 }

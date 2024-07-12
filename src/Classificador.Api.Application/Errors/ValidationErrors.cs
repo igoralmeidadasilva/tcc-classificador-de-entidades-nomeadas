@@ -20,6 +20,12 @@ public static class ValidationErrors
         public static Error NameMaximumLenght => new("CreateUser.Name.MaximumLenght", $"O Nome não pode ser maior que {Constants.Constraints.USER_FIRST_NAME_MAX_LENGHT} caracteres.");
         public static Error ContactMaximumLenght => new("CreateUser.Contact.MaximumLenght", $"O contato não pode ser maior que {Constants.Constraints.USER_CONTACT_MAX_LENGHT} caracteres.");
         public static Error ContactFormat => new("CreateUser.Contact.Format", "O número de contato deve serguir o formato (XX)XXXXX-XXXX");
-        public static Error EmailAlreadyExists => new("CreateUser.Email.AlreadyExists", "O Email já existe.");
     }
+
+    public static class UpdateUserRole
+    {
+        public static Error UserIdIsRequired => new("UpdateUserRole.Id.IsRequired", "O Id do usuário não pode ser vazio.");
+    }
+
+
 }

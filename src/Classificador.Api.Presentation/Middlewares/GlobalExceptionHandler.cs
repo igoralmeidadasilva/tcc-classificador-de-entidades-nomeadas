@@ -1,13 +1,8 @@
 namespace Classificador.Api.Presentation.Middlewares;
 
-internal sealed class GlobalExceptionHandler : IExceptionHandler
+internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger) : IExceptionHandler
 {
-    private readonly ILogger<GlobalExceptionHandler> _logger;
-
-    public GlobalExceptionHandler(ILogger<GlobalExceptionHandler> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<GlobalExceptionHandler> _logger = logger;
 
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext, 
@@ -20,7 +15,7 @@ internal sealed class GlobalExceptionHandler : IExceptionHandler
         {
             Status = StatusCodes.Status500InternalServerError,
             Title = "Internal server error",
-            Detail = Domain.Errors.DomainErrors.InternalServerError
+            Detail = "Um erro inesperado aconteceu. Por favor entre em contato com o suporte."
         };
 
         httpContext.Response.StatusCode = problemDetails.Status.Value;

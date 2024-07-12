@@ -1,3 +1,7 @@
+using Classificador.Api.Application.Commands.UpdateUserRoleToAdmin;
+using Classificador.Api.Application.Commands.UpdateUserRoleToStandard;
+using Classificador.Api.Application.Models.Options;
+
 namespace Classificador.Api.Application.IoC;
 
 public static class DependencyInjection
@@ -7,6 +11,7 @@ public static class DependencyInjection
         services = AddMediatr(services, configuration);
         services = AddValidator(services, configuration);
         services = AddAutoMapper(services, configuration);
+        services = AddOptions(services, configuration);
         return services;
     }
 
@@ -25,6 +30,8 @@ public static class DependencyInjection
     private static IServiceCollection AddValidator(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
+        services.AddScoped<IValidator<UpdateUserRoleToAdminCommand>, UpdateUserRoleToAdminCommandValidator>();
+        services.AddScoped<IValidator<UpdateUserRoleToStandardCommand>, UpdateUserRoleToStandardCommandValidator>();
 
         return services;
     }
@@ -32,6 +39,14 @@ public static class DependencyInjection
     private static IServiceCollection AddAutoMapper(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+        return services;
+    }
+
+    private static IServiceCollection AddOptions(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.Configure<DatabaseSeedOptions>(options => configuration.GetSection(nameof(DatabaseSeedOptions))
+            .Bind(options, c => c.BindNonPublicProperties = true));
+
         return services;
     }
 }

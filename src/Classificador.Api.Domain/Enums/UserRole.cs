@@ -2,6 +2,6 @@ namespace Classificador.Api.Domain.Enums;
 
 public enum UserRole
 {
-    Padrao,
-    Admin
+    Padrao = 0,
+    Admin = 2
 }

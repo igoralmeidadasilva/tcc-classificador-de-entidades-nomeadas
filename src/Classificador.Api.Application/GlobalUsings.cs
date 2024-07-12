@@ -14,3 +14,6 @@ global using Classificador.Api.Application.Commands.CreateUser;
 global using Classificador.Api.Application.Extensions;
 global using System.Text.RegularExpressions;
 global using Classificador.Api.Domain.Entities;
+global using Classificador.Api.Domain.Errors;
+global using Classificador.Api.Domain.Interfaces.Repositories;
+global using Classificador.Api.SharedKernel.Shared.Result;

@@ -1,3 +1,5 @@
+using Classificador.Api.Infrastructure.Services.Seed;
+
 namespace Classificador.Api.Infrastructure.IoC;
 
 public static class DependencyInjection
@@ -41,7 +43,9 @@ public static class DependencyInjection
     private static IServiceCollection AddServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<IPasswordHashingService, PasswordHashingService>();
+        services.AddSingleton<IDatabaseSeedService, DatabaseSeedService>();
 
         return services;
     }
+    
 }
