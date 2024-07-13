@@ -13,19 +13,19 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
             .NotEmpty().WithError(ValidationErrors.CreateUser.PasswordIsRequired)
             .MinimumLength(Constants.Constraints.USER_PASSWORD_MIN_LENGHT).WithError(ValidationErrors.CreateUser.PasswordMinimumLenght)
             .MaximumLength(Constants.Constraints.USER_PASSWORD_MAX_LENGHT).WithError(ValidationErrors.CreateUser.PasswordMaximumLenght)
-            .Must(RequireUppercase).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidUpperCase)
-            .Must(RequiredLowerCase).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidLowerCase)
-            .Must(RequireDigit).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNumber)
-            .Must(RequireNonAlphanumeric).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNonAlphanumeric);
+            .Must(x => x.Any(value => char.IsUpper(value))).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidUpperCase)
+            .Must(x => x.Any(value => char.IsLower(value))).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidLowerCase)
+            .Must(x => x.Any(value => char.IsDigit(value))).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNumber)
+            .Matches("(?=.*[@#$%^&+=])").WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNonAlphanumeric);
 
         RuleFor(x => x.ConfirmPassword)
             .NotEmpty().WithError(ValidationErrors.CreateUser.PasswordIsRequired)
-            .MinimumLength(Constants.Constraints.USER_PASSWORD_MIN_LENGHT).WithError(ValidationErrors.CreateUser.PasswordMinimumLenght)
-            .MaximumLength(Constants.Constraints.USER_PASSWORD_MAX_LENGHT).WithError(ValidationErrors.CreateUser.PasswordMaximumLenght)
-            .Must(RequireUppercase).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidUpperCase)
-            .Must(RequiredLowerCase).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidLowerCase)
-            .Must(RequireDigit).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNumber)
-            .Must(RequireNonAlphanumeric).WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNonAlphanumeric)
+            .MinimumLength(Constants.Constraints.USER_PASSWORD_MIN_LENGHT).WithError(ValidationErrors.CreateUser.ConfirmPasswordMinimumLenght)
+            .MaximumLength(Constants.Constraints.USER_PASSWORD_MAX_LENGHT).WithError(ValidationErrors.CreateUser.ConfirmPasswordMaximumLenght)
+            .Must(x => x.Any(value => char.IsUpper(value))).WithError(ValidationErrors.CreateUser.ConfirmPasswordFormatInvalidUpperCase)
+            .Must(x => x.Any(value => char.IsLower(value))).WithError(ValidationErrors.CreateUser.ConfirmPasswordFormatInvalidLowerCase)
+            .Must(x => x.Any(value => char.IsDigit(value))).WithError(ValidationErrors.CreateUser.ConfirmPasswordFormatInvalidNumber)
+            .Matches("(?=.*[@#$%^&+=])").WithError(ValidationErrors.CreateUser.ConfirmPasswordFormatInvalidNonAlphanumeric)
             .Equal(x => x.Password).WithError(ValidationErrors.CreateUser.PasswordsNotEquals);
 
         RuleFor(x => x.Name)
@@ -38,39 +38,4 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
             .When(x => x.Contact != string.Empty);
     }
 
-    private bool RequireDigit(string value)
-    {
-        if (value.Any(x => char.IsDigit(x)))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    private bool RequiredLowerCase(string value)
-    {
-        if (value.Any(x => char.IsLower(x)))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    private bool RequireUppercase(string value)
-    {
-        if (value.Any(x => char.IsUpper(x)))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    private bool RequireNonAlphanumeric(string value)
-    {
-        if (Regex.IsMatch(value, "(?=.*[@#$%^&+=])"))
-        {
-            return true;
-        }
-        return false;
-    }
 }

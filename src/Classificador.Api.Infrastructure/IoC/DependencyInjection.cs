@@ -1,4 +1,9 @@
+using System.Security.Claims;
+using System.Text;
+using Classificador.Api.Domain.Enums;
 using Classificador.Api.Infrastructure.Services.Seed;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Classificador.Api.Infrastructure.IoC;
 
@@ -8,6 +13,8 @@ public static class DependencyInjection
     {
         services = AddDbContext(services, configuration);
         services = AddRepositories(services, configuration);
+        services = AddAuthentication(services, configuration);
+        services = AddCustomAuthorization(services, configuration);
         services = AddServices(services, configuration);
         return services;
     }
@@ -44,6 +51,36 @@ public static class DependencyInjection
     {
         services.AddSingleton<IPasswordHashingService, PasswordHashingService>();
         services.AddSingleton<IDatabaseSeedService, DatabaseSeedService>();
+        services.AddSingleton<ITokenService, TokenService>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(opt => 
+        {
+            opt.RequireHttpsMetadata = true;
+            opt.SaveToken = true;
+            opt.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration.GetSection("JwtOptions:TokenSecurityKey").Value!)),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection AddCustomAuthorization(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddAuthorizationBuilder()
+            .AddPolicy(nameof(UserRole.Padrao), policy => policy.RequireClaim(ClaimTypes.Role, UserRole.Padrao.ToString()))
+            .AddPolicy(nameof(UserRole.Admin), policy => policy.RequireClaim(ClaimTypes.Role, UserRole.Admin.ToString()));
 
         return services;
     }

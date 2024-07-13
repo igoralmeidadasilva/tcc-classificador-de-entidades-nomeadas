@@ -11,4 +11,9 @@ public class UserReadOnlyRepository : BaseReadOnlyRepository<User>, IUserReadOnl
         return await _context.Users.AsNoTracking().AnyAsync(x => x.Email == email, cancellationToken);
     }
 
+    public async Task<User> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
+    {
+        return (await _context.Users.AsNoTracking().FirstOrDefaultAsync(x => x.Email == email, cancellationToken))!;
+    }
+
 }

@@ -1,3 +1,4 @@
+using Classificador.Api.Application.Commands.LoginUser;
 using Classificador.Api.Application.Commands.UpdateUserRoleToAdmin;
 using Classificador.Api.Application.Commands.UpdateUserRoleToStandard;
 using Classificador.Api.Application.Models.Options;
@@ -32,6 +33,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
         services.AddScoped<IValidator<UpdateUserRoleToAdminCommand>, UpdateUserRoleToAdminCommandValidator>();
         services.AddScoped<IValidator<UpdateUserRoleToStandardCommand>, UpdateUserRoleToStandardCommandValidator>();
+        services.AddScoped<IValidator<LoginUserCommand>, LoginUserCommandValidator>();
 
         return services;
     }
@@ -46,6 +48,9 @@ public static class DependencyInjection
     {
         services.Configure<DatabaseSeedOptions>(options => configuration.GetSection(nameof(DatabaseSeedOptions))
             .Bind(options, c => c.BindNonPublicProperties = true));
+
+        services.Configure<JwtOptions>(options => configuration.GetSection(nameof(JwtOptions))
+            .Bind(options));
 
         return services;
     }

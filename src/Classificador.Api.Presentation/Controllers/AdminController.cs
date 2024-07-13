@@ -1,7 +1,11 @@
+using Classificador.Api.Domain.Enums;
+using Microsoft.AspNetCore.Authorization;
+
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("/api/[controller]")]
 [ApiController]
+[Authorize(Roles = nameof(UserRole.Admin))]
 public sealed class AdminController : ControllerBase
 {
     private readonly ILogger<AdminController> _logger;
