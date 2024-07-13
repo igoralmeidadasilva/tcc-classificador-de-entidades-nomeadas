@@ -1,5 +1,3 @@
-using Classificador.Api.Presentation.IoC;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()
@@ -24,8 +22,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
-app.UseAuthorization();
 
 app.UseHttpsRedirection();
 app.MapControllers();

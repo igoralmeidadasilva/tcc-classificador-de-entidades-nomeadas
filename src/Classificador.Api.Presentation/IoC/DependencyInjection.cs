@@ -1,5 +1,3 @@
-using Microsoft.OpenApi.Models;
-
 namespace Classificador.Api.Presentation.IoC;
 
 public static class DependencyInjection

@@ -1,13 +1,3 @@
-using Classificador.Api.Application.Commands.CreateUser;
-using Classificador.Api.Application.Commands.LoginUser;
-using Classificador.Api.Application.Models.Options;
-using Classificador.Api.Domain.Errors;
-using Classificador.Api.Domain.Models;
-using Classificador.Api.SharedKernel.Shared.Result;
-using MediatR;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Options;
-
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("/api/")]

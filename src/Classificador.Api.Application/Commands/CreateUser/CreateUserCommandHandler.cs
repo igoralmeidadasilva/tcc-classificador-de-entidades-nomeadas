@@ -1,9 +1,3 @@
-using AutoMapper;
-using Classificador.Api.Domain.Errors;
-using Classificador.Api.Domain.Interfaces.Repositories;
-using Classificador.Api.Domain.Interfaces.Services;
-using Classificador.Api.SharedKernel.Shared.Result;
-
 namespace Classificador.Api.Application.Commands.CreateUser;
 
 public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result>

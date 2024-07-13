@@ -1,5 +1,3 @@
-using Classificador.Api.Domain.Enums;
-
 namespace Classificador.Api.Infrastructure.Context.Configurations;
 
 public sealed class UserConfiguration : EntityConfiguration<User>

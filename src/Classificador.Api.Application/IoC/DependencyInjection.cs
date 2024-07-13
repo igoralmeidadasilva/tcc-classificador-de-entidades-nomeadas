@@ -1,8 +1,3 @@
-using Classificador.Api.Application.Commands.LoginUser;
-using Classificador.Api.Application.Commands.UpdateUserRoleToAdmin;
-using Classificador.Api.Application.Commands.UpdateUserRoleToStandard;
-using Classificador.Api.Application.Models.Options;
-
 namespace Classificador.Api.Application.IoC;
 
 public static class DependencyInjection

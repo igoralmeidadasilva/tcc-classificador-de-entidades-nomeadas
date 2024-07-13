@@ -1,6 +1,3 @@
-using Classificador.Api.Domain.Enums;
-using Microsoft.AspNetCore.Authorization;
-
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("/api/[controller]")]

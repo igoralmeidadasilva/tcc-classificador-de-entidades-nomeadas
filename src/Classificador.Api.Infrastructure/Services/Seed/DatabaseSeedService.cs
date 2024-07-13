@@ -1,7 +1,3 @@
-using Classificador.Api.Application.Models.Options;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-
 namespace Classificador.Api.Infrastructure.Services.Seed;
 
 public sealed class DatabaseSeedService : IDatabaseSeedService

@@ -1,8 +1,8 @@
 namespace Classificador.Api.Application.Queries.GetUserById;
 
-public sealed class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, User>
+public sealed class GetUserByIdQueryHandler : IRequestHandler<GetUserByIdQuery, Result>
 {
-    public Task<User> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
+    public Task<Result> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

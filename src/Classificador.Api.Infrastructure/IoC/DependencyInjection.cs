@@ -1,10 +1,3 @@
-using System.Security.Claims;
-using System.Text;
-using Classificador.Api.Domain.Enums;
-using Classificador.Api.Infrastructure.Services.Seed;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-
 namespace Classificador.Api.Infrastructure.IoC;
 
 public static class DependencyInjection

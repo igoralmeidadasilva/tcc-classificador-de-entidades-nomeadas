@@ -1,6 +1,3 @@
-using System.Security.Claims;
-using Classificador.Api.Domain.Models;
-
 namespace Classificador.Api.Domain.Interfaces.Services;
 
 public interface ITokenService

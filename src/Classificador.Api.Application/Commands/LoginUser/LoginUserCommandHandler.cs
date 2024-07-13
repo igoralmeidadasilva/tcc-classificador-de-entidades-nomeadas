@@ -1,7 +1,3 @@
-using System.Security.Claims;
-using Classificador.Api.Domain.Interfaces.Services;
-using Classificador.Api.Domain.Models;
-
 namespace Classificador.Api.Application.Commands.LoginUser;
 
 public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result>

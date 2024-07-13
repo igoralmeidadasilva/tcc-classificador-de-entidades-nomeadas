@@ -1,11 +1,3 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
-using Classificador.Api.Application.Models.Options;
-using Classificador.Api.Domain.Models;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-
 namespace Classificador.Api.Infrastructure.Services;
 
 public sealed class TokenService : ITokenService

@@ -1,8 +1,8 @@
 namespace Classificador.Api.Application.Queries.GetAllUsers;
 
-public sealed class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, IEnumerable<User>>
+public sealed class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, Result>
 {
-    public Task<IEnumerable<User>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+    public Task<Result> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

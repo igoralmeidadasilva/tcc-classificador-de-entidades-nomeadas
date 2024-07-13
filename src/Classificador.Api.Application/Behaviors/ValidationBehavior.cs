@@ -1,5 +1,3 @@
-using Classificador.Api.SharedKernel.Shared.Result;
-
 namespace Classificador.Api.Application.Behaviors;
 
 public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
