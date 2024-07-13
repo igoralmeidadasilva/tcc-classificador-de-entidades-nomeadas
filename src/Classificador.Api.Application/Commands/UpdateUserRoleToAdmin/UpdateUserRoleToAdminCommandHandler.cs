@@ -23,6 +23,10 @@ public sealed class UpdateUserRoleToAdminCommandHandler : IRequestHandler<Update
 
         if (user is null)
         {
+            _logger.LogInformation("{RequestName} user id cannot be found. {UserId}",
+                nameof(UpdateUserRoleToAdminCommandHandler),
+                request.Id);
+
             return Result.Failure(DomainErrors.User.UserNotFound);
         }
 
@@ -30,6 +34,10 @@ public sealed class UpdateUserRoleToAdminCommandHandler : IRequestHandler<Update
 
         await _userPersistenceRepository.UpdateAsync(user, cancellationToken);
 
+        _logger.LogInformation("{RequestName} was successful, user {UserName} is now has the administrator role.",
+            nameof(UpdateUserRoleToAdminCommandHandler),
+            user.Name);
+                
         return Result.Success();
     }
 

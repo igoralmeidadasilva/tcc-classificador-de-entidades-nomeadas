@@ -23,12 +23,20 @@ public sealed class UpdateUserRoleToStandardCommandHandler : IRequestHandler<Upd
 
         if (user is null)
         {
+            _logger.LogInformation("{RequestName} user id cannot be found. {UserId}",
+                nameof(UpdateUserRoleToStandardCommandHandler),
+                request.Id);
+
             return Result.Failure(DomainErrors.User.UserNotFound);
         }
 
         user = user.UpdateRole(Domain.Enums.UserRole.Padrao);
 
         await _userPersistenceRepository.UpdateAsync(user, cancellationToken);
+
+        _logger.LogInformation("{RequestName} was successful, user {UserName} is now has the standard role.",
+            nameof(UpdateUserRoleToStandardCommandHandler),
+            user.Name);
 
         return Result.Success();
     }

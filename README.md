@@ -57,7 +57,7 @@ Este projeto usa migrações autômaticas, isto é, ao executar o projeto com a 
 ### 🧳 Executando Migrações por linhas de comando
 Executar migrações por linha de comando é uma forma eficaz de controlar melhor as alterações no banco de dados. A seguir, apresento um passo a passo para executar migrações no Entity Framework:
 
-* Certifique-se que o [appsettings](./src/Classificador.Api.Presentation/appsettings.json) esteja correto, para ver exemplos, [clique aqui](https://www.connectionstrings.com/npgsql/).
+* Certifique-se que o [appsettings](./src/Classificador.Api.Presentation/appsettings.json) esteja correto. Para ver exemplos de *connectionStrings* do postgres, [clique aqui](https://www.connectionstrings.com/npgsql/).
 ```json
     "PostgreSQL": '[REPLACE TO YOUR POSTGRES CONNECTION]'
 ```
@@ -83,7 +83,7 @@ Executar migrações por linha de comando é uma forma eficaz de controlar melho
 
 
 ### 🔌 Gerando Novas Migrações
-Migrações podem ser geradas para alterar o esquema presente no banco de dados, para isso será necessário conhecimento do sistema de ORM Entity Framework, para aprender como alterar o ORM você pode verificar o artigo presente [aqui](https://learn.microsoft.com/pt-br/ef/core/modeling/relationships).
+Migrações podem ser geradas para alterar o esquema presente no banco de dados, para isso será necessário conhecimento do sistema de ORM Entity Framework, para aprender como alterar o ORM, recomendo a você ler este [artigo](https://learn.microsoft.com/pt-br/ef/core/modeling/relationships).
 
 * Se desejar alterar o esquema do banco de dados, modifique o conteúdo dos [arquivos de ORM](./src/Classificador.Api.Infrastructure/Context/Configurations/) presentes em '\src\Classificador.Api.Infrastructure\Context\Configurations'.
 

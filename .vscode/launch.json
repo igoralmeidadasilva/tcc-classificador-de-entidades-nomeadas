@@ -1,26 +1,15 @@
 {
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (web)",
-            "type": "coreclr",
+            "name": "C#: Classificador.Api.Presentation Debug",
+            "type": "dotnet",
             "request": "launch",
-            "preLaunchTask": "build",
-            "program": "${workspaceFolder}/src/Classificador.Api.Presentation/bin/Debug/net8.0/Classificador.Api.Presentation.dll",
-            "args": [],
-            "cwd": "${workspaceFolder}/src/Classificador.Api.Presentation",
-            "stopAtEntry": false,
-            "serverReadyAction": {
-                "action": "openExternally",
-                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
-            },
-            "env": {
-                "ASPNETCORE_ENVIRONMENT": "Development"
-            },
-            "sourceFileMap": {
-                "/Views": "${workspaceFolder}/Views"
-            },
-            "justMyCode": true
+            "projectPath": "${workspaceFolder}/src/Classificador.Api.Presentation/Classificador.Api.Presentation.csproj"
         }
+
     ]
 }

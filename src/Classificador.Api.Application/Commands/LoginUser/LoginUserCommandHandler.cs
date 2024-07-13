@@ -21,15 +21,23 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
 
     public async Task<Result> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
-        User user = await _userReadOnlyRepository.GetByEmailAsync(request.Email!);
+        User user = await _userReadOnlyRepository.GetByEmailAsync(request.Email!, cancellationToken);
 
         if(user is null)
         {
+            _logger.LogInformation("{RequestName} user email cannot be found. {UserEmail}",
+                nameof(LoginUserCommandHandler),
+                request.Email);
+
             return Result.Failure(DomainErrors.User.UserNotFound);
         }
 
         if (!_passwordHashingService.VerifyPassword(user.HashedPassword, request.Password!))
         {
+            _logger.LogInformation("{RequestName} user password is incorrect. {UserEmail}",
+                nameof(LoginUserCommandHandler),
+                request.Email);
+
             return Result.Failure(DomainErrors.User.AuthenticationPasswordFailed);
         }
 
@@ -37,6 +45,10 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
 
         JwtToken token = _tokenService.GenerateToken(claims);
         
+        _logger.LogInformation("{RequestName} user login is successfully. {UserEmail}",
+            nameof(LoginUserCommandHandler),
+            user.Email);
+
         return Result.Success(token);
 
     }

@@ -15,13 +15,15 @@ public sealed class ClassifierContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-
         builder.Entity<Category>().HasQueryFilter(c => !c.IsDeleted);
         builder.Entity<Classification>().HasQueryFilter(c => !c.IsDeleted);
         builder.Entity<NamedEntity>().HasQueryFilter(n => !n.IsDeleted);
         builder.Entity<PrescribingInformation>().HasQueryFilter(p => !p.IsDeleted);
         builder.Entity<Specialty>().HasQueryFilter(s => !s.IsDeleted);
         builder.Entity<User>().HasQueryFilter(u => !u.IsDeleted);
+        builder.Entity<NamedEntityPrescribingInformation>().HasQueryFilter(npi  => 
+            !npi.NamedEntity!.IsDeleted && 
+            !npi .PrescribingInformation!.IsDeleted);
 
         builder.ApplyConfiguration(new CategoryConfiguration());
         builder.ApplyConfiguration(new ClassificationConfiguration());

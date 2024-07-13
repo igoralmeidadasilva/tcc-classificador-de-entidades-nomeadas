@@ -16,8 +16,8 @@ public static class DependencyInjection
         services.AddMediatR(opt => 
         {
             opt.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
-                .AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>))
-                .AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+                .AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
+                .AddBehavior(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         });
 
         return services;

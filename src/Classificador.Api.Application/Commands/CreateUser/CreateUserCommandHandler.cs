@@ -20,13 +20,16 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
         _userReadOnlyRepository = userReadOnlyRepository;
         _passwordHashingService = passwordHashingService;
         _mapper = mapper;
-
     }
 
     public async Task<Result> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
         if(await _userReadOnlyRepository.IsEmailAlreadyExists(request.Email, cancellationToken))
         {
+            _logger.LogInformation("{RequestName} user email already exists. {User}",
+                nameof(CreateUserCommandHandler),
+                request.Email);
+
             return Result.Failure(DomainErrors.User.EmailAlreadyExists);
         }
 
@@ -36,6 +39,10 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
         });
 
         Guid id = await _userPersistenceRepository.AddAsync(user, cancellationToken);
+
+        _logger.LogInformation("{RequestName} successfully created a new user: {UserId}",
+            nameof(CreateUserCommandHandler),
+            id);
 
         return Result.Success(id);
     }
