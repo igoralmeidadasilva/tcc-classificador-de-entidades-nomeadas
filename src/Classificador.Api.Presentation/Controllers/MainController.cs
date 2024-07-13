@@ -2,6 +2,7 @@ namespace Classificador.Api.Presentation.Controllers;
 
 [Route("/api/")]
 [ApiController]
+[AllowAnonymous]
 public sealed class MainController : ControllerBase
 {
     private readonly ILogger<MainController> _logger;
@@ -14,7 +15,6 @@ public sealed class MainController : ControllerBase
     }
 
     [HttpPost(nameof(PostCriarUsuario))]
-    [AllowAnonymous]
     public async Task<IActionResult> PostCriarUsuario(CreateUserCommand command)
     {
         Result response = await _mediator.Send(command);
@@ -28,7 +28,6 @@ public sealed class MainController : ControllerBase
     }
 
     [HttpPost(nameof(PostLoginUsuario))]
-    [AllowAnonymous]
     public async Task<IActionResult> PostLoginUsuario(LoginUserCommand command)
     {
         Result response = await _mediator.Send(command);
