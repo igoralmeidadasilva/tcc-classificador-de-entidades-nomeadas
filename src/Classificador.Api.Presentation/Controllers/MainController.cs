@@ -1,19 +1,10 @@
+
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("/api/")]
-[ApiController]
 [AllowAnonymous]
-public sealed class MainController : ControllerBase
+public sealed class MainController(ILogger<MainController> logger, IMediator mediator) : ApiController<MainController>(logger, mediator)
 {
-    private readonly ILogger<MainController> _logger;
-    private readonly IMediator _mediator;
-
-    public MainController(ILogger<MainController> logger, IMediator mediator)
-    {
-        _logger = logger;
-        _mediator = mediator;
-    }
-
     [HttpPost(nameof(PostCriarUsuario))]
     public async Task<IActionResult> PostCriarUsuario(CreateUserCommand command)
     {

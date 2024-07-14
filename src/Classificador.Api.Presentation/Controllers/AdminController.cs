@@ -1,19 +1,9 @@
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("/api/[controller]")]
-[ApiController]
 [Authorize(Roles = nameof(UserRole.Admin))]
-public sealed class AdminController : ControllerBase
+public sealed class AdminController(ILogger<AdminController> logger, IMediator mediator) : ApiController<AdminController>(logger, mediator)
 {
-    private readonly ILogger<AdminController> _logger;
-    private readonly IMediator _mediator;
-
-    public AdminController(ILogger<AdminController> logger, IMediator mediator)
-    {
-        _logger = logger;
-        _mediator = mediator;
-    }
-
     [HttpPatch(nameof(PatchFuncaoUsuarioParaAdmin))]
     public async Task<IActionResult> PatchFuncaoUsuarioParaAdmin(UpdateUserRoleToAdminCommand command)
     {
