@@ -1,12 +1,3 @@
-using AutoMapper;
-using Classificador.Api.Application.Commands.CreateUser;
-using Classificador.Api.Application.Errors;
-using Classificador.Api.Domain.Interfaces.Repositories;
-using Classificador.Api.Domain.Interfaces.Services;
-using Classificador.Api.SharedKernel.Shared.Result;
-using Microsoft.Extensions.Logging;
-using Moq;
-
 namespace Classificador.Api.Tests.Unit.Application.Commands.CreateUser;
 
 public sealed class CreateUserCommandHandlerTests
@@ -38,7 +29,14 @@ public sealed class CreateUserCommandHandlerTests
     public async Task Handle_Should_Return_Failure_When_Email_Already_Exists()
     {
         // Arrange
-        var command = new CreateUserCommand { Email = "test@example.com", Password = "Password1@", ConfirmPassword = "Password1@", Name = "Test User", Contact = "" };
+        var command = new CreateUserCommand
+        {
+            Email = "test@example.com",
+            Password = "Password1@",
+            ConfirmPassword = "Password1@",
+            Name = "Test User",
+            Contact = ""
+        };
         _userReadOnlyRepositoryMock.Setup(x => x.IsEmailAlreadyExists(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                                    .ReturnsAsync(true);
 
@@ -47,7 +45,7 @@ public sealed class CreateUserCommandHandlerTests
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal(ValidationErrors.CreateUser.EmailAlreadyExists, result.Errors.First());
+        Assert.Equal(DomainErrors.User.EmailAlreadyExists, result.Errors.First());
     }
 
     [Fact]

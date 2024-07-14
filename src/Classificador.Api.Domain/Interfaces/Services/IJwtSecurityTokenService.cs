@@ -1,6 +1,6 @@
 namespace Classificador.Api.Domain.Interfaces.Services;
 
-public interface ITokenService
+public interface IJwtSecurityTokenService
 {
     public JwtToken GenerateToken(IEnumerable<Claim> claims);
     public JwtToken GenerateToken(Claim claim);

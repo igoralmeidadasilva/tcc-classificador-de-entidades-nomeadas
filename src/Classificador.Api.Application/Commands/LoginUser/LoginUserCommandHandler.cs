@@ -5,13 +5,13 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
     private readonly ILogger<LoginUserCommandHandler> _logger;
     private readonly IUserReadOnlyRepository _userReadOnlyRepository;
     private readonly IPasswordHashingService _passwordHashingService;
-    private readonly ITokenService _tokenService;
+    private readonly IJwtSecurityTokenService _tokenService;
 
     public LoginUserCommandHandler(
         ILogger<LoginUserCommandHandler> logger,
         IUserReadOnlyRepository userReadOnlyRepository,
         IPasswordHashingService passwordHashingService,
-        ITokenService tokenService)
+        IJwtSecurityTokenService tokenService)
     {
         _logger = logger;
         _userReadOnlyRepository = userReadOnlyRepository;

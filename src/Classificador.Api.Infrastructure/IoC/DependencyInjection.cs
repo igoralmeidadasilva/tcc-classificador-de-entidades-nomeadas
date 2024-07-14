@@ -44,7 +44,7 @@ public static class DependencyInjection
     {
         services.AddSingleton<IPasswordHashingService, PasswordHashingService>();
         services.AddSingleton<IDatabaseSeedService, DatabaseSeedService>();
-        services.AddSingleton<ITokenService, TokenService>();
+        services.AddSingleton<IJwtSecurityTokenService, JwtSecurityTokenService>();
 
         return services;
     }

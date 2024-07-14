@@ -1,10 +1,10 @@
 namespace Classificador.Api.Infrastructure.Services;
 
-public sealed class TokenService : ITokenService
+public sealed class JwtSecurityTokenService : IJwtSecurityTokenService
 {
     private readonly JwtOptions _options;
 
-    public TokenService(IOptions<JwtOptions> options)
+    public JwtSecurityTokenService(IOptions<JwtOptions> options)
     {
         _options = options.Value;
     }
