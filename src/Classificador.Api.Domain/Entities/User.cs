@@ -28,7 +28,7 @@ public sealed class User : Entity<User>, IAggregateRoot
         Contact = contact;
     }
 
-    public User( ){ } // ORM
+    public User() {} //ORM
 
     public override User Update(User entity)
     {

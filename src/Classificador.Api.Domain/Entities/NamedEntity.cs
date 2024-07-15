@@ -4,7 +4,8 @@ public sealed class NamedEntity : Entity<NamedEntity>, IAggregateRoot
 {
     public string Name { get; private set; }
     public string? Description { get; private set; }
-    public ICollection<NamedEntityPrescribingInformation>? NamedEntityPrescribingsInformation { get; init; }  = [];
+    public Guid? IdPrescribingInformation { get; init; }
+    public PrescribingInformation? PrescribingInformation { get; init; }
     public ICollection<Classification>? Classifications { get; init; }  = [];
 
     public NamedEntity(string name, string? description) : base()

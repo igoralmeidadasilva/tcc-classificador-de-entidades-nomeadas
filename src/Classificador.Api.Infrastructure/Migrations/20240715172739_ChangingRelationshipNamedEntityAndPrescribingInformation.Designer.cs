@@ -3,6 +3,7 @@ using System;
 using Classificador.Api.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Classificador.Api.Infrastructure.Migrations
 {
     [DbContext(typeof(ClassifierContext))]
-    partial class ClassifierContextModelSnapshot : ModelSnapshot
+    [Migration("20240715172739_ChangingRelationshipNamedEntityAndPrescribingInformation")]
+    partial class ChangingRelationshipNamedEntityAndPrescribingInformation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -125,7 +128,7 @@ namespace Classificador.Api.Infrastructure.Migrations
 
                     b.HasIndex("IdPrescribingInformation");
 
-                    b.ToTable("entidades_nomeadas", (string)null);
+                    b.ToTable("entidade_nomeada", (string)null);
                 });
 
             modelBuilder.Entity("Classificador.Api.Domain.Entities.PrescribingInformation", b =>
@@ -188,7 +191,7 @@ namespace Classificador.Api.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("especialidades", (string)null);
+                    b.ToTable("especialidade", (string)null);
                 });
 
             modelBuilder.Entity("Classificador.Api.Domain.Entities.User", b =>

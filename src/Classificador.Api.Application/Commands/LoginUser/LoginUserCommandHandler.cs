@@ -26,7 +26,7 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
         if(user is null)
         {
             _logger.LogInformation("{RequestName} user email cannot be found. {UserEmail}",
-                nameof(LoginUserCommandHandler),
+                nameof(LoginUserCommand),
                 request.Email);
 
             return Result.Failure(DomainErrors.User.UserNotFound);
@@ -35,7 +35,7 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
         if (!_passwordHashingService.VerifyPassword(user.HashedPassword, request.Password!))
         {
             _logger.LogInformation("{RequestName} user password is incorrect. {UserEmail}",
-                nameof(LoginUserCommandHandler),
+                nameof(LoginUserCommand),
                 request.Email);
 
             return Result.Failure(DomainErrors.User.AuthenticationPasswordFailed);
@@ -46,7 +46,7 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
         JwtToken token = _tokenService.GenerateToken(claims);
         
         _logger.LogInformation("{RequestName} user login is successfully. {UserEmail}",
-            nameof(LoginUserCommandHandler),
+            nameof(LoginUserCommand),
             user.Email);
 
         return Result.Success(token);

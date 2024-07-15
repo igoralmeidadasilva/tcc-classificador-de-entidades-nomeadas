@@ -32,10 +32,12 @@ public static class DependencyInjection
         services.AddScoped<IClassificationPersistenceRepository, ClassificationPersistenceRepository>();
         services.AddScoped<INamedEntityPersistenceRepository, NamedEntityPersistenceRepository>();
         services.AddScoped<IUserPersistenceRepository, UserPersistenceRepository>();
+        services.AddScoped<IPrescribingInformationPersistenceRepository, PrescribingInformationPersistenceRepository>();
         
         services.AddScoped<IClassificationReadOnlyRepository, ClassificationReadOnlyRepository>();
         services.AddScoped<INamedEntityReadOnlyRepository, NamedEntityReadOnlyRepository>();
         services.AddScoped<IUserReadOnlyRepository, UserReadOnlyRepository>();
+        services.AddScoped<IPrescribingInformationReadOnlyRepository, PrescribingInformationReadOnlyRepository>();
 
         return services;
     }

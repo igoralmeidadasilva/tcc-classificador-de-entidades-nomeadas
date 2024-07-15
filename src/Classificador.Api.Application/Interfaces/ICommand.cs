@@ -1,5 +1,5 @@
 namespace Classificador.Api.Application.Interfaces;
 
-public interface ICommand<TResponse> : IRequest<TResponse> where TResponse : IResult
+public interface ICommand<TResponse> : IRequest<TResponse> where TResponse : Result
 {
 }

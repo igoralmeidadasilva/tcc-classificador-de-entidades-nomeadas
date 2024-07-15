@@ -96,13 +96,16 @@ public sealed class CreateUserCommandHandlerTests
         User user = new(command.Email, command.Password, command.Name, UserRole.Padrao, Guid.NewGuid(), command.Contact);
 
         _userReadOnlyRepositoryMock.Setup(x => x.IsEmailAlreadyExists(It.IsAny<string>(), It.IsAny<CancellationToken>()))
-                                   .ReturnsAsync(false);
+            .ReturnsAsync(false);
+
         _passwordHashingServiceMock.Setup(x => x.HashPassword(It.IsAny<string>()))
-                                   .Returns("hashedpassword");
+            .Returns("hashedpassword");
+
         _mapperMock.Setup(x => x.Map<User>(It.IsAny<CreateUserCommand>()))
-                   .Returns(user);
+            .Returns(user);
+            
         _userPersistenceRepositoryMock.Setup(x => x.AddAsync(It.IsAny<User>(), It.IsAny<CancellationToken>()))
-                                    .ReturnsAsync(user.Id);
+            .ReturnsAsync(user.Id);
 
         // Act
         Result<Guid>? result = await _handler.Handle(command, CancellationToken.None) as Result<Guid>;

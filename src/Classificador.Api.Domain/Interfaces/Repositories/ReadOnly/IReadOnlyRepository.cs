@@ -1,4 +1,4 @@
-namespace Classificador.Api.Domain.Interfaces.Repositories;
+namespace Classificador.Api.Domain.Interfaces.Repositories.ReadOnly;
 
 public interface IReadOnlyRepository<TEntity> where TEntity : Entity<TEntity>
 {

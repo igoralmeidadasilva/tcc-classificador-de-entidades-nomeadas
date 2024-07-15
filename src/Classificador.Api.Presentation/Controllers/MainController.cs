@@ -1,4 +1,3 @@
-
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("/api/")]
@@ -31,5 +30,4 @@ public sealed class MainController(ILogger<MainController> logger, IMediator med
         Result<JwtToken>? valueResponse = response as Result<JwtToken>;
         return Ok(valueResponse!.Value);
     }
-
 }

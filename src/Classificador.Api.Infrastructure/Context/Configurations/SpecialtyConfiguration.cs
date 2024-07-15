@@ -6,7 +6,7 @@ public sealed class SpecialtyConfiguration : EntityConfiguration<Specialty>
     {
         base.Configure(builder);
 
-        builder.ToTable("especialidade");
+        builder.ToTable("especialidades");
 
         builder.Property(x => x.Name)
             .HasColumnName("nome")

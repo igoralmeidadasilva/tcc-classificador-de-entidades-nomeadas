@@ -24,6 +24,11 @@ public sealed class DatabaseSeedService : IDatabaseSeedService
             return;
         }
 
+        await SeedingUserAsync(cancellationToken);
+    }
+
+    private async Task SeedingUserAsync(CancellationToken cancellationToken)
+    {
         using IServiceScope scope = _scopeFactory.CreateScope();
         var context = scope.ServiceProvider.GetService<ClassifierContext>() 
             ?? throw new Exception("An error occurred when trying to recover the Database.");

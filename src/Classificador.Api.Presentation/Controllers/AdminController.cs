@@ -29,4 +29,18 @@ public sealed class AdminController(ILogger<AdminController> logger, IMediator m
 
         return NoContent();
     }
+
+    [HttpPost(nameof(PostPrescribingInformationEntityTxt))]
+    public async Task<IActionResult> PostPrescribingInformationEntityTxt(CreatePrescribingInformationTxtCommand command)
+    {
+        Result response = await _mediator.Send(command);
+
+        if (!response.IsSuccess)
+        {
+            return BadRequest(response);
+        }
+
+        return Created("", response);
+    }
+
 }

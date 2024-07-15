@@ -48,4 +48,11 @@ public static class ValidationErrors
         public static Error PasswordFormatInvalidNonAlphanumeric => new("LoginUser.Password.FormatInvalid", "A senha deve conter ao menos um caractere especial.");
     }
 
+    public static class CreatePrescribingInformationTxt
+    {
+        public static Error NameIsRequired => new("CreatePrescribingInformationTxt.Name.IsRequired", "O Nome não pode ser vazio.");
+        public static Error NameMaximumLenght => new("CreatePrescribingInformationTxt.Name.MaximumLenght", $"O Nome não pode ser maior que {Constants.Constraints.PRESCRIBING_INFORMATION_NAME_MAX_LENGHT} caracteres.");
+        public static Error FileIsRequired => new("CreatePrescribingInformationTxt.File.IsRequired", "O arquivo não pode ser vazio.");
+        public static Error FileExtension => new("CreatePrescribingInformationTxt.File.Extension", "A extensão do arquivo deve ser '.txt'.");
+    }
 }

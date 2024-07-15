@@ -41,7 +41,7 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
         Guid id = await _userPersistenceRepository.AddAsync(user, cancellationToken);
 
         _logger.LogInformation("{RequestName} successfully created a new user: {UserId}",
-            nameof(CreateUserCommandHandler),
+            nameof(CreateUserCommand),
             id);
 
         return Result.Success(id);

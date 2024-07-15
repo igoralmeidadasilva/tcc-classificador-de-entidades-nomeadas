@@ -6,7 +6,7 @@ public sealed class NamedEntityConfiguration : EntityConfiguration<NamedEntity>
     {
         base.Configure(builder);
 
-        builder.ToTable("entidade_nomeada");
+        builder.ToTable("entidades_nomeadas");
 
         builder.Property(x => x.Name)
             .HasColumnName("nome")
@@ -20,5 +20,14 @@ public sealed class NamedEntityConfiguration : EntityConfiguration<NamedEntity>
             .WithOne(x => x.NamedEntitie)
             .HasForeignKey(x => x.IdNamedEntitie)
             .IsRequired();
+
+        builder.Property(x => x.IdPrescribingInformation)
+            .HasColumnName("id_bula")
+            .IsRequired();
+        
+        builder.HasOne(x => x.PrescribingInformation)
+            .WithMany(x => x.NamedEntities)
+            .HasForeignKey(x => x.IdPrescribingInformation);
+
     }
 }

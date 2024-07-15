@@ -19,6 +19,11 @@ public class PrescribingInformationConfiguration : EntityConfiguration<Prescribi
         
         builder.Property(x => x.Description)
             .HasColumnName("descricao");
+
+        builder.HasMany(x => x.NamedEntities)
+            .WithOne(x => x.PrescribingInformation)
+            .HasForeignKey(x => x.IdPrescribingInformation)
+            .IsRequired();;
     }
 
 }

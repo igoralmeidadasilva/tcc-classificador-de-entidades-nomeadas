@@ -2,7 +2,7 @@ namespace Classificador.Api.Application.Behaviors;
 
 public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : class, IRequest<TResponse>
-    where TResponse : class, IResult 
+    where TResponse : Result 
 {
     private readonly IEnumerable<IValidator<TRequest>> _validators;
 
@@ -22,7 +22,7 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
             if (failures.Count != 0)
             {
                 List<Error> errors = failures.Select(failure => new Error(failure.ErrorCode, failure.ErrorMessage)).ToList();
-                return (TResponse)(IResult)Result.Failure(errors);
+                return (TResponse)Result.Failure(errors);
             }
         }
 

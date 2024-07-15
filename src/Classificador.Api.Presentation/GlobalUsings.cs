@@ -17,3 +17,4 @@ global using Microsoft.AspNetCore.Authorization;
 global using Classificador.Api.Application.Commands.CreateUser;
 global using Classificador.Api.Application.Commands.LoginUser;
 global using Classificador.Api.Domain.Models;
+global using Classificador.Api.Application.Commands.CreatePrescribingInformationTxt;
