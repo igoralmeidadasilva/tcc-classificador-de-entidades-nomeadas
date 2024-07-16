@@ -40,7 +40,8 @@ public sealed class AdminController(ILogger<AdminController> logger, IMediator m
             return BadRequest(response);
         }
 
-        return Created("", response);
+        Result<Guid>? valueResponse = response as Result<Guid>;
+        return Created("", valueResponse!.Value);
     }
 
 }

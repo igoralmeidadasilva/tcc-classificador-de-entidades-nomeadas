@@ -24,8 +24,8 @@ public sealed class CreatePrescribingInformationTxtCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.File)
-            .WithErrorCode(ValidationErrors.CreatePrescribingInformationTxt.FileIsRequired.Code)
-            .WithErrorMessage(ValidationErrors.CreatePrescribingInformationTxt.FileIsRequired.Message);
+            .WithErrorCode(RequestValidationErrors.CreatePrescribingInformationTxtFailures.FileIsRequired.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreatePrescribingInformationTxtFailures.FileIsRequired.Description);
     }
 
     [Fact]
@@ -46,8 +46,8 @@ public sealed class CreatePrescribingInformationTxtCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.File)
-            .WithErrorCode(ValidationErrors.CreatePrescribingInformationTxt.FileExtension.Code)
-            .WithErrorMessage(ValidationErrors.CreatePrescribingInformationTxt.FileExtension.Message);
+            .WithErrorCode(RequestValidationErrors.CreatePrescribingInformationTxtFailures.FileExtension.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreatePrescribingInformationTxtFailures.FileExtension.Description);
     }
 
     [Fact]

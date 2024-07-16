@@ -6,57 +6,57 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
     {
         RuleFor(x => x.Email)
             .NotEmpty()
-                .WithError(ValidationErrors.CreateUser.EmailIsRequired)
+                .WithError(RequestValidationErrors.CreateUserFailures.EmailIsRequired)
             .MaximumLength(Constants.Constraints.USER_EMAIL_MAX_LENGHT)
-                .WithError(ValidationErrors.CreateUser.EmailMaximumLenght)
+                .WithError(RequestValidationErrors.CreateUserFailures.EmailMaximumLenght)
             .EmailAddress()
-                .WithError(ValidationErrors.CreateUser.EmailFormat);
+                .WithError(RequestValidationErrors.CreateUserFailures.EmailFormat);
 
         RuleFor(x => x.Password)
             .NotEmpty()
-                .WithError(ValidationErrors.CreateUser.PasswordIsRequired)
+                .WithError(RequestValidationErrors.CreateUserFailures.PasswordIsRequired)
             .MinimumLength(Constants.Constraints.USER_PASSWORD_MIN_LENGHT)
-                .WithError(ValidationErrors.CreateUser.PasswordMinimumLenght)
+                .WithError(RequestValidationErrors.CreateUserFailures.PasswordMinimumLenght)
             .MaximumLength(Constants.Constraints.USER_PASSWORD_MAX_LENGHT)
-                .WithError(ValidationErrors.CreateUser.PasswordMaximumLenght)
+                .WithError(RequestValidationErrors.CreateUserFailures.PasswordMaximumLenght)
             .Must(x => x.Any(value => char.IsUpper(value)))
-                .WithError(ValidationErrors.CreateUser.PasswordFormatInvalidUpperCase)
+                .WithError(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidUpperCase)
             .Must(x => x.Any(value => char.IsLower(value)))
-                .WithError(ValidationErrors.CreateUser.PasswordFormatInvalidLowerCase)
+                .WithError(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidLowerCase)
             .Must(x => x.Any(value => char.IsDigit(value)))
-                .WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNumber)
+                .WithError(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidNumber)
             .Matches("(?=.*[@#$%^&+=])")
-                .WithError(ValidationErrors.CreateUser.PasswordFormatInvalidNonAlphanumeric);
+                .WithError(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidNonAlphanumeric);
 
         RuleFor(x => x.ConfirmPassword)
             .NotEmpty()
-                .WithError(ValidationErrors.CreateUser.PasswordIsRequired)
+                .WithError(RequestValidationErrors.CreateUserFailures.PasswordIsRequired)
             .MinimumLength(Constants.Constraints.USER_PASSWORD_MIN_LENGHT)
-                .WithError(ValidationErrors.CreateUser.ConfirmPasswordMinimumLenght)
+                .WithError(RequestValidationErrors.CreateUserFailures.ConfirmPasswordMinimumLenght)
             .MaximumLength(Constants.Constraints.USER_PASSWORD_MAX_LENGHT)
-                .WithError(ValidationErrors.CreateUser.ConfirmPasswordMaximumLenght)
+                .WithError(RequestValidationErrors.CreateUserFailures.ConfirmPasswordMaximumLenght)
             .Must(x => x.Any(value => char.IsUpper(value)))
-                .WithError(ValidationErrors.CreateUser.ConfirmPasswordFormatInvalidUpperCase)
+                .WithError(RequestValidationErrors.CreateUserFailures.ConfirmPasswordFormatInvalidUpperCase)
             .Must(x => x.Any(value => char.IsLower(value)))
-                .WithError(ValidationErrors.CreateUser.ConfirmPasswordFormatInvalidLowerCase)
+                .WithError(RequestValidationErrors.CreateUserFailures.ConfirmPasswordFormatInvalidLowerCase)
             .Must(x => x.Any(value => char.IsDigit(value)))
-                .WithError(ValidationErrors.CreateUser.ConfirmPasswordFormatInvalidNumber)
+                .WithError(RequestValidationErrors.CreateUserFailures.ConfirmPasswordFormatInvalidNumber)
             .Matches("(?=.*[@#$%^&+=])")
-                .WithError(ValidationErrors.CreateUser.ConfirmPasswordFormatInvalidNonAlphanumeric)
+                .WithError(RequestValidationErrors.CreateUserFailures.ConfirmPasswordFormatInvalidNonAlphanumeric)
             .Equal(x => x.Password)
-                .WithError(ValidationErrors.CreateUser.PasswordsNotEquals);
+                .WithError(RequestValidationErrors.CreateUserFailures.PasswordsNotEquals);
 
         RuleFor(x => x.Name)
             .NotEmpty()
-                .WithError(ValidationErrors.CreateUser.NameIsRequired)
+                .WithError(RequestValidationErrors.CreateUserFailures.NameIsRequired)
             .MaximumLength(Constants.Constraints.USER_FIRST_NAME_MAX_LENGHT)
-                .WithError(ValidationErrors.CreateUser.NameMaximumLenght);
+                .WithError(RequestValidationErrors.CreateUserFailures.NameMaximumLenght);
 
         RuleFor(x => x.Contact)
             .MaximumLength(Constants.Constraints.USER_CONTACT_MAX_LENGHT)
-                .WithError(ValidationErrors.CreateUser.ContactMaximumLenght)
+                .WithError(RequestValidationErrors.CreateUserFailures.ContactMaximumLenght)
             .Matches(@"^\(\d{2}\)\d{5}-\d{4}$")
-                .WithError(ValidationErrors.CreateUser.ContactFormat)
+                .WithError(RequestValidationErrors.CreateUserFailures.ContactFormat)
                 .When(x => x.Contact != string.Empty);
     }
 

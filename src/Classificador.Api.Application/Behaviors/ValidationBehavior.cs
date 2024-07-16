@@ -1,15 +1,10 @@
 namespace Classificador.Api.Application.Behaviors;
 
-public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+public sealed class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators) : IPipelineBehavior<TRequest, TResponse>
     where TRequest : class, IRequest<TResponse>
     where TResponse : Result 
 {
-    private readonly IEnumerable<IValidator<TRequest>> _validators;
-
-    public ValidationBehavior(IEnumerable<IValidator<TRequest>> validators)
-    {
-        _validators = validators;
-    }
+    private readonly IEnumerable<IValidator<TRequest>> _validators = validators;
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
@@ -21,8 +16,15 @@ public sealed class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<
 
             if (failures.Count != 0)
             {
-                List<Error> errors = failures.Select(failure => new Error(failure.ErrorCode, failure.ErrorMessage)).ToList();
-                return (TResponse)Result.Failure(errors);
+                List<PropertyFailure> errors = failures.Select(failure => new PropertyFailure(failure.ErrorCode ,failure.ErrorMessage)).ToList();
+                var error = new ValidationError
+                (
+                    RequestValidationErrors.ValidationErrorCore(typeof(TRequest).Name), 
+                    RequestValidationErrors.ValidationErrorMessage(), 
+                    errors
+                );
+
+                return (TResponse)Result.Failure(error);
             }
         }
 

@@ -36,7 +36,7 @@ public sealed class UpdateUserRoleToAdminCommandHandlerTests
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal(DomainErrors.User.UserNotFound, result.Errors.FirstOrDefault());
+        Assert.Equal(DomainErrors.User.UserNotFound, result.Error);
     }
 
     [Fact]

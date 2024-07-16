@@ -40,7 +40,7 @@ public sealed class LoginUserCommandHandlerTests
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal(DomainErrors.User.UserNotFound, result.Errors.FirstOrDefault());
+        Assert.Equal(DomainErrors.User.UserNotFound, result.Error);
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public sealed class LoginUserCommandHandlerTests
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal(DomainErrors.User.AuthenticationPasswordFailed, result.Errors.FirstOrDefault());
+        Assert.Equal(DomainErrors.User.AuthenticationPasswordFailed, result.Error);
     }
 
     [Fact]
@@ -96,7 +96,6 @@ public sealed class LoginUserCommandHandlerTests
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
-
         var valueResult = result as Result<JwtToken>;
 
         // Assert

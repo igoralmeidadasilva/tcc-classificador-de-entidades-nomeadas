@@ -5,7 +5,6 @@ builder.Services.AddControllers()
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddExceptionHandler<BadRequestExceptionHandler>();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 

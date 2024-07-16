@@ -22,7 +22,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Email).WithErrorCode(ValidationErrors.CreateUser.EmailIsRequired.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Email)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.EmailIsRequired.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.EmailIsRequired.Description);
     }
 
     [Fact]
@@ -38,7 +40,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Email).WithErrorCode(ValidationErrors.CreateUser.EmailMaximumLenght.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Email)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.EmailMaximumLenght.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.EmailMaximumLenght.Description);
     }
 
     [Fact]
@@ -54,7 +58,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Email).WithErrorCode(ValidationErrors.CreateUser.EmailFormat.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Email)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.EmailFormat.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.EmailFormat.Description);
     }
 
     [Fact]
@@ -70,7 +76,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Password).WithErrorCode(ValidationErrors.CreateUser.PasswordIsRequired.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Password)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordIsRequired.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordIsRequired.Description);
     }
 
     [Fact]
@@ -86,7 +94,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Password).WithErrorCode(ValidationErrors.CreateUser.PasswordMinimumLenght.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Password)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordMinimumLenght.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordMinimumLenght.Description);
     }
 
     [Fact]
@@ -102,7 +112,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Password).WithErrorCode(ValidationErrors.CreateUser.PasswordMaximumLenght.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Password)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordMaximumLenght.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordMaximumLenght.Description);
     }
 
     [Fact]
@@ -118,7 +130,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Password).WithErrorCode(ValidationErrors.CreateUser.PasswordFormatInvalidUpperCase.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Password)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidUpperCase.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidUpperCase.Description);
     }
 
     [Fact]
@@ -134,7 +148,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Password).WithErrorCode(ValidationErrors.CreateUser.PasswordFormatInvalidLowerCase.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Password)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidLowerCase.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidLowerCase.Description);
     }
 
     [Fact]
@@ -150,7 +166,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Password).WithErrorCode(ValidationErrors.CreateUser.PasswordFormatInvalidNumber.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Password)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidNumber.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidNumber.Description);
     }
 
     [Fact]
@@ -166,7 +184,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Password).WithErrorCode(ValidationErrors.CreateUser.PasswordFormatInvalidNonAlphanumeric.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Password)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidNonAlphanumeric.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidNonAlphanumeric.Description);
     }
 
     [Fact]
@@ -183,7 +203,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.ConfirmPassword).WithErrorCode(ValidationErrors.CreateUser.PasswordsNotEquals.Code);
+        result.ShouldHaveValidationErrorFor(x => x.ConfirmPassword)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordsNotEquals.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordsNotEquals.Description);
     }
 
     [Fact]
@@ -199,7 +221,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Name).WithErrorCode(ValidationErrors.CreateUser.NameIsRequired.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Name)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.NameIsRequired.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.NameIsRequired.Description);
     }
 
     [Fact]
@@ -215,7 +239,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Name).WithErrorCode(ValidationErrors.CreateUser.NameMaximumLenght.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Name)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.NameMaximumLenght.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.NameMaximumLenght.Description);
     }
 
     [Fact]
@@ -231,7 +257,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Contact).WithErrorCode(ValidationErrors.CreateUser.ContactMaximumLenght.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Contact)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.ContactMaximumLenght.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.ContactMaximumLenght.Description);
     }
 
     [Fact]
@@ -247,7 +275,9 @@ public sealed class CreateUserCommandValidatorTests
         var result = _validator.TestValidate(model);
         
         // Assert
-        result.ShouldHaveValidationErrorFor(x => x.Contact).WithErrorCode(ValidationErrors.CreateUser.ContactFormat.Code);
+        result.ShouldHaveValidationErrorFor(x => x.Contact)
+            .WithErrorCode(RequestValidationErrors.CreateUserFailures.ContactFormat.Failure)
+            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.ContactFormat.Description);
     }
 
     [Fact]

@@ -6,6 +6,6 @@ public sealed class UpdateUserRoleToStandardCommandValidator : AbstractValidator
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-                .WithError(ValidationErrors.UpdateUserRole.UserIdIsRequired);
+                .WithError(RequestValidationErrors.UpdateUserRoleFailures.UserIdIsRequired);
     }
 }

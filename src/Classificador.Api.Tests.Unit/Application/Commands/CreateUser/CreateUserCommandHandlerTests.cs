@@ -45,7 +45,7 @@ public sealed class CreateUserCommandHandlerTests
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal(DomainErrors.User.EmailAlreadyExists, result.Errors.First());
+        Assert.Equal(DomainErrors.User.EmailAlreadyExists, result.Error);
     }
 
     [Fact]

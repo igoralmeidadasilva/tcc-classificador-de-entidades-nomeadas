@@ -8,7 +8,7 @@ global using Classificador.Api.SharedKernel.Shared;
 global using Classificador.Api.Infrastructure.Services.Seed;
 global using Classificador.Api.Application.Commands.UpdateUserRoleToAdmin;
 global using Classificador.Api.Application.Commands.UpdateUserRoleToStandard;
-global using Classificador.Api.SharedKernel.Shared.Result;
+global using Classificador.Api.SharedKernel.Shared.Results;
 global using MediatR;
 global using Classificador.Api.Presentation.IoC;
 global using Microsoft.OpenApi.Models;

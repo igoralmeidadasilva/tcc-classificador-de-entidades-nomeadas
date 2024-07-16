@@ -7,3 +7,5 @@ global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
 global using System.Security.Claims;
 global using Classificador.Api.Domain.Models;
+global using Classificador.Api.SharedKernel.Shared.Errors;
+

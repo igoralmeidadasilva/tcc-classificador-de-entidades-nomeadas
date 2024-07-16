@@ -23,8 +23,8 @@ public sealed class UpdateUserRoleToStandardCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Id)
-            .WithErrorCode(ValidationErrors.UpdateUserRole.UserIdIsRequired.Code)
-            .WithErrorMessage(ValidationErrors.UpdateUserRole.UserIdIsRequired.Message);
+            .WithErrorCode(RequestValidationErrors.UpdateUserRoleFailures.UserIdIsRequired.Failure)
+            .WithErrorMessage(RequestValidationErrors.UpdateUserRoleFailures.UserIdIsRequired.Description);
     }
 
     [Fact]

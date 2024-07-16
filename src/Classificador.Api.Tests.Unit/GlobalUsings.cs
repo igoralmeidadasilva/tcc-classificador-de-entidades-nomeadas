@@ -10,7 +10,7 @@ global using AutoMapper;
 global using Classificador.Api.Application.Commands.CreateUser;
 global using Classificador.Api.Domain.Errors;
 global using Classificador.Api.Domain.Interfaces.Services;
-global using Classificador.Api.SharedKernel.Shared.Result;
+global using Classificador.Api.SharedKernel.Shared.Results;
 global using Microsoft.Extensions.Logging;
 global using FluentValidation;
 global using FluentValidation.TestHelper;

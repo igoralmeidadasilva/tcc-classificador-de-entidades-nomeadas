@@ -6,27 +6,27 @@ public sealed class LoginUserCommandValidator : AbstractValidator<LoginUserComma
     {
         RuleFor(x => x.Email)
             .NotEmpty()
-                .WithError(ValidationErrors.LoginUser.EmailIsRequired)
+                .WithError(RequestValidationErrors.LoginUserFailures.EmailIsRequired)
             .MaximumLength(Constants.Constraints.USER_EMAIL_MAX_LENGHT)
-                .WithError(ValidationErrors.LoginUser.EmailIsRequired)
+                .WithError(RequestValidationErrors.LoginUserFailures.EmailIsRequired)
             .EmailAddress()
-                .WithError(ValidationErrors.LoginUser.EmailFormat);
+                .WithError(RequestValidationErrors.LoginUserFailures.EmailFormat);
         
         RuleFor(x => x.Password)
             .NotEmpty()
-                .WithError(ValidationErrors.LoginUser.PasswordIsRequired)
+                .WithError(RequestValidationErrors.LoginUserFailures.PasswordIsRequired)
             .MinimumLength(Constants.Constraints.USER_PASSWORD_MIN_LENGHT)
-                .WithError(ValidationErrors.LoginUser.PasswordMinimumLenght)
+                .WithError(RequestValidationErrors.LoginUserFailures.PasswordMinimumLenght)
             .MaximumLength(Constants.Constraints.USER_PASSWORD_MAX_LENGHT)
-                .WithError(ValidationErrors.LoginUser.PasswordMaximumLenght)
+                .WithError(RequestValidationErrors.LoginUserFailures.PasswordMaximumLenght)
             .Must(x => x.Any(value => char.IsUpper(value)))
-                .WithError(ValidationErrors.LoginUser.PasswordFormatInvalidUpperCase)
+                .WithError(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidUpperCase)
             .Must(x => x.Any(value => char.IsLower(value)))
-                .WithError(ValidationErrors.LoginUser.PasswordFormatInvalidLowerCase)
+                .WithError(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidLowerCase)
             .Must(x => x.Any(value => char.IsDigit(value)))
-                .WithError(ValidationErrors.LoginUser.PasswordFormatInvalidNumber)
+                .WithError(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidNumber)
             .Matches("(?=.*[@#$%^&+=])")
-                .WithError(ValidationErrors.LoginUser.PasswordFormatInvalidNonAlphanumeric);
+                .WithError(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidNonAlphanumeric);
 
     }
 }
