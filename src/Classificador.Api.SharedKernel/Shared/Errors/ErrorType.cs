@@ -2,6 +2,7 @@ namespace Classificador.Api.SharedKernel.Shared.Errors;
 
 public enum ErrorType
 {
+    None,
     Failure,
     Unexpected,
     Validation,

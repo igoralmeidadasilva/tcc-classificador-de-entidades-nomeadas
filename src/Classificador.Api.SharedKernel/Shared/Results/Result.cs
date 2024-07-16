@@ -2,9 +2,9 @@ namespace Classificador.Api.SharedKernel.Shared.Results;
 
 public record Result
 {
-    public bool IsSuccess { get; }
+    public bool IsSuccess { get; init; }
 
-    public Error Error { get; }
+    public Error Error { get; init; }
 
     protected Result(bool isSuccess, Error error)
     {

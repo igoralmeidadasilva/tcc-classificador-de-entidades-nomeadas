@@ -11,5 +11,5 @@ public record Error
         Message = message;
         Type = type;
     }
-    public static readonly Error None = new(string.Empty, string.Empty);
+    public static readonly Error None = new(string.Empty, string.Empty, ErrorType.None);
 }
