@@ -1,47 +1,76 @@
 namespace Classificador.Api.Infrastructure.Services.Seed;
 
-public sealed class DatabaseSeedService : IDatabaseSeedService
+public sealed class DatabaseSeedService(
+    IOptions<DatabaseSeedOptions> options,
+    IServiceScopeFactory scopeFactory,
+    ILogger<DatabaseSeedService> logger) : IDatabaseSeedService
 {
-    private readonly DatabaseSeedOptions _options;
-    private readonly IServiceScopeFactory _scopeFactory;
-    private readonly ILogger<DatabaseSeedService> _logger;
-
-    public DatabaseSeedService(
-        IOptions<DatabaseSeedOptions> options,
-        IServiceScopeFactory scopeFactory,
-        ILogger<DatabaseSeedService> logger)
-    {
-        _options = options.Value;
-        _scopeFactory = scopeFactory;
-        _logger = logger;
-    }
+    private readonly DatabaseSeedOptions _options = options.Value;
+    private readonly IServiceScopeFactory _scopeFactory = scopeFactory;
+    private readonly ILogger<DatabaseSeedService> _logger = logger;
 
     public async Task ExecuteSeedAsync(CancellationToken cancellationToken = default)
+    {      
+        using IServiceScope scope = _scopeFactory.CreateScope();
+
+        await SeedingUserAsync(scope, cancellationToken);
+        await SeedingCategoryAsync(scope, cancellationToken);
+    }
+
+    private async Task SeedingCategoryAsync(IServiceScope scope, CancellationToken cancellationToken)
     {
-        if(!_options.IsSeedingActive)
+        if(!_options.IsCategorySeedingActive)
         {
-            _logger.LogInformation("The seed data option is disabled, skipping dataseeder.");
+            _logger.LogInformation("The option to seed user data is disabled, skipping dataseeder.");
             return;
         }
 
-        await SeedingUserAsync(cancellationToken);
-    }
-
-    private async Task SeedingUserAsync(CancellationToken cancellationToken)
-    {
-        using IServiceScope scope = _scopeFactory.CreateScope();
         var context = scope.ServiceProvider.GetService<ClassifierContext>() 
             ?? throw new Exception("An error occurred when trying to recover the Database.");
-        var passwordHashing = scope.ServiceProvider.GetService<IPasswordHashingService>()
+        
+        if (context.Categories.Any())
+        {
+            _logger.LogInformation("There are already categories registered data, skipping dataseeder.");
+            return;
+        }
+
+        await context!.Categories.AddRangeAsync(_options.Categories!, cancellationToken);
+        await context!.SaveChangesAsync(cancellationToken);
+
+        foreach(var category in _options.Categories!)
+        {
+            _logger.LogInformation("Category '{CategoryName}' was entered with the Id {CategoryId}.",
+                category.Name,
+                category.Id);
+        }
+    }
+
+    private async Task SeedingUserAsync(IServiceScope scope , CancellationToken cancellationToken)
+    {
+        if(!_options.IsUserSeedingActive)
+        {
+            _logger.LogInformation("The option to seed user data is disabled, skipping dataseeder");
+            return;
+        }
+
+        var context = scope.ServiceProvider.GetService<ClassifierContext>() 
+            ?? throw new Exception("An error occurred when trying to recover the Database.");
+        var passwordHashingService = scope.ServiceProvider.GetService<IPasswordHashingService>()
             ?? throw new Exception("An error occurred when trying to recover the Hashing Password Service.");
 
         if(context.Users.Any())
         {
-            _logger.LogInformation("There are already registered data, skipping dataseeder.");
+            _logger.LogInformation("There are already users registered data, skipping dataseeder.");
             return;
         }
 
-        await context!.Users.AddRangeAsync(UsersPasswordHashing(passwordHashing!, _options.Users!), cancellationToken);
+        var usersWithPasswordsIsHashing =  _options.Users!.Select(user => 
+        {
+            var passwordHashing = passwordHashingService.HashPassword(user.HashedPassword);
+            return user.UpdateHashedPassword(passwordHashing);
+        }).ToList();
+
+        await context!.Users.AddRangeAsync(usersWithPasswordsIsHashing, cancellationToken);
         await context!.SaveChangesAsync(cancellationToken);
 
         foreach(var user in _options.Users!)
@@ -51,17 +80,6 @@ public sealed class DatabaseSeedService : IDatabaseSeedService
                 user.Role,
                 user.Id);
         }
-    }
-
-    private static List<User> UsersPasswordHashing(IPasswordHashingService service, ICollection<User> users)
-    {
-        var usersWithPasswordsIsHashing = users.Select(user => 
-        {
-            var passwordHashing = service.HashPassword(user.HashedPassword);
-            return user.UpdateHashedPassword(passwordHashing);
-        }).ToList();
-
-        return usersWithPasswordsIsHashing;
     }
 
     public async Task ExecuteMigrationAsync(CancellationToken cancellationToken = default)

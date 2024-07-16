@@ -21,5 +21,4 @@ public sealed class Category : Entity<Category>
         Description = entity.Description;
         return this;
     }
-
 }
