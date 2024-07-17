@@ -21,7 +21,7 @@ public sealed class MainController(ILogger<MainController> logger, IMediator med
     public async Task<IActionResult> PostLoginUsuario(LoginUserCommand command)
     {
         Result response = await _mediator.Send(command);
-        
+
         if (!response.IsSuccess)
         {
             return Unauthorized(response);
@@ -29,5 +29,20 @@ public sealed class MainController(ILogger<MainController> logger, IMediator med
 
         Result<JwtToken>? valueResponse = response as Result<JwtToken>;
         return Ok(valueResponse!.Value);
+    }
+
+    [HttpGet(nameof(GetContarVotosParaEntidadeNomeadas))]
+    public async Task<IActionResult> GetContarVotosParaEntidadeNomeadas([FromQuery]CountingVotesForNamedEntityQuery query)
+    {
+        Result response = await _mediator.Send(query);
+
+        if (!response.IsSuccess)
+        {
+            return NotFound(response);
+        }
+
+        Result<IEnumerable<CountVoteForNamedEntity>>? valueResponse = response as Result<IEnumerable<CountVoteForNamedEntity>>;
+
+        return Ok(valueResponse);
     }
 }

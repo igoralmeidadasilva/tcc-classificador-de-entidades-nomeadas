@@ -2,7 +2,7 @@ namespace Classificador.Api.Infrastructure.Context.Configurations;
 
 public sealed class ClassificationConfiguration : EntityConfiguration<Classification>
 {
-    public override void Configure(Microsoft.EntityFrameworkCore.Metadata.Builders.EntityTypeBuilder<Classification> builder)
+    public override void Configure(EntityTypeBuilder<Classification> builder)
     {
         base.Configure(builder);
 
@@ -20,13 +20,13 @@ public sealed class ClassificationConfiguration : EntityConfiguration<Classifica
             .HasForeignKey(x => x.IdCategory)
             .IsRequired();
 
-        builder.Property(x => x.IdNamedEntitie)
+        builder.Property(x => x.IdNamedEntity)
             .HasColumnName("id_entidade_nomeada")
             .IsRequired();
 
-        builder.HasOne(x => x.NamedEntitie)
+        builder.HasOne(x => x.NamedEntity)
             .WithMany(x => x.Classifications)
-            .HasForeignKey(x => x.IdNamedEntitie)
+            .HasForeignKey(x => x.IdNamedEntity)
             .IsRequired();
 
         builder.Property(x => x.IdUser)

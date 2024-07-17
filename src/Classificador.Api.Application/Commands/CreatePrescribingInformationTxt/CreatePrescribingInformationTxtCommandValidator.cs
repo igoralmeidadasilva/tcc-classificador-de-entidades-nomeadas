@@ -6,9 +6,9 @@ public sealed class CreatePrescribingInformationTxtCommandValidator : AbstractVa
     {
         RuleFor(x => x.File)
             .NotEmpty()
-                .WithError(RequestValidationErrors.CreatePrescribingInformationTxtFailures.FileIsRequired)
+                .WithError(CommandErrors.CreatePrescribingInformationTxtFailures.FileIsRequired)
             .Must(BeAValidTextFile)
-                .WithError(RequestValidationErrors.CreatePrescribingInformationTxtFailures.FileExtension);
+                .WithError(CommandErrors.CreatePrescribingInformationTxtFailures.FileExtension);
     }
 
     private static bool BeAValidTextFile(IFormFile? file)

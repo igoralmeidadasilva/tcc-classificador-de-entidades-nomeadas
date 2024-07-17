@@ -23,8 +23,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Email)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.EmailIsRequired.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.EmailIsRequired.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.EmailIsRequired.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.EmailIsRequired.Description);
     }
 
     [Fact]
@@ -41,8 +41,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Email)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.EmailMaximumLenght.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.EmailMaximumLenght.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.EmailMaximumLenght.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.EmailMaximumLenght.Description);
     }
 
     [Fact]
@@ -59,8 +59,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Email)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.EmailFormat.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.EmailFormat.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.EmailFormat.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.EmailFormat.Description);
     }
 
     [Fact]
@@ -77,8 +77,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordIsRequired.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordIsRequired.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.PasswordIsRequired.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.PasswordIsRequired.Description);
     }
 
     [Fact]
@@ -95,8 +95,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordMinimumLenght.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordMinimumLenght.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.PasswordMinimumLenght.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.PasswordMinimumLenght.Description);
     }
 
     [Fact]
@@ -113,8 +113,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordMaximumLenght.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordMaximumLenght.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.PasswordMaximumLenght.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.PasswordMaximumLenght.Description);
     }
 
     [Fact]
@@ -131,8 +131,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidUpperCase.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidUpperCase.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.PasswordFormatInvalidUpperCase.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.PasswordFormatInvalidUpperCase.Description);
     }
 
     [Fact]
@@ -149,8 +149,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidLowerCase.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidLowerCase.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.PasswordFormatInvalidLowerCase.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.PasswordFormatInvalidLowerCase.Description);
     }
 
     [Fact]
@@ -167,8 +167,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidNumber.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidNumber.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.PasswordFormatInvalidNumber.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.PasswordFormatInvalidNumber.Description);
     }
 
     [Fact]
@@ -185,8 +185,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidNonAlphanumeric.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordFormatInvalidNonAlphanumeric.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.PasswordFormatInvalidNonAlphanumeric.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.PasswordFormatInvalidNonAlphanumeric.Description);
     }
 
     [Fact]
@@ -204,8 +204,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.ConfirmPassword)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.PasswordsNotEquals.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.PasswordsNotEquals.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.PasswordsNotEquals.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.PasswordsNotEquals.Description);
     }
 
     [Fact]
@@ -222,8 +222,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Name)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.NameIsRequired.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.NameIsRequired.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.NameIsRequired.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.NameIsRequired.Description);
     }
 
     [Fact]
@@ -240,8 +240,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Name)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.NameMaximumLenght.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.NameMaximumLenght.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.NameMaximumLenght.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.NameMaximumLenght.Description);
     }
 
     [Fact]
@@ -258,8 +258,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Contact)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.ContactMaximumLenght.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.ContactMaximumLenght.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.ContactMaximumLenght.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.ContactMaximumLenght.Description);
     }
 
     [Fact]
@@ -276,8 +276,8 @@ public sealed class CreateUserCommandValidatorTests
         
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Contact)
-            .WithErrorCode(RequestValidationErrors.CreateUserFailures.ContactFormat.Failure)
-            .WithErrorMessage(RequestValidationErrors.CreateUserFailures.ContactFormat.Description);
+            .WithErrorCode(CommandErrors.CreateUserFailures.ContactFormat.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.ContactFormat.Description);
     }
 
     [Fact]

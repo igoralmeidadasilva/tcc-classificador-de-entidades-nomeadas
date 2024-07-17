@@ -17,8 +17,8 @@ public sealed class NamedEntityConfiguration : EntityConfiguration<NamedEntity>
             .HasColumnName("descricao");
 
         builder.HasMany(x => x.Classifications)
-            .WithOne(x => x.NamedEntitie)
-            .HasForeignKey(x => x.IdNamedEntitie)
+            .WithOne(x => x.NamedEntity)
+            .HasForeignKey(x => x.IdNamedEntity)
             .IsRequired();
 
         builder.Property(x => x.IdPrescribingInformation)

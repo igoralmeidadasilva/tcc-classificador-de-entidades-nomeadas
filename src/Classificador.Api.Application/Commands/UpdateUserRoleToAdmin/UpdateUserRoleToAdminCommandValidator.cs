@@ -6,6 +6,6 @@ public sealed class UpdateUserRoleToAdminCommandValidator : AbstractValidator<Up
     {
         RuleFor(x => x.Id)
             .NotEmpty()
-                .WithError(RequestValidationErrors.UpdateUserRoleFailures.UserIdIsRequired);
+                .WithError(CommandErrors.UpdateUserRoleFailures.UserIdIsRequired);
     }
 }

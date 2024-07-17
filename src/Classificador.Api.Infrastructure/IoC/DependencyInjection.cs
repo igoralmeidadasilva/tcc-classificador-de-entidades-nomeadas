@@ -33,11 +33,13 @@ public static class DependencyInjection
         services.AddScoped<INamedEntityPersistenceRepository, NamedEntityPersistenceRepository>();
         services.AddScoped<IUserPersistenceRepository, UserPersistenceRepository>();
         services.AddScoped<IPrescribingInformationPersistenceRepository, PrescribingInformationPersistenceRepository>();
+        services.AddScoped<ICategoryPersistenceRepository, CategoryPersistenceRepository>();
         
         services.AddScoped<IClassificationReadOnlyRepository, ClassificationReadOnlyRepository>();
         services.AddScoped<INamedEntityReadOnlyRepository, NamedEntityReadOnlyRepository>();
         services.AddScoped<IUserReadOnlyRepository, UserReadOnlyRepository>();
         services.AddScoped<IPrescribingInformationReadOnlyRepository, PrescribingInformationReadOnlyRepository>();
+        services.AddScoped<ICategoryReadOnlyRepository, CategoryReadOnlyRepository>();
 
         return services;
     }

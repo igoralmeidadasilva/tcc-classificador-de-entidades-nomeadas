@@ -5,6 +5,5 @@ public abstract class ApiController<T>(ILogger<T> logger, IMediator mediator) : 
 {
     protected readonly ILogger<T> _logger = logger;
     protected readonly IMediator _mediator = mediator;
-
-    
+   
 }

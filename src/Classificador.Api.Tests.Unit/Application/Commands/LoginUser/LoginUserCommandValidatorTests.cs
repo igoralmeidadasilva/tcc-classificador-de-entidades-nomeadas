@@ -24,8 +24,8 @@ public sealed class LoginUserCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Email)
-            .WithErrorCode(RequestValidationErrors.LoginUserFailures.EmailIsRequired.Failure)
-            .WithErrorMessage(RequestValidationErrors.LoginUserFailures.EmailIsRequired.Description);
+            .WithErrorCode(CommandErrors.LoginUserFailures.EmailIsRequired.Failure)
+            .WithErrorMessage(CommandErrors.LoginUserFailures.EmailIsRequired.Description);
     }
 
     [Fact]
@@ -43,8 +43,8 @@ public sealed class LoginUserCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Email)
-            .WithErrorCode(RequestValidationErrors.LoginUserFailures.EmailFormat.Failure)
-            .WithErrorMessage(RequestValidationErrors.LoginUserFailures.EmailFormat.Description);
+            .WithErrorCode(CommandErrors.LoginUserFailures.EmailFormat.Failure)
+            .WithErrorMessage(CommandErrors.LoginUserFailures.EmailFormat.Description);
     }
 
     [Fact]
@@ -61,8 +61,8 @@ public sealed class LoginUserCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.LoginUserFailures.PasswordIsRequired.Failure)
-            .WithErrorMessage(RequestValidationErrors.LoginUserFailures.PasswordIsRequired.Description);
+            .WithErrorCode(CommandErrors.LoginUserFailures.PasswordIsRequired.Failure)
+            .WithErrorMessage(CommandErrors.LoginUserFailures.PasswordIsRequired.Description);
     }
 
     [Fact]
@@ -79,8 +79,8 @@ public sealed class LoginUserCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.LoginUserFailures.PasswordMinimumLenght.Failure)
-            .WithErrorMessage(RequestValidationErrors.LoginUserFailures.PasswordMinimumLenght.Description);
+            .WithErrorCode(CommandErrors.LoginUserFailures.PasswordMinimumLenght.Failure)
+            .WithErrorMessage(CommandErrors.LoginUserFailures.PasswordMinimumLenght.Description);
     }
 
     [Fact]
@@ -98,8 +98,8 @@ public sealed class LoginUserCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.LoginUserFailures.PasswordMaximumLenght.Failure)
-            .WithErrorMessage(RequestValidationErrors.LoginUserFailures.PasswordMaximumLenght.Description);
+            .WithErrorCode(CommandErrors.LoginUserFailures.PasswordMaximumLenght.Failure)
+            .WithErrorMessage(CommandErrors.LoginUserFailures.PasswordMaximumLenght.Description);
     }
 
     [Fact]
@@ -116,8 +116,8 @@ public sealed class LoginUserCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidUpperCase.Failure)
-            .WithErrorMessage(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidUpperCase.Description);
+            .WithErrorCode(CommandErrors.LoginUserFailures.PasswordFormatInvalidUpperCase.Failure)
+            .WithErrorMessage(CommandErrors.LoginUserFailures.PasswordFormatInvalidUpperCase.Description);
     }
 
     [Fact]
@@ -134,8 +134,8 @@ public sealed class LoginUserCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidLowerCase.Failure)
-            .WithErrorMessage(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidLowerCase.Description);
+            .WithErrorCode(CommandErrors.LoginUserFailures.PasswordFormatInvalidLowerCase.Failure)
+            .WithErrorMessage(CommandErrors.LoginUserFailures.PasswordFormatInvalidLowerCase.Description);
     }
 
     [Fact]
@@ -152,8 +152,8 @@ public sealed class LoginUserCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidNumber.Failure)
-            .WithErrorMessage(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidNumber.Description);
+            .WithErrorCode(CommandErrors.LoginUserFailures.PasswordFormatInvalidNumber.Failure)
+            .WithErrorMessage(CommandErrors.LoginUserFailures.PasswordFormatInvalidNumber.Description);
     }
 
     [Fact]
@@ -170,8 +170,8 @@ public sealed class LoginUserCommandValidatorTests
 
         // Assert
         result.ShouldHaveValidationErrorFor(x => x.Password)
-            .WithErrorCode(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidNonAlphanumeric.Failure)
-            .WithErrorMessage(RequestValidationErrors.LoginUserFailures.PasswordFormatInvalidNonAlphanumeric.Description);
+            .WithErrorCode(CommandErrors.LoginUserFailures.PasswordFormatInvalidNonAlphanumeric.Failure)
+            .WithErrorMessage(CommandErrors.LoginUserFailures.PasswordFormatInvalidNonAlphanumeric.Description);
     }
 
     [Fact]

@@ -19,8 +19,8 @@ public sealed class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidat
                 List<PropertyFailure> errors = failures.Select(failure => new PropertyFailure(failure.ErrorCode ,failure.ErrorMessage)).ToList();
                 var error = new ValidationError
                 (
-                    RequestValidationErrors.ValidationErrorCore(typeof(TRequest).Name), 
-                    RequestValidationErrors.ValidationErrorMessage(), 
+                    CommandErrors.ValidationErrorCore(typeof(TRequest).Name), 
+                    CommandErrors.ValidationErrorMessage(), 
                     errors
                 );
 

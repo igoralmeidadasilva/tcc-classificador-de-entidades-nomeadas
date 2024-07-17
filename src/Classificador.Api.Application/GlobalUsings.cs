@@ -1,3 +1,4 @@
+global using static Classificador.Api.Application.Models.ValidationError;
 global using MediatR;
 global using Microsoft.Extensions.Configuration;
 global using Microsoft.Extensions.DependencyInjection;
@@ -28,4 +29,4 @@ global using System.Text;
 global using Classificador.Api.SharedKernel.Shared.Results;
 global using Classificador.Api.SharedKernel.Shared.Errors;
 global using Classificador.Api.Application.Models;
-global using static Classificador.Api.Application.Models.ValidationError;
+global using Classificador.Api.Application.Commands.CreateClassification;
