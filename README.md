@@ -16,34 +16,34 @@ Data seeding é o processo de pré-carregar dados iniciais no banco de dados. Es
 Caso deseje que o projeto seja iniciado com usuários já cadastrados(para criar o banco já com um registro de Admin do sistema, por exemplo), você pode adicionar um novo valor ao campo json correspondede a 'Users' dessa aplicação. É altamente recomendado que você inicie este projeto com um usuário cadastrado como admin, uma vez que sem um admin, funções do sistema estarão indisponíveis. Para iniciar o sistema com usuários previamente cadastrados, altere:
 
 ```json
-    "DatabaseSeedOptions": {
-        "IsUserSeedingActive": false,
-        "Users": "[REPLACE TO YOUR USERS LIST]"
-    }
+"DatabaseSeedOptions": {
+    "IsUserSeedingActive": false,
+    "Users": "[REPLACE TO YOUR USERS LIST]"
+}
 ```
 
 para:
 
 ```json
-    "DatabaseSeedOptions": {
-        "IsUserSeedingActive": true,
-        "Users": [
-            {
-                "Email": "john.email@email.com",
-                "HashedPassword": "@Admin123",
-                "Name": "John Doe",
-                "Role": "Admin",
-                "Contact": "(11)99988-7766"
-            },
-            {
-                "Email": "jane.email@email.com",
-                "HashedPassword": "@Padrao123",
-                "Name": "Jane Doe",
-                "Role": "Padrao",
-                "Contact": "(11)99955-4433"
-            }
-        ]
-    }
+"DatabaseSeedOptions": {
+    "IsUserSeedingActive": true,
+    "Users": [
+        {
+            "Email": "john.email@email.com",
+            "HashedPassword": "@Admin123",
+            "Name": "John Doe",
+            "Role": "Admin",
+            "Contact": "(11)99988-7766"
+        },
+        {
+            "Email": "jane.email@email.com",
+            "HashedPassword": "@Padrao123",
+            "Name": "Jane Doe",
+            "Role": "Padrao",
+            "Contact": "(11)99955-4433"
+        }
+    ]
+}
 ```
 
 * Cuidado com o campo Role, ele é um Enumerate e só permite valores pré definidos ou seus respectivos identificadores: "Padrao" ou "0" e "Admin" ou "2", você pode verificar esse Enumerate [clicando aqui](./src/Classificador.Api.Domain/Enums/UserRole.cs) .
@@ -53,24 +53,61 @@ para:
 Semelhante aos usuários também disponibilizei um seeder para as categorias, por padrão esse seeder vem ligado e com seis categorias pré-definidas, são elas: Pessoa, Medicamento, Princípio Ativo, Doença, Sintoma e Outros. Uma vez que o sistema estja funcionando somente um Admin terá permissão para criar ou alterar essas categorias, portanto cuidado ao manusear esse seeder. Para manipular esse seeder por favor altere:
 
 ```json
-    "DatabaseSeedOptions": {
-        "IsCategorySeedingActive": false,
-        "Categories": "[REPLACE TO YOUT CATEGORIES LIST]"
-    },
+"DatabaseSeedOptions": {
+    "IsCategorySeedingActive": false,
+    "Categories": "[REPLACE TO YOUT CATEGORIES LIST]"
+},
 ```
 
 para:
 
 ```json
-    "DatabaseSeedOptions": {
-        "IsCategorySeedingActive": true,
-        "Categories": [
-            {
-                "Name": "Categoria",
-                "Description": "Descreva aqui a sua categoria. Lembre-se que este campo é opcional."
-            }
-        ]
-    }
+"DatabaseSeedOptions": {
+    "IsCategorySeedingActive": true,
+    "Categories": [
+        {
+            "Name": "Categoria",
+            "Description": "Descreva aqui a sua categoria. Lembre-se que este campo é opcional."
+        }
+    ]
+}
+```
+
+#### 🦄 Data Seed de especialidade
+Este data seeder inicializa a tabela especialidades com valores definidos,
+assim como o seeder de categorias após a criação do banco o único usuário que podera adicionar valores a essa tabela é o admin. Este dataseeder por padrão contem os valores: Enfermeiro, Estudante, Médico e Outros. Para configurar esse seeder por favor altere:
+
+```json
+"DatabaseSeedOptions": {
+    "IsSpecialtySeedingActive": false,
+    "Specialties": "[REPLACE TO YOUR SPECIALTIES LIST]"
+}
+```
+
+para:
+
+```json
+"DatabaseSeedOptions": {
+    "IsSpecialtySeedingActive": true,
+    "Specialties": "Specialties": [
+        {
+        "Name": "Estudante",
+        "Description": "Registro inserido automaticamente pelo 'seeding' de especialidades."
+        },
+        {
+        "Name": "Enfermeiro",
+        "Description": "Registro inserido automaticamente pelo 'seeding' de especialidades."
+        },
+        {
+        "Name": "Médico",
+        "Description": "Registro inserido automaticamente pelo 'seeding' de especialidades."
+        },
+        {
+        "Name": "Outros",
+        "Description": "Registro inserido automaticamente pelo 'seeding' de especialidades."
+        }
+    ]
+}
 ```
 
 

@@ -15,20 +15,49 @@ public sealed class DatabaseSeedService(
 
         await SeedingUserAsync(scope, cancellationToken);
         await SeedingCategoryAsync(scope, cancellationToken);
+        await SeedingSpecialtyAsync(scope, cancellationToken);
+    }
+
+    private async Task SeedingSpecialtyAsync(IServiceScope scope, CancellationToken cancellationToken)
+    {
+        if(!_options.IsSpecialtySeedingActive)
+        {
+            _logger.LogInformation("The option to seed specialty data is disabled, skipping dataseeder.");
+            return;
+        }
+
+        var context = scope.ServiceProvider.GetService<ClassifierContext>()
+            ?? throw new Exception("An error occurred when trying to recover the Database.");
+        
+        if(context.Specialties.Any())
+        {
+            _logger.LogInformation("There are already specialty registered data, skipping dataseeder.");
+            return;
+        }
+
+        await context!.Specialties.AddRangeAsync(_options.Specialties!, cancellationToken);
+        await context!.SaveChangesAsync(cancellationToken);
+
+        foreach(var specialty in _options.Specialties!)
+        {
+            _logger.LogInformation("Specialty '{SpecialtyName}' was entered with the Id {SpecialtyId}.",
+                specialty.Name,
+                specialty.Id);
+        }
     }
 
     private async Task SeedingCategoryAsync(IServiceScope scope, CancellationToken cancellationToken)
     {
         if(!_options.IsCategorySeedingActive)
         {
-            _logger.LogInformation("The option to seed user data is disabled, skipping dataseeder.");
+            _logger.LogInformation("The option to seed category data is disabled, skipping dataseeder.");
             return;
         }
 
         var context = scope.ServiceProvider.GetService<ClassifierContext>() 
             ?? throw new Exception("An error occurred when trying to recover the Database.");
         
-        if (context.Categories.Any())
+        if(context.Categories.Any())
         {
             _logger.LogInformation("There are already categories registered data, skipping dataseeder.");
             return;
