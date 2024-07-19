@@ -6,4 +6,8 @@ public sealed class CategoryReadOnlyRepository : BaseReadOnlyRepository<Category
     {
     }
 
+    public async Task<bool> ExistsByNameAsync(string name, CancellationToken cancellationToken = default)
+    {
+        return await _context.Categories.AsNoTracking().AnyAsync(x => x.Name == name, cancellationToken);
+    }
 }

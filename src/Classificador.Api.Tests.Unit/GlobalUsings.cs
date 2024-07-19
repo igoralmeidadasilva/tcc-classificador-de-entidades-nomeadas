@@ -25,3 +25,4 @@ global using Classificador.Api.Domain.Interfaces.Repositories.Persistence;
 global using Microsoft.AspNetCore.Http;
 global using Classificador.Api.Domain.Interfaces.Repositories.ReadOnly;
 global using Classificador.Api.Application.Queries.CountingVotesForNamedEntity;
+global using Classificador.Api.Application.Commands.CreateCategory;

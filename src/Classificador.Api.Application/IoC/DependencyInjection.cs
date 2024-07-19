@@ -30,6 +30,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<UpdateUserRoleToStandardCommand>, UpdateUserRoleToStandardCommandValidator>();
         services.AddScoped<IValidator<LoginUserCommand>, LoginUserCommandValidator>();
         services.AddScoped<IValidator<CreatePrescribingInformationTxtCommand>, CreatePrescribingInformationTxtCommandValidator>();
+        services.AddScoped<IValidator<CreateCategoryCommand>,CreateCategoryCommandValidator>();
 
         return services;
     }

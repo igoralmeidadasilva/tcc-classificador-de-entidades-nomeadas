@@ -30,3 +30,5 @@ global using Classificador.Api.SharedKernel.Shared.Results;
 global using Classificador.Api.SharedKernel.Shared.Errors;
 global using Classificador.Api.Application.Models;
 global using Classificador.Api.Application.Commands.CreateClassification;
+global using Classificador.Api.Application.Commands.CreateCategory;
+global using Classificador.Api.SharedKernel.Shared.Extensions;

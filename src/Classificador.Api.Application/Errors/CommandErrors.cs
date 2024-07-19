@@ -74,4 +74,11 @@ public static class CommandErrors
         public static PropertyFailure FileIsRequired => new("CreatePrescribingInformationTxt.File.IsRequired", "O arquivo não pode ser vazio.");
         public static PropertyFailure FileExtension => new("CreatePrescribingInformationTxt.File.Extension", "A extensão do arquivo deve ser '.txt'.");
     }
+
+    public static class CreateCategoryFailures
+    {
+        public static PropertyFailure NameIsRequired => new("CreateCategory.Name.IsRequired", "O Nome não pode ser vazio.");
+        public static PropertyFailure NameMaximumLenght => 
+            new("CreateCategory.Name.MaximumLenght", $"O Nome não pode ser maior que {Constants.Constraints.CATEGORYS_NAME_MAX_LENGHT} caracteres.");
+    }
 }

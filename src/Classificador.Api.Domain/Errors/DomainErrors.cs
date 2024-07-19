@@ -22,5 +22,6 @@ public static class DomainErrors
     public static class Category
     {
         public static Error CategoryEntityNotFound => new("Category.NotFound", "Não foi possivel encontrar a categoria.", ErrorType.NotFound);
+        public static Error NameAlredyExists => new("Category.Name.AlreadyExists", "Uma categoria com esse nome já existe.", ErrorType.Conflict);
     }
 }

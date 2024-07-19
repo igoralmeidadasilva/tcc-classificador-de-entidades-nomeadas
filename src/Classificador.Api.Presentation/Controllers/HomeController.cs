@@ -19,4 +19,5 @@ public sealed class HomeController(ILogger<HomeController> logger, IMediator med
 
         return Created("", valueResponse!.Value);
     }
+    
 }

@@ -18,3 +18,4 @@ global using Classificador.Api.Domain.Models;
 global using Classificador.Api.Application.Commands.CreatePrescribingInformationTxt;
 global using Classificador.Api.Application.Commands.CreateClassification;
 global using Classificador.Api.Application.Queries.CountingVotesForNamedEntity;
+global using Classificador.Api.Application.Commands.CreateCategory;

@@ -45,4 +45,19 @@ public sealed class MainController(ILogger<MainController> logger, IMediator med
 
         return Ok(valueResponse);
     }
+
+    [HttpPost(nameof(PostCategory))]
+    public async Task<IActionResult> PostCategory(CreateCategoryCommand command)
+    {
+        Result response = await _mediator.Send(command);
+
+        if(!response.IsSuccess)
+        {
+            return BadRequest(response);
+        }
+
+        Result<Guid>? valueResponse = response as Result<Guid>;
+
+        return Created("", valueResponse!.Value);
+    }
 }
