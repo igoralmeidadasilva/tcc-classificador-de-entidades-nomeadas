@@ -1,10 +1,10 @@
-namespace Classificador.Api.Presentation.IoC;
+namespace Classificador.Api.Presentation;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddPresentation(this IServiceCollection services, IConfiguration configuration)
     {
-        services = AddSwagger(services, configuration);
+        services = services.AddSwagger(configuration);
         return services;
     }
 
@@ -17,9 +17,9 @@ public static class DependencyInjection
                 Title = "Classificador de Entidades Nomeadas em Bulas farmacêuticas",
                 Version = "v1",
                 Description = "Trabalho de conclusão de curso",
-                Contact = new OpenApiContact() 
-                { 
-                    Name = "Igor Almeida da Silva" 
+                Contact = new OpenApiContact()
+                {
+                    Name = "Igor Almeida da Silva"
                 }
             });
 

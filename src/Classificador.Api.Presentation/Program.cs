@@ -1,3 +1,7 @@
+using Classificador.Api.Application;
+using Classificador.Api.Infrastructure;
+using Classificador.Api.Presentation;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers()

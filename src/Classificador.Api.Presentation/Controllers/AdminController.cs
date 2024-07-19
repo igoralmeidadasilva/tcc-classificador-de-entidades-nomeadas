@@ -4,8 +4,8 @@ namespace Classificador.Api.Presentation.Controllers;
 [Authorize(Roles = nameof(UserRole.Admin))]
 public sealed class AdminController(ILogger<AdminController> logger, IMediator mediator) : ApiController<AdminController>(logger, mediator)
 {
-    [HttpPatch(nameof(PatchFuncaoUsuarioParaAdmin))]
-    public async Task<IActionResult> PatchFuncaoUsuarioParaAdmin(UpdateUserRoleToAdminCommand command)
+    [HttpPatch(nameof(PatchUserRoleToAdmin))]
+    public async Task<IActionResult> PatchUserRoleToAdmin(UpdateUserRoleToAdminCommand command)
     {
         Result response = await _mediator.Send(command);
 
@@ -17,8 +17,8 @@ public sealed class AdminController(ILogger<AdminController> logger, IMediator m
         return NoContent();
     }
 
-    [HttpPatch(nameof(PatchFuncaoUsuarioParaPadrao))]
-    public async Task<IActionResult> PatchFuncaoUsuarioParaPadrao(UpdateUserRoleToStandardCommand command)
+    [HttpPatch(nameof(PatchUserRoleToStandard))]
+    public async Task<IActionResult> PatchUserRoleToStandard(UpdateUserRoleToStandardCommand command)
     {
         Result response = await _mediator.Send(command);
 
@@ -41,6 +41,36 @@ public sealed class AdminController(ILogger<AdminController> logger, IMediator m
         }
 
         Result<Guid>? valueResponse = response as Result<Guid>;
+        return Created("", valueResponse!.Value);
+    }
+
+    [HttpPost(nameof(PostSpecialty))]
+    public async Task<IActionResult> PostSpecialty(CreateSpecialtyCommand command)
+    {
+        Result response = await _mediator.Send(command);
+
+        if(!response.IsSuccess)
+        {
+            return BadRequest(response);
+        }
+
+        Result<Guid>? valueResponse = response as Result<Guid>;
+
+        return Created("", valueResponse!.Value);
+    }
+
+    [HttpPost(nameof(PostCategory))]
+    public async Task<IActionResult> PostCategory(CreateCategoryCommand command)
+    {
+        Result response = await _mediator.Send(command);
+
+        if(!response.IsSuccess)
+        {
+            return BadRequest(response);
+        }
+
+        Result<Guid>? valueResponse = response as Result<Guid>;
+
         return Created("", valueResponse!.Value);
     }
 

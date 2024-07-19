@@ -81,4 +81,11 @@ public static class CommandErrors
         public static PropertyFailure NameMaximumLenght => 
             new("CreateCategory.Name.MaximumLenght", $"O Nome não pode ser maior que {Constants.Constraints.CATEGORYS_NAME_MAX_LENGHT} caracteres.");
     }
+
+    public static class CreateSpecialtyFailures
+    {
+        public static PropertyFailure NameIsRequired => new("CreateSpecialty.Name.IsRequired", "O Nome não pode ser vazio.");
+        public static PropertyFailure NameMaximumLenght => 
+            new("CreateSpecialty.Name.MaximumLenght", $"O Nome não pode ser maior que {Constants.Constraints.SPECIALTY_NAME_MAX_LENGHT} caracteres.");
+    }
 }

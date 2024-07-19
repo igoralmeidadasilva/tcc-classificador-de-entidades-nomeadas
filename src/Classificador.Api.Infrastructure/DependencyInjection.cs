@@ -1,14 +1,15 @@
-namespace Classificador.Api.Infrastructure.IoC;
+namespace Classificador.Api.Infrastructure;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services = AddDbContext(services, configuration);
-        services = AddRepositories(services, configuration);
-        services = AddAuthentication(services, configuration);
-        services = AddCustomAuthorization(services, configuration);
-        services = AddServices(services, configuration);
+        services = services.AddDbContext(configuration);
+        services = services.AddRepositories(configuration);
+        services = services.AddAuthentication(configuration);
+        services = services.AddCustomAuthorization(configuration);
+        services = services.AddServices(configuration);
+        
         return services;
     }
 
@@ -19,7 +20,7 @@ public static class DependencyInjection
         services.AddSingleton<SoftDeleteInterceptor>();
 
         services.AddDbContext<ClassifierContext>
-        (   
+        (
             (sp, opt) => opt.UseNpgsql(connectionString)
                 .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>())
         );
@@ -34,12 +35,14 @@ public static class DependencyInjection
         services.AddScoped<IUserPersistenceRepository, UserPersistenceRepository>();
         services.AddScoped<IPrescribingInformationPersistenceRepository, PrescribingInformationPersistenceRepository>();
         services.AddScoped<ICategoryPersistenceRepository, CategoryPersistenceRepository>();
-        
+        services.AddScoped<ISpecialtyPersistenceRepository, SpecialtyPersistenceRepository>();
+
         services.AddScoped<IClassificationReadOnlyRepository, ClassificationReadOnlyRepository>();
         services.AddScoped<INamedEntityReadOnlyRepository, NamedEntityReadOnlyRepository>();
         services.AddScoped<IUserReadOnlyRepository, UserReadOnlyRepository>();
         services.AddScoped<IPrescribingInformationReadOnlyRepository, PrescribingInformationReadOnlyRepository>();
         services.AddScoped<ICategoryReadOnlyRepository, CategoryReadOnlyRepository>();
+        services.AddScoped<ISpecialtyReadOnlyRepository, SpecialtyReadOnlyRepository>();
 
         return services;
     }
@@ -57,7 +60,7 @@ public static class DependencyInjection
     {
 
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-        .AddJwtBearer(opt => 
+        .AddJwtBearer(opt =>
         {
             opt.RequireHttpsMetadata = true;
             opt.SaveToken = true;
@@ -81,5 +84,5 @@ public static class DependencyInjection
 
         return services;
     }
-    
+
 }

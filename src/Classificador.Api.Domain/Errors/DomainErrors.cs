@@ -24,4 +24,10 @@ public static class DomainErrors
         public static Error CategoryEntityNotFound => new("Category.NotFound", "Não foi possivel encontrar a categoria.", ErrorType.NotFound);
         public static Error NameAlredyExists => new("Category.Name.AlreadyExists", "Uma categoria com esse nome já existe.", ErrorType.Conflict);
     }
+
+    public static class Specialty
+    {
+        public static Error SpecialtyEntityNotFound => new("Specialty.NotFound", "Não foi possivel encontrar a especialidade.", ErrorType.NotFound);
+        public static Error NameAlredyExists => new("Specialty.Name.AlreadyExists", "Uma especialidae com esse nome já existe.", ErrorType.Conflict);
+    }
 }

@@ -1,19 +1,20 @@
-namespace Classificador.Api.Application.IoC;
+namespace Classificador.Api.Application;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddApplication(this IServiceCollection services, IConfiguration configuration)
     {
-        services = AddMediatr(services, configuration);
-        services = AddValidator(services, configuration);
-        services = AddAutoMapper(services, configuration);
-        services = AddOptions(services, configuration);
+        services = services.AddMediatr(configuration);
+        services = services.AddValidator(configuration);
+        services = services.AddAutoMapper(configuration);
+        services = services.AddOptions(configuration);
+
         return services;
     }
 
     private static IServiceCollection AddMediatr(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddMediatR(opt => 
+        services.AddMediatR(opt =>
         {
             opt.RegisterServicesFromAssemblies(AppDomain.CurrentDomain.GetAssemblies())
                 .AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>))
@@ -30,7 +31,8 @@ public static class DependencyInjection
         services.AddScoped<IValidator<UpdateUserRoleToStandardCommand>, UpdateUserRoleToStandardCommandValidator>();
         services.AddScoped<IValidator<LoginUserCommand>, LoginUserCommandValidator>();
         services.AddScoped<IValidator<CreatePrescribingInformationTxtCommand>, CreatePrescribingInformationTxtCommandValidator>();
-        services.AddScoped<IValidator<CreateCategoryCommand>,CreateCategoryCommandValidator>();
+        services.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>();
+        services.AddScoped<IValidator<CreateSpecialtyCommand>, CreateSpecialtyCommandValidator>();
 
         return services;
     }
