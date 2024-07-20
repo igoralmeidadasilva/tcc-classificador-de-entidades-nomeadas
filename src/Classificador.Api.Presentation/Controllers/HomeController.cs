@@ -1,49 +1,27 @@
-namespace Classificador.Api.Presentation.Controllers;
-
-[Route("/api/")]
-[AllowAnonymous]
-public sealed class HomeController(ILogger<HomeController> logger, IMediator mediator) : ApiController<HomeController>(logger, mediator)
+namespace Classificador.Api.Presentation.Controllers
 {
-    [HttpPost(nameof(PostUser))]
-    public async Task<IActionResult> PostUser(CreateUserCommand command)
+    [Route("[controller]")]
+    public class HomeController : Controller
     {
-        Result response = await _mediator.Send(command);
-        if (!response.IsSuccess)
+
+        private readonly ILogger<HomeController> _logger;
+
+        public HomeController(ILogger<HomeController> logger)
         {
-            return BadRequest(response);
+            _logger = logger;
         }
 
-        Result<Guid>? valueResponse = response as Result<Guid>;
-        return Created("", valueResponse!.Value);
-    }
-
-    [HttpPost(nameof(PostLoginUser))]
-    public async Task<IActionResult> PostLoginUser(LoginUserCommand command)
-    {
-        Result response = await _mediator.Send(command);
-
-        if (!response.IsSuccess)
+        [HttpGet("/")]
+        public IActionResult Index()
         {
-            return Unauthorized(response);
+            return View();
         }
 
-        Result<JwtToken>? valueResponse = response as Result<JwtToken>;
-        return Ok(valueResponse!.Value);
-    }
-
-    [HttpGet(nameof(GetCountVotesForNamedEntities))]
-    public async Task<IActionResult> GetCountVotesForNamedEntities([FromQuery]CountingVotesForNamedEntityQuery query)
-    {
-        Result response = await _mediator.Send(query);
-
-        if (!response.IsSuccess)
+        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+        [HttpGet(nameof(Error))]
+        public IActionResult Error()
         {
-            return NotFound(response);
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        Result<IEnumerable<CountVoteForNamedEntity>>? valueResponse = response as Result<IEnumerable<CountVoteForNamedEntity>>;
-
-        return Ok(valueResponse);
     }
-
 }
