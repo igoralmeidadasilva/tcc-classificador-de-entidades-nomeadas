@@ -1,27 +1,32 @@
-namespace Classificador.Api.Presentation.Controllers
+namespace Classificador.Api.Presentation.Controllers;
+
+[Route("[controller]")]
+public sealed class HomeController : Controller
 {
-    [Route("[controller]")]
-    public class HomeController : Controller
+
+    private readonly ILogger<HomeController> _logger;
+
+    public HomeController(ILogger<HomeController> logger)
     {
+        _logger = logger;
+    }
 
-        private readonly ILogger<HomeController> _logger;
+    [HttpGet("/")]
+    public IActionResult Index()
+    {
+        return View();
+    }
 
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    [HttpGet(nameof(Error))]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
 
-        [HttpGet("/")]
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        [HttpGet(nameof(Error))]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    [HttpGet(nameof(PageNotFound))]
+    public IActionResult PageNotFound()
+    {
+        return View();
     }
 }
