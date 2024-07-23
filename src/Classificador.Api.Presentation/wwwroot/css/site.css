@@ -20,6 +20,15 @@
   color: var(--secondary-bg-color) !important;
 }
 
-.img-logo{
-  background-image: url("../img/logo.svg");
+.text-color-primary {
+  color: var(--primary-bg-color)
+}
+
+.btn-color-success {
+  background-color: var(--success-bg-color);
+  color: white;
+}
+.btn-color-success:hover, .btn-color-success:active {
+  background-color: var(--secondary-bg-color) !important;
+  color: white !important;
 }

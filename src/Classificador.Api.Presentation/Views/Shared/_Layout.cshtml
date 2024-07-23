@@ -3,8 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Classificador de Entidades Nomeadas</title>
-
+    <title>MedTagger :: @ViewData["Title"]</title>
 
     <environment names="Development">
         <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -17,13 +16,15 @@
     </environment>
 
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    
 </head>
-<body>
+<body class="">
+    
     <header class="sticky-top">
         <partial name="Includes/_Header"/>
     </header>
 
-    <main class="container" role="main">
+    <main class="mb-5" role="main">
         @RenderBody()
     </main>
 
