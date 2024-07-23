@@ -29,4 +29,35 @@ public sealed class HomeController : Controller
     {
         return View();
     }
+
+    [HttpGet(nameof(About))]
+    public IActionResult About()
+    {
+        return View();
+    }
+
+    [HttpGet(nameof(Contact))]
+    public IActionResult Contact()
+    {
+        return View();
+    }
+
+    [HttpGet(nameof(SignUp))]
+    public IActionResult SignUp()
+    {
+        return View();
+    }
+
+    [HttpGet(nameof(Login))]
+    public IActionResult Login()
+    {
+        return View();
+    }
+
+    [HttpGet(nameof(Classifications))]
+    public IActionResult Classifications()
+    {
+        return View();
+    }
+
 }
