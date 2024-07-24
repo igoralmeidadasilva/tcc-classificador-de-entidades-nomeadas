@@ -32,3 +32,12 @@
   background-color: var(--secondary-bg-color) !important;
   color: white !important;
 }
+
+.btn-color-warning {
+  background-color: var(--warning-bg-color);
+  color: white;
+}
+.btn-color-warning:hover, .btn-color-success:active {
+  background-color: var(--warning-bg-color) !important;
+  color: white !important;
+}

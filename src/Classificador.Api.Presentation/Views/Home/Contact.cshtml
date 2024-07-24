@@ -1,6 +1,57 @@
 ﻿@{
     ViewData["Title"] = "Contatos";
 }
-<div class="container mb-5">
-    <h1>Classificações</h1>    
+<div class="container my-5">
+    <div class="mb-4">
+        <h1 class="display-6 text-color-primary">Contato</h4>
+        <h2 class="display-4">
+            Estamos aqui para ajudar!
+        </h2>
+    </div>   
+
+    <hr>
+
+    <div class="mb-4">
+        <h3 class="display-6">A equipe <span class="text-color-primary">MedTagger</span> agradece o contato.</h3>
+        <p class="lead">
+            Se você tiver alguma dúvida, sugestão ou precisar de assistência, sinta-se à vontade para entrar em contato conosco. Você pode nos enviar uma mensagem através do formulário abaixo ou enviar um e-mail diretamente para nossa equipe.
+        </p>
+
+        <div class="row row-cols-1 row-cols-md-2 mt-4 g-6">
+            <div class="col mb-3">
+                <h4 class="display-6 mb-3">Formulário de Contato</h4>
+                <form>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="text" id="InputName" placeholder="Nome Completo">
+                        <label class="form-label" for="InputName">Nome Completo</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" type="email" id="InputEmail" placeholder="Email">
+                        <label class="form-label" for="InputEmail">Email</label>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" id="TextAreaMessage" rows="3"></textarea>
+                        <label class="form-label" for="TextAreaMessage">Mensagem</label>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="btn btn-color-success">Enviar</button>
+                        <button type="reset" class="btn btn-color-warning">Apagar</button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="col mb-3">
+                <h4 class="display-6 mb-3">E-mail</h4>
+                <p class="lead">Prefere enviar um e-mail? Sem problemas! Você pode nos contatar pelo endereço:</p>
+                <p class="lead"><strong>teste@teste.com</strong></p>
+            </div>
+
+        </div>
+
+    </div>
+    
 </div>
