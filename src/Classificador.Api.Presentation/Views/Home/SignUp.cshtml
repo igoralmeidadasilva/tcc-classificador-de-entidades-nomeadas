@@ -1,8 +1,9 @@
+@using Classificador.Api.Domain
+@model SignUpViewModel;
+
 @{
     ViewData["Title"] = "Cadastrar";
 }
-@using Classificador.Api.Domain
-@model SignUpViewModel;
 
 <div class="container my-5">
     <section class="row justify-content-center">
@@ -25,10 +26,10 @@
 
                 <label class="form-label" for="InputEmail">Email</label>
 
-                @if(ViewBag.EmailFailures != null && ViewBag.EmailFailures != string.Empty)
+                @if(TempData["EmailFailures"] != null && (TempData!["EmailFailures"] as string) != string.Empty)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @ViewBag.EmailFailures
+                        @TempData["EmailFailures"]
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }
@@ -50,10 +51,10 @@
 
                 <label class="form-label" for="InputPassword">Senha</label>
 
-                @if(ViewBag.PasswordFailures != null && ViewBag.PasswordFailures != string.Empty)
+                @if(TempData["PasswordFailures"] != null && (TempData!["PasswordFailures"] as string) != string.Empty)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @ViewBag.PasswordFailures
+                        @TempData["PasswordFailures"]
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }
@@ -75,10 +76,10 @@
 
                 <label class="form-label" for="InputConfirmPassword">Confirmar a Senha</label>
 
-                @if(ViewBag.ConfirmPasswordFailures != null && ViewBag.ConfirmPasswordFailures != string.Empty)
+                @if(TempData["ConfirmPasswordFailures"] != null && (TempData!["ConfirmPasswordFailures"] as string)!= string.Empty)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @ViewBag.ConfirmPasswordFailures
+                        @TempData["ConfirmPasswordFailures"]
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }
@@ -99,10 +100,10 @@
 
                 <label class="form-label" for="InputName">Nome Completo</label>
 
-                @if(ViewBag.NameFailures != null && ViewBag.NameFailures != string.Empty)
+                @if(TempData["NameFailures"] != null && (TempData!["NameFailures"] as string) != string.Empty)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @ViewBag.NameFailures
+                        @TempData["NameFailures"]
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }
@@ -124,10 +125,10 @@
 
                 <label class="form-label" for="InputContact">Contato</label>
 
-                @if(ViewBag.ContactFailures != null && ViewBag.ContactFailures != string.Empty)
+                @if(TempData["ContactFailures"] != null && (TempData!["ContactFailures"] as string) != string.Empty)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @ViewBag.ContactFailures
+                        @TempData["ContactFailures"]
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }

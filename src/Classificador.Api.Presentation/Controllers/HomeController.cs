@@ -55,11 +55,11 @@ public sealed class HomeController : WebController<HomeController>
             var validationError = response.Error as ValidationError;
             if(validationError != null)
             {
-                ViewBag.EmailFailures = validationError!.ExtractValidationErrors("CreateUser.Email");
-                ViewBag.PasswordFailures = validationError!.ExtractValidationErrors("CreateUser.Password");
-                ViewBag.ConfirmPasswordFailures = validationError!.ExtractValidationErrors("CreateUser.ConfirmPassword");
-                ViewBag.NameFailures = validationError!.ExtractValidationErrors("CreateUser.Name");
-                ViewBag.ContactFailures = validationError!.ExtractValidationErrors("CreateUser.Contact");
+                TempData["EmailFailures"] = validationError!.ExtractValidationErrors("CreateUser.Email");
+                TempData["PasswordFailures"] = validationError!.ExtractValidationErrors("CreateUser.Password");
+                TempData["ConfirmPasswordFailures"] = validationError!.ExtractValidationErrors("CreateUser.ConfirmPassword");
+                TempData["NameFailures"] = validationError!.ExtractValidationErrors("CreateUser.Name");
+                TempData["ContactFailures"] = validationError!.ExtractValidationErrors("CreateUser.Contact");
             }
 
             return View();

@@ -31,7 +31,7 @@ public static class CommandErrors
         public static PropertyFailure ConfirmPasswordFormatInvalidLowerCase => 
             new("CreateUser.ConfirmPassword.RequiredLowerCase", "A confirmação da senha deve conter ao menos uma letra minúscula.");
         public static PropertyFailure ConfirmPasswordFormatInvalidNumber => 
-            new("CreateUser.ConfirmPassword.RequiredNumber", "A confirmação dasenha deve conter ao menos um número.");
+            new("CreateUser.ConfirmPassword.RequiredNumber", "A confirmação da senha deve conter ao menos um número.");
         public static PropertyFailure ConfirmPasswordFormatInvalidNonAlphanumeric => 
             new("CreateUser.ConfirmPassword.RequiredAlphanumeric", "A confirmação da senha deve conter ao menos um caractere especial.");
         public static PropertyFailure PasswordsNotEquals => new("CreateUser.Password.NotEquals", "As senhas fornecidas devem ser iguais.");
