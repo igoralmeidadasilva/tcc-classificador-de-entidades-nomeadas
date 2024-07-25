@@ -55,7 +55,7 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
         RuleFor(x => x.Contact)
             .MaximumLength(Constants.Constraints.USER_CONTACT_MAX_LENGHT)
                 .WithError(CommandErrors.CreateUserFailures.ContactMaximumLenght)
-            .Matches(@"^\(\d{2}\)\d{5}-\d{4}$")
+            .Matches(@"^\(\d{2}\) \d{5}-\d{4}$")
                 .WithError(CommandErrors.CreateUserFailures.ContactFormat)
                 .When(x => x.Contact != string.Empty);
     }

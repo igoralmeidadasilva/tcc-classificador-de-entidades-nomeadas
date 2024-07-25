@@ -1,0 +1,18 @@
+@{
+    if(TempData["Message"] != null)
+    {
+        var message = TempData["Message"] as Dictionary<string, string>;
+        if(message!.ContainsKey("success"))
+        {
+            <partial name="Includes/_MessageSuccess"/>
+        }
+        else if(message!.ContainsKey("warning"))
+        {
+            <partial name="Includes/_MessageWarning"/>
+        }
+        else
+        {
+            <partial name="Includes/_MessageError"/>
+        }
+    }
+}

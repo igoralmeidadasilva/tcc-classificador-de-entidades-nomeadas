@@ -5,7 +5,7 @@ public sealed record ValidationError : Error
     public ICollection<PropertyFailure> Failures { get; set; }
     public ValidationError(string code, string message, ICollection<PropertyFailure> failures) : base(code, message, ErrorType.Validation)
     {
-        Failures = failures;
+        Failures = failures; 
     }
     public sealed record PropertyFailure
     {

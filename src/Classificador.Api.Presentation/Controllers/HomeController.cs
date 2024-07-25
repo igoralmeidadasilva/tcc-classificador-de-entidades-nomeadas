@@ -1,14 +1,14 @@
+using Classificador.Api.Application.Extensions;
+using Classificador.Api.Application.Models;
+
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("[controller]")]
-public sealed class HomeController : Controller
+[AllowAnonymous]
+public sealed class HomeController : WebController<HomeController>
 {
-
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IMediator mediator) : base(logger, mediator)
     {
-        _logger = logger;
     }
 
     [HttpGet("/")]
@@ -40,6 +40,33 @@ public sealed class HomeController : Controller
     public IActionResult Contact()
     {
         return View();
+    }
+
+    [HttpPost(nameof(SignUp))]
+    public async Task<IActionResult> SignUp(SignUpViewModel viewModel)
+    {
+        CreateUserCommand command = viewModel;
+        Result response = await _mediator.Send(command);
+
+        if (!response.IsSuccess)
+        {
+            GenerateErrorMessage(response.Error.Message);
+
+            var validationError = response.Error as ValidationError;
+            if(validationError != null)
+            {
+                ViewBag.EmailFailures = validationError!.ExtractValidationErrors("CreateUser.Email");
+                ViewBag.PasswordFailures = validationError!.ExtractValidationErrors("CreateUser.Password");
+                ViewBag.ConfirmPasswordFailures = validationError!.ExtractValidationErrors("CreateUser.ConfirmPassword");
+                ViewBag.NameFailures = validationError!.ExtractValidationErrors("CreateUser.Name");
+                ViewBag.ContactFailures = validationError!.ExtractValidationErrors("CreateUser.Contact");
+            }
+
+            return View();
+        }
+
+        GenerateSuccessMessage("Cadastro realizado com sucesso.");
+        return RedirectToAction("Login");
     }
 
     [HttpGet(nameof(SignUp))]
