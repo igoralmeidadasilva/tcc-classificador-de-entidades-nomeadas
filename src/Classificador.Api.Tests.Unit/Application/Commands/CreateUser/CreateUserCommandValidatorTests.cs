@@ -302,7 +302,7 @@ public sealed class CreateUserCommandValidatorTests
         // Arrange
         var model = new CreateUserCommand 
         { 
-            Contact = "(12)34567-8901" 
+            Contact = "(12) 34567-8901" 
         };
 
         // Act 

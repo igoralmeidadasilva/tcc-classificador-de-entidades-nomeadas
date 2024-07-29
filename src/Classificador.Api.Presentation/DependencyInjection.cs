@@ -8,6 +8,15 @@ public static class DependencyInjection
         return services;
     }
 
+
+    public static IServiceCollection AddGlobalExceptionHandler(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
+
+        return services;
+    }
+
     public static IServiceCollection AddSwagger(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddSwaggerGen(c =>

@@ -17,4 +17,7 @@ public sealed record CreateUserCommand : ICommand<Result>
         Contact = contact ?? string.Empty;
     }
 
+    public CreateUserCommand()
+    {
+    }
 }

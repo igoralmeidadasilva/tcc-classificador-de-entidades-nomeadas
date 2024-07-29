@@ -6,7 +6,7 @@ public static class DependencyInjection
     {
         services = services.AddDbContext(configuration);
         services = services.AddRepositories(configuration);
-        services = services.AddAuthentication(configuration);
+        services = services.AddCookieAuthentication(configuration);
         services = services.AddCustomAuthorization(configuration);
         services = services.AddServices(configuration);
         
@@ -56,21 +56,42 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddAuthentication(this IServiceCollection services, IConfiguration configuration)
+    private static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
     {
-
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        services.AddAuthentication(options => 
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
         .AddJwtBearer(opt =>
         {
-            opt.RequireHttpsMetadata = true;
+            opt.RequireHttpsMetadata = false;
             opt.SaveToken = true;
             opt.TokenValidationParameters = new TokenValidationParameters
             {
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                ValidateLifetime = true,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration.GetSection("JwtOptions:TokenSecurityKey").Value!)),
-                ValidateIssuer = false,
-                ValidateAudience = false
             };
+        });
+
+        return services;
+    }
+
+    private static IServiceCollection AddCookieAuthentication(this IServiceCollection services, IConfiguration configuration)
+    {
+        var expireTimeSpan = configuration.GetSection("CookieOptions:TokenExpirationInMinutes").Value;
+
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options =>
+        {
+            options.LoginPath =  new PathString("/Home/Login");
+            options.AccessDeniedPath = new PathString("/Home/AccessDenied");
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(Convert.ToInt32(expireTimeSpan));
+            options.SlidingExpiration = true;
+            options.Cookie.HttpOnly = true;
         });
 
         return services;

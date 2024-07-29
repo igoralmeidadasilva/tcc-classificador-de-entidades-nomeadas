@@ -22,6 +22,6 @@ internal sealed class GlobalExceptionHandler(ILogger<GlobalExceptionHandler> log
 
         await httpContext.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
 
-        return true;
+        return await Task.FromResult(true);
     }
 }

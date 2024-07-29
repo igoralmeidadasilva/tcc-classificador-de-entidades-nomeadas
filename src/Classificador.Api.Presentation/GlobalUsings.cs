@@ -22,3 +22,8 @@ global using Classificador.Api.Application.Commands.CreateCategory;
 global using Classificador.Api.Application.Commands.CreateSpecialty;
 global using System.Diagnostics;
 global using Classificador.Api.Presentation.Models;
+global using System.Security.Claims;
+global using Classificador.Api.Application.Extensions;
+global using Classificador.Api.Application.Models;
+global using Microsoft.AspNetCore.Authentication;
+global using Microsoft.AspNetCore.Authentication.Cookies;

@@ -1,6 +1,67 @@
+@model LoginViewModel;
 @{
     ViewData["Title"] = "Entrar";
 }
+
 <div class="container my-5">
-    <h1>Entrar</h1>    
+    <section class="row justify-content-center">
+        <form class="col-10 col-md-6 border rounded p-3 bg-light shadow-sm needs-validation" method="post">
+            <h1 class="display-6 text-color-primary">Entrar</h1>
+
+            <hr>
+
+            <div class="form-floating mb-3 position-relative">
+                <input 
+                    class="form-control" 
+                    type="email" 
+                    id="InputEmail" 
+                    placeholder="Email" 
+                    asp-for="Email" 
+                    maxlength=@Classificador.Api.Domain.Constants.Constraints.USER_EMAIL_MAX_LENGHT
+                    required
+                >
+                <label class="form-label" for="InputEmail">Email</label>
+                @if(TempData["EmailFailures"] != null && (TempData!["EmailFailures"] as string) != string.Empty)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                        @TempData["EmailFailures"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                }
+            </div>
+
+            <div class="form-floating mb-3 position-relative">
+                <input 
+                    class="form-control" 
+                    type="password" 
+                    id="InputPassword" 
+                    placeholder="Senha" 
+                    asp-for="Password" 
+                    minlength=@Classificador.Api.Domain.Constants.Constraints.USER_PASSWORD_MIN_LENGHT 
+                    maxlength=@Classificador.Api.Domain.Constants.Constraints.USER_PASSWORD_MAX_LENGHT
+                    required
+                    >
+                <label class="form-label" for="InputPassword">Senha</label>
+                @if(TempData["PasswordFailures"] != null && (TempData!["PasswordFailures"] as string) != string.Empty)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                        @TempData["PasswordFailures"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                }
+            </div>
+
+            <div class="d-flex flex-column">
+                <button type="submit" class="btn btn-color-success w-25 mb-3">Entrar</button>
+                <a 
+                    class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" 
+                    asp-controller="Home" 
+                    asp-action="SignUp">
+                    Ainda não tem uma conta? Clique aqui para se cadastrar.
+                </a>
+            </div>
+
+        </form>
+    </section>
+
 </div>

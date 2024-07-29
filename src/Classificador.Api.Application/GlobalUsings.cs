@@ -33,3 +33,4 @@ global using Classificador.Api.Application.Commands.CreateClassification;
 global using Classificador.Api.Application.Commands.CreateCategory;
 global using Classificador.Api.SharedKernel.Shared.Extensions;
 global using Classificador.Api.Application.Commands.CreateSpecialty;
+global using Microsoft.AspNetCore.Authentication.Cookies;

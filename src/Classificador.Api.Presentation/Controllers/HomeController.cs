@@ -1,6 +1,3 @@
-using Classificador.Api.Application.Extensions;
-using Classificador.Api.Application.Models;
-
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("[controller]")]
@@ -30,14 +27,20 @@ public sealed class HomeController : WebController<HomeController>
         return View();
     }
 
-    [HttpGet(nameof(About))]
-    public IActionResult About()
+    [HttpGet(nameof(AccessDenied))]
+    public IActionResult AccessDenied()
     {
         return View();
     }
 
-    [HttpGet(nameof(Contact))]
-    public IActionResult Contact()
+    [HttpGet(nameof(Classifications))]
+    public IActionResult Classifications()
+    {
+        return View();
+    }
+
+    [HttpGet(nameof(SignUp))]
+    public IActionResult SignUp()
     {
         return View();
     }
@@ -53,6 +56,7 @@ public sealed class HomeController : WebController<HomeController>
             GenerateErrorMessage(response.Error.Message);
 
             var validationError = response.Error as ValidationError;
+
             if(validationError != null)
             {
                 TempData["EmailFailures"] = validationError!.ExtractValidationErrors("CreateUser.Email");
@@ -65,26 +69,63 @@ public sealed class HomeController : WebController<HomeController>
             return View();
         }
 
-        GenerateSuccessMessage("Cadastro realizado com sucesso.");
-        return RedirectToAction("Login");
+        GenerateSuccessMessage(Constants.Messages.SignUpSuccess);
+        return RedirectToAction(nameof(Login));
     }
 
-    [HttpGet(nameof(SignUp))]
-    public IActionResult SignUp()
-    {
-        return View();
-    }
-
+    
     [HttpGet(nameof(Login))]
-    public IActionResult Login()
+    public IActionResult Login(string returnUrl = null!)
+    {
+        if(returnUrl != null)
+        {
+            GenerateErrorMessage(Constants.Messages.AccessDenied);
+        }
+        return View();
+    }
+
+    [HttpPost(nameof(Login))]
+    public async Task<IActionResult> Login(LoginViewModel viewModel, string returnUrl = null!)
+    {
+        LoginUserCommand command = viewModel;
+        Result response = await _mediator.Send(command);
+
+        if(!response.IsSuccess)
+        {
+            GenerateErrorMessage(response.Error.Message);
+            ValidationError? validationError = response.Error as ValidationError;
+
+            if(validationError != null)
+            {
+                TempData["EmailFailures"] = validationError!.ExtractValidationErrors("LoginUser.Email");
+                TempData["PasswordFailures"] = validationError!.ExtractValidationErrors("LoginUser.Password");
+            }
+            return View();
+        }
+
+        Result<ClaimsIdentity>? valueResponse = response as Result<ClaimsIdentity> 
+            ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
+
+        AuthenticationProperties authProperties = new();
+
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(valueResponse!.Value!), authProperties);
+        if (Url.IsLocalUrl(returnUrl))
+        {
+            return Redirect(returnUrl);
+        }
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet(nameof(About))]
+    public IActionResult About()
     {
         return View();
     }
 
-    [HttpGet(nameof(Classifications))]
-    public IActionResult Classifications()
+    [HttpGet(nameof(Contact))]
+    public IActionResult Contact()
     {
         return View();
-    }
+    }  
 
 }

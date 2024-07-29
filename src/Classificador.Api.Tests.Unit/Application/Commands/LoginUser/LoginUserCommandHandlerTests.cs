@@ -96,10 +96,14 @@ public sealed class LoginUserCommandHandlerTests
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);
-        var valueResult = result as Result<JwtToken>;
+        var valueResult = result as Result<ClaimsIdentity>;
 
         // Assert
         Assert.True(result.IsSuccess);
-        Assert.Equal(token, valueResult!.Value);
+        Assert.NotNull(valueResult!.Value);
+        Assert.Contains(valueResult!.Value.Claims, c => c.Type == ClaimTypes.Email && c.Value == user.Email);
+        Assert.Contains(valueResult!.Value.Claims, c => c.Type == ClaimTypes.Name && c.Value == user.Name);
+        Assert.Contains(valueResult!.Value.Claims, c => c.Type == ClaimTypes.Role && c.Value == user.Role.ToString());
     }
+
 }

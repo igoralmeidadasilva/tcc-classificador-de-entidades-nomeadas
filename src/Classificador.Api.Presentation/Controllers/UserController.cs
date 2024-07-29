@@ -1,23 +1,14 @@
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("/api/[controller]")]
-[Authorize(Roles = nameof(UserRole.Padrao))]
+[Authorize(Roles = $"{nameof(UserRole.Padrao)},{nameof(UserRole.Admin)}")]
 
-public sealed class UserController(ILogger<UserController> logger, IMediator mediator) : ApiController<UserController>(logger, mediator)
+public sealed class UserController(ILogger<UserController> logger, IMediator mediator) : WebController<UserController>(logger, mediator)
 {
-    [HttpPost(nameof(PostClassifyNamedEntity))]
-    public async Task<IActionResult> PostClassifyNamedEntity(CreateClassificationCommand command)
+    [HttpPost(nameof(Logout))]
+    public async Task<IActionResult> Logout()
     {
-        Result response = await _mediator.Send(command);
-
-        if (!response.IsSuccess)
-        {
-            return BadRequest(response);
-        }
-
-        Result<Guid>? valueResponse = response as Result<Guid>;
-
-        return Created("", valueResponse!.Value);
-    }
-    
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Login", "Home");
+    } 
 }

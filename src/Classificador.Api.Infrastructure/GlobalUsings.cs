@@ -26,3 +26,5 @@ global using Classificador.Api.Infrastructure.Services.Seed;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Classificador.Api.Domain.Interfaces.Repositories.Persistence;
 global using Classificador.Api.Domain.Interfaces.Repositories.ReadOnly;
+global using Microsoft.AspNetCore.Authentication.Cookies;
+global using Microsoft.AspNetCore.Http; 

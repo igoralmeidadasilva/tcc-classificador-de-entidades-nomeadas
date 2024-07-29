@@ -5,9 +5,6 @@ builder.Services.AddControllersWithViews()
 
 builder.Services.AddEndpointsApiExplorer();
 
-builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-builder.Services.AddProblemDetails();
-
 builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddPresentation(builder.Configuration);
@@ -15,6 +12,7 @@ builder.Services.AddPresentation(builder.Configuration);
 var app = builder.Build();
 
 app.UseExceptionHandler("/Home/Error");
+app.UseMiddleware<PageNotFoundMiddleware>();
 
 if (app.Environment.IsDevelopment())
 {

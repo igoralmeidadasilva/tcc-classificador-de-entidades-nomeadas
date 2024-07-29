@@ -62,7 +62,7 @@ public sealed class JwtSecurityTokenServiceTests
 
         // Assert
         Assert.NotNull(claims);
-        Assert.Contains(claims, c => c.Type == ClaimTypes.NameIdentifier && c.Value == user.Id.ToString());
+        Assert.Contains(claims, c => c.Type == ClaimTypes.Name && c.Value == user.Name);
         Assert.Contains(claims, c => c.Type == ClaimTypes.Email && c.Value == user.Email);
         Assert.Contains(claims, c => c.Type == ClaimTypes.Role && c.Value == user.Role.ToString());
     }

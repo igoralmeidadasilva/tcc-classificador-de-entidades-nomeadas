@@ -41,6 +41,47 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
             return Result.Failure(DomainErrors.User.AuthenticationPasswordFailed);
         }
 
+        IEnumerable<Claim> claims =
+        [
+            new (ClaimTypes.Email, user.Email),
+            new (ClaimTypes.Name, user.Name),
+            new (ClaimTypes.Role, user.Role.ToString())
+        ];
+
+        ClaimsIdentity claimsIdentity = new(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        
+        _logger.LogInformation("{RequestName} user login is successfully. {UserEmail}",
+            nameof(LoginUserCommand),
+            user.Email);
+
+        return Result.Success(claimsIdentity);
+
+    }
+
+    [Obsolete]
+    private async Task<JwtToken> LoginWithJwt(LoginUserCommand request, CancellationToken cancellationToken)
+    {
+        User user = await _userReadOnlyRepository.GetByEmailAsync(request.Email!, cancellationToken);
+
+        if(user is null)
+        {
+            _logger.LogInformation("{RequestName} user email cannot be found. {UserEmail}",
+                nameof(LoginUserCommand),
+                request.Email);
+
+            return null!;
+            //return Result.Failure(DomainErrors.User.UserNotFound);
+        }
+
+        if (!_passwordHashingService.VerifyPassword(user.HashedPassword, request.Password!))
+        {
+            _logger.LogInformation("{RequestName} user password is incorrect. {UserEmail}",
+                nameof(LoginUserCommand),
+                request.Email);
+            return null!;
+            //return Result.Failure(DomainErrors.User.AuthenticationPasswordFailed);
+        }
+
         IEnumerable<Claim> claims = _tokenService.GenerateClaims(user);
 
         JwtToken token = _tokenService.GenerateToken(claims);
@@ -48,9 +89,8 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
         _logger.LogInformation("{RequestName} user login is successfully. {UserEmail}",
             nameof(LoginUserCommand),
             user.Email);
-
-        return Result.Success(token);
-
+        
+        return token;
     }
 
 }

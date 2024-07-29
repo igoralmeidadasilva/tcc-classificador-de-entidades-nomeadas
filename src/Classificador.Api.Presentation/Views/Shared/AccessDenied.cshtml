@@ -1,5 +1,5 @@
-﻿@{
-    ViewData["Title"] = "Erro";
+@{
+    ViewData["Title"] = "Acesso Negado";
 }
 
 <div class="container mb-5">
@@ -7,8 +7,8 @@
     <div class="row justify-content-center mb-4">
         <div class="col-6 text-center">
             <figure>
-                <img class="img-fluid" src="~/img/Error.jpg" alt="Computadores com problemas exibindo a mensagem 'No Data'.">
-                <figcaption>Autor: freepik</b></figcaption>
+                <img class="img-fluid" src="~/img/AccessDenied.jpg" alt="Uma mão em uma placa vermelha no meio de duas pessoas.">
+                <figcaption>Autor: pch.vector</b></figcaption>
             </figure>
             
         </div>
@@ -17,19 +17,16 @@
 
     <div class="row">
         <div class="col">
-            <h1 class="display-3 text-danger">Ops! Algo deu errado.</h1>
+            <h1 class="display-3 text-danger">Acesso Negado.</h1>
             <p class="display-6">
-                Parece que estamos enfrentando alguns problemas técnicos no momento. Nossa equipe já está trabalhando para resolver isso o mais rápido possível. Por favor, tente novamente mais tarde.
-                Se o problema persistir, entre em contato com nosso suporte técnico.
+                Desculpe, mas parece que você não tem permissão para acessar esta página no momento. Se precisar de assistência ou tiver alguma dúvida, não hesite em entrar em contato conosco.
             </p>
-
             <ul class="lead">
                 <li>Entre em contato com o nosso suporte: <a asp-controller="Home" asp-action="Contact" class="text-decoration-none">Clique aqui</a> </li>
                 <li>Volte para a página inicial: <a asp-controller="Home" asp-action="Index" class="text-decoration-none">Clique aqui</a>.</li>
             </ul>
 
-            <p class="lead">Agradecemos pela sua paciência e compreensão.</p>
-
+            <p class="lead">Agradecemos pela compreensão.</p>
         </div>
     </div>
 
