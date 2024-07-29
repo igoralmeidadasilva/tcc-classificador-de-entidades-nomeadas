@@ -27,3 +27,4 @@ global using Classificador.Api.Domain.Interfaces.Repositories.ReadOnly;
 global using Classificador.Api.Application.Queries.CountingVotesForNamedEntity;
 global using Classificador.Api.Application.Commands.CreateCategory;
 global using Classificador.Api.Application.Commands.CreateSpecialty;
+global using Classificador.Api.Application.Commands.SendEmailToContact;

@@ -88,4 +88,14 @@ public static class CommandErrors
         public static PropertyFailure NameMaximumLenght => 
             new("CreateSpecialty.Name.MaximumLenght", $"O Nome não pode ser maior que {Constants.Constraints.SPECIALTY_NAME_MAX_LENGHT} caracteres.");
     }
+
+    public static class SendEmailToContact
+    {
+        public static PropertyFailure NameIsRequired => new("SendEmailToContact.Name.IsRequired", "O Nome não pode ser vazio.");
+        public static PropertyFailure SubjectIsRequired => new("SendEmailToContact.Subject.IsRequired", "O Assunto não pode ser vazio.");
+        public static PropertyFailure EmailIsRequired => new("SendEmailToContact.Email.IsRequired", "O Endereço de Email não pode ser vazio.");
+        public static PropertyFailure EmailFormat => new("SendEmailToContact.Email.FormatInvalid", "O Formato do email é inválido.");
+        public static PropertyFailure MessageIsRequired => new("SendEmailToContact.Message.IsRequired", "A Mensagem não pode ser vazia.");
+
+    }
 }

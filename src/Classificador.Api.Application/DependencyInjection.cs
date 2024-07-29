@@ -33,6 +33,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreatePrescribingInformationTxtCommand>, CreatePrescribingInformationTxtCommandValidator>();
         services.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>();
         services.AddScoped<IValidator<CreateSpecialtyCommand>, CreateSpecialtyCommandValidator>();
+        services.AddScoped<IValidator<SendEmailToContactCommand>, SendEmailToContactCommandValidator>();
 
         return services;
     }
@@ -49,6 +50,9 @@ public static class DependencyInjection
             .Bind(options, c => c.BindNonPublicProperties = true));
 
         services.Configure<JwtOptions>(options => configuration.GetSection(nameof(JwtOptions))
+            .Bind(options));
+
+        services.Configure<EmailOptions>(options => configuration.GetSection(nameof(EmailOptions))
             .Bind(options));
 
         return services;

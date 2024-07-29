@@ -1,3 +1,7 @@
+using Classificador.Api.Domain.Interfaces.Services;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("/api/")]
@@ -7,11 +11,13 @@ public sealed class ApiController : ControllerBase
 {
     private readonly ILogger<ApiController> _logger;
     private readonly IMediator _mediator;
+    private readonly IEmailSenderService _emailSenderService;
 
-    public ApiController(ILogger<ApiController> logger, IMediator mediator)
+    public ApiController(ILogger<ApiController> logger, IMediator mediator, IEmailSenderService emailSenderService)
     {
         _logger = logger;
         _mediator = mediator;
+        _emailSenderService = emailSenderService;
     }
 
     [HttpPost(nameof(PostUser))]
@@ -139,6 +145,17 @@ public sealed class ApiController : ControllerBase
         Result<Guid>? valueResponse = response as Result<Guid>;
 
         return Created("", valueResponse!.Value);
+    }
+
+    [HttpPost(nameof(PostEmailSender))]
+    public async Task<IActionResult> PostEmailSender(string from, string name, string subject, string body)
+    {
+        bool isSend = await _emailSenderService.SendEmailAsync(from, name, subject, body);
+        if(isSend)
+        {
+            return Ok();
+        }
+        return BadRequest();
     }
 
 }

@@ -28,3 +28,5 @@ global using Classificador.Api.Domain.Interfaces.Repositories.Persistence;
 global using Classificador.Api.Domain.Interfaces.Repositories.ReadOnly;
 global using Microsoft.AspNetCore.Authentication.Cookies;
 global using Microsoft.AspNetCore.Http; 
+global using MailKit.Net.Smtp;
+global using MimeKit;

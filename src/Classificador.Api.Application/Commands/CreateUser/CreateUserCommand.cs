@@ -18,6 +18,5 @@ public sealed record CreateUserCommand : ICommand<Result>
     }
 
     public CreateUserCommand()
-    {
-    }
+    { }
 }

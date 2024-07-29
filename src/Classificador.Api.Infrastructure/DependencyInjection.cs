@@ -52,6 +52,7 @@ public static class DependencyInjection
         services.AddSingleton<IPasswordHashingService, PasswordHashingService>();
         services.AddSingleton<IDatabaseSeedService, DatabaseSeedService>();
         services.AddSingleton<IJwtSecurityTokenService, JwtSecurityTokenService>();
+        services.AddSingleton<IEmailSenderService, EmailSenderService>();
 
         return services;
     }

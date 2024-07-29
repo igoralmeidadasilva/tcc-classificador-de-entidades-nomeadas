@@ -123,9 +123,37 @@ public sealed class HomeController : WebController<HomeController>
     }
 
     [HttpGet(nameof(Contact))]
-    public IActionResult Contact()
+    public IActionResult Contact([FromServices] IOptions<EmailOptions> emailOptions)
     {
+        var option = emailOptions.Value;
+        ViewBag.ContactEmail = option.EmailAddress;
         return View();
     }  
+
+    [HttpPost(nameof(Contact))]
+    public async Task<IActionResult> Contact(ContactViewModel viewModel)
+    {
+        SendEmailToContactCommand command = viewModel;
+        Result response = await _mediator.Send(command);
+
+        if(!response.IsSuccess)
+        {
+            GenerateErrorMessage(response.Error.Message);
+            ValidationError? validationError = response.Error as ValidationError;
+
+            if(validationError != null)
+            {
+                TempData["NameFailures"] = validationError!.ExtractValidationErrors("SendEmailToContact.Name");
+                TempData["EmailFailures"] = validationError!.ExtractValidationErrors("SendEmailToContact.Email");
+                TempData["SubjectFailures"] = validationError!.ExtractValidationErrors("SendEmailToContact.Subject");
+                TempData["MessageFailures"] = validationError!.ExtractValidationErrors("SendEmailToContact.Message");
+            }
+
+            return View();
+        }
+
+        GenerateSuccessMessage(Constants.Messages.MessageSendSuccessfully);
+        return View();
+    } 
 
 }

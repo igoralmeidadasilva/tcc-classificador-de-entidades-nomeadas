@@ -27,3 +27,6 @@ global using Classificador.Api.Application.Extensions;
 global using Classificador.Api.Application.Models;
 global using Microsoft.AspNetCore.Authentication;
 global using Microsoft.AspNetCore.Authentication.Cookies;
+global using Classificador.Api.Application.Commands.SendEmailToContact;
+global using Classificador.Api.Application.Models.Options;
+global using Microsoft.Extensions.Options;

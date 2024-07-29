@@ -30,4 +30,9 @@ public static class DomainErrors
         public static Error SpecialtyEntityNotFound => new("Specialty.NotFound", "Não foi possivel encontrar a especialidade.", ErrorType.NotFound);
         public static Error NameAlredyExists => new("Specialty.Name.AlreadyExists", "Uma especialidae com esse nome já existe.", ErrorType.Conflict);
     }
+
+    public static class EmailSend
+    {
+        public static Error FailedToSendEmail => new("EmailSend.Failure", "Não foi possivel enviar o email.", ErrorType.Failure);
+    }
 }
