@@ -28,3 +28,4 @@ global using Classificador.Api.Application.Queries.CountingVotesForNamedEntity;
 global using Classificador.Api.Application.Commands.CreateCategory;
 global using Classificador.Api.Application.Commands.CreateSpecialty;
 global using Classificador.Api.Application.Commands.SendEmailToContact;
+global using Classificador.Api.Application.Commands.CreateClassification;

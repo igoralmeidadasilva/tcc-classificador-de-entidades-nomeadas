@@ -1,11 +1,17 @@
+using Classificador.Api.Domain.Entities;
+using Classificador.Api.Domain.Interfaces.Repositories.ReadOnly;
+using Microsoft.AspNetCore.Mvc.Rendering;
+
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("[controller]")]
 [AllowAnonymous]
 public sealed class HomeController : WebController<HomeController>
 {
-    public HomeController(ILogger<HomeController> logger, IMediator mediator) : base(logger, mediator)
+    private readonly ISpecialtyReadOnlyRepository _repo;
+    public HomeController(ILogger<HomeController> logger, IMediator mediator, ISpecialtyReadOnlyRepository repo) : base(logger, mediator)
     {
+        _repo = repo;
     }
 
     [HttpGet("/")]
@@ -40,12 +46,17 @@ public sealed class HomeController : WebController<HomeController>
     }
 
     [HttpGet(nameof(SignUp))]
-    public IActionResult SignUp()
+    public async Task<IActionResult> SignUp()
     {
-        return View();
+        var viewModel = new SignUpViewModel
+        {
+            Specialties = new SelectList(await _repo.GetAllAsync(), nameof(Specialty.Id), nameof(Specialty.Name))
+        };
+        return View(viewModel);
     }
 
     [HttpPost(nameof(SignUp))]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> SignUp(SignUpViewModel viewModel)
     {
         CreateUserCommand command = viewModel;
@@ -64,6 +75,7 @@ public sealed class HomeController : WebController<HomeController>
                 TempData["ConfirmPasswordFailures"] = validationError!.ExtractValidationErrors("CreateUser.ConfirmPassword");
                 TempData["NameFailures"] = validationError!.ExtractValidationErrors("CreateUser.Name");
                 TempData["ContactFailures"] = validationError!.ExtractValidationErrors("CreateUser.Contact");
+                TempData["SpecialtyFailures"] = validationError!.ExtractValidationErrors("CreateUser.IdSpecialty");
             }
 
             return View();
@@ -85,6 +97,7 @@ public sealed class HomeController : WebController<HomeController>
     }
 
     [HttpPost(nameof(Login))]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(LoginViewModel viewModel, string returnUrl = null!)
     {
         LoginUserCommand command = viewModel;
@@ -131,6 +144,7 @@ public sealed class HomeController : WebController<HomeController>
     }  
 
     [HttpPost(nameof(Contact))]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Contact(ContactViewModel viewModel)
     {
         SendEmailToContactCommand command = viewModel;

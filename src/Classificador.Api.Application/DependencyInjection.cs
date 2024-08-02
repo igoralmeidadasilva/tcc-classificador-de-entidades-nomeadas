@@ -34,6 +34,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>();
         services.AddScoped<IValidator<CreateSpecialtyCommand>, CreateSpecialtyCommandValidator>();
         services.AddScoped<IValidator<SendEmailToContactCommand>, SendEmailToContactCommandValidator>();
+        services.AddScoped<IValidator<CreateClassificationCommand>, CreateClassificationCommandValidator>();
 
         return services;
     }

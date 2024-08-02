@@ -23,7 +23,6 @@ public sealed class CreateClassificationCommandHandler : IRequestHandler<CreateC
         _namedEntityReadOnlyRepository = namedEntityReadOnlyRepository;
         _categoryReadOnlyRepository = categoryReadOnlyRepository;
         _classificationPersistenceRepository = classificationPersistenceRepository;
-
     }
 
 

@@ -297,6 +297,23 @@ public sealed class CreateUserCommandValidatorTests
     }
 
     [Fact]
+    public void Should_Have_Error_When_IdSpecialty_Is_Null()
+    {
+        var model = new CreateUserCommand 
+        { 
+            IdSpecialty = null 
+        };
+
+        // Act 
+        var result = _validator.TestValidate(model);
+        
+        // Assert
+        result.ShouldHaveValidationErrorFor(x => x.IdSpecialty)
+            .WithErrorCode(CommandErrors.CreateUserFailures.IdSpecialtyIsRequired.Failure)
+            .WithErrorMessage(CommandErrors.CreateUserFailures.IdSpecialtyIsRequired.Description);;
+    }
+
+    [Fact]
     public void Should_Not_Have_Error_When_Contact_Is_Valid()
     {
         // Arrange

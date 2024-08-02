@@ -41,6 +41,7 @@ public static class CommandErrors
         public static PropertyFailure ContactMaximumLenght => 
             new("CreateUser.Contact.MaximumLenght", $"O contato não pode ser maior que {Constants.Constraints.USER_CONTACT_MAX_LENGHT} caracteres.");
         public static PropertyFailure ContactFormat => new("CreateUser.Contact.FormatInvalid", "O número de contato deve serguir o formato (XX)XXXXX-XXXX");
+        public static PropertyFailure IdSpecialtyIsRequired => new("CreateUser.IdSpecialty.IsRequired", "A Especialidade não pode ser vazia.");
     }
     
     public static class UpdateUserRoleFailures
@@ -97,5 +98,12 @@ public static class CommandErrors
         public static PropertyFailure EmailFormat => new("SendEmailToContact.Email.FormatInvalid", "O Formato do email é inválido.");
         public static PropertyFailure MessageIsRequired => new("SendEmailToContact.Message.IsRequired", "A Mensagem não pode ser vazia.");
 
+    }
+
+    public static class CreateClassificationFailures
+    {
+        public static PropertyFailure IdUserIsRequired => new("CreateClassification.IdUser.IsRequired", "O usuário não pode ser vazio.");
+        public static PropertyFailure IdNamedEntityIsRequired => new("CreateClassification.IdNamedEntity.IsRequired", "A entidade não pode ser vazia.");
+        public static PropertyFailure IdCategoryIsRequired => new("CreateClassification.IdCategory.IsRequired", "A categoria não pode ser vazia.");
     }
 }

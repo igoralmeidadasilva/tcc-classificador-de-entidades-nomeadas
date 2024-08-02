@@ -1,4 +1,3 @@
-
 namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public sealed class SpecialtyReadOnlyRepository : BaseReadOnlyRepository<Specialty>, ISpecialtyReadOnlyRepository

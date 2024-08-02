@@ -58,6 +58,10 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
             .Matches(@"^\(\d{2}\) \d{5}-\d{4}$")
                 .WithError(CommandErrors.CreateUserFailures.ContactFormat)
                 .When(x => x.Contact != string.Empty);
+
+        RuleFor(x => x.IdSpecialty)
+            .NotNull()
+                .WithError(CommandErrors.CreateUserFailures.IdSpecialtyIsRequired);
     }
 
 }
