@@ -35,3 +35,4 @@ global using Classificador.Api.SharedKernel.Shared.Extensions;
 global using Classificador.Api.Application.Commands.CreateSpecialty;
 global using Microsoft.AspNetCore.Authentication.Cookies;
 global using Classificador.Api.Application.Commands.SendEmailToContact;
+global using Classificador.Api.Domain.ValueObjects.NamedEntity;

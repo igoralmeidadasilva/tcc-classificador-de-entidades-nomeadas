@@ -28,6 +28,15 @@ public sealed class NamedEntityConfiguration : EntityConfiguration<NamedEntity>
         builder.HasOne(x => x.PrescribingInformation)
             .WithMany(x => x.NamedEntities)
             .HasForeignKey(x => x.IdPrescribingInformation);
+        
+        builder.OwnsOne(x => x.WordPosition)
+            .Property(x => x.StartPosition)
+            .HasColumnName("posicao_inicial")
+            .IsRequired();
 
+        builder.OwnsOne(x => x.WordPosition)
+            .Property(x => x.EndPosition)
+            .HasColumnName("posicao_final")
+            .IsRequired();
     }
 }

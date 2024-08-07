@@ -20,8 +20,8 @@ public sealed class CreatePrescribingInformationTxtCommandHandler : IRequestHand
     {
         PrescribingInformation prescribingInformation = _mapper.Map<PrescribingInformation>(request);
 
-        var namedEntities = ExtractNamedEntities(prescribingInformation);
-        
+        List<NamedEntity> namedEntities = ExtractNamedEntities(prescribingInformation);
+
         _logger.LogInformation("{RequestName} found {EntityCount} {NamedEntity} Found in the {PrescribingInformation} {PrescribingInformationName}.",
             nameof(CreatePrescribingInformationTxtCommand),
             namedEntities.Count,
@@ -48,10 +48,21 @@ public sealed class CreatePrescribingInformationTxtCommandHandler : IRequestHand
             .Distinct()
             .ToList();
 
-        List<NamedEntity> namedEntities =  namedEntitiesName
-            .Select(name => new NamedEntity(name, $"Entidades extraidas da bula {prescribingInformation.Name}"))
+        List<NamedEntity> namedEntities = 
+            namedEntitiesName.Select(entityNamed =>
+            {
+                int startPosition = entityNamed.IndexOf(entityNamed) + 1;
+                int endPosition = startPosition + entityNamed.Length;
+                WordPosition position = WordPosition.Create(startPosition, endPosition);
+                return new NamedEntity
+                (
+                    entityNamed, 
+                    $"Entidades extraidas da bula {prescribingInformation.Name}",
+                    position
+                );
+            })
             .ToList();
-        
+
         return namedEntities;
     }
 
