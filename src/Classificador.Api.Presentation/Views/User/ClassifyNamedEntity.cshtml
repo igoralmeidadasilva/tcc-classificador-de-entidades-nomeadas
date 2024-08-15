@@ -1,0 +1,113 @@
+@model ClassifyNamedEntityViewModel;
+@{
+    ViewData["Title"] = "Classificar";
+}
+
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="row">
+            <h1 class="display-6 text-color-primary">Por favor, classifique a entidade a baixo:</h1>
+            <h2 class="display-4 font-monospace">Entidade</h2>
+        </div>
+
+        <section class="row row-cols-2 p-3 shadow-sm border rounded bg-light mb-4">
+            <div class="col">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                            @if(Model.Categories != null)
+                            {
+                                @foreach(var category in Model.Categories)
+                                {
+                                    <div class="col d-grid mb-2">
+                                        <button type="button" class="btn btn-primary text-break">@category</button>
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row-cols-1 row-cols-md-2">
+                    <div class="col d-grid gap-2 d-md-flex mb-2 mb-md-0">
+                        <button type="button" class="btn btn-dark flex-fill">Voltar</button>
+                        <button type="button" class="btn btn-dark flex-fill">Pular</button>
+                        @* <fieldset class="btn-group m-0 p-0 d-grid d-md-flex" role="group">
+                            <button type="button" class="btn btn-dark flex-fill"> << </button>
+                            <button type="button" class="btn btn-dark flex-fill"> >> </button>
+                        </fieldset> *@
+                    </div>
+
+                    <div class="col d-grid">
+                        <button type="button" class="btn btn-success">Enviar</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col">
+                @* <p>nada por aqui</p>
+                <p>Fazer aqui uma tabela bem clean com as entidades da bula escolhida catalogadas por essa pessoa</p> *@
+                <table class="table">
+                    <thead>
+                        <tr class="table-dark">
+                            <th class="fw-bolder" scope="col">Entidade</th>
+                            <th class="fw-bolder" scope="col">Categoria</th>
+                            <th class="fw-bolder" scope="col">#</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr>
+                            <td>Medico</td>
+                            <td>Pessoa</td>
+                            <td>+</td>
+                        </tr>
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <td colspan="3">Quantidade: 1</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+    </div>
+
+    <div class="row mb-4">
+        <div class="row">
+            <h2 class="display-6">Nome da Bula</h2>
+        </div>
+
+        <section class="row p-3 shadow-sm border rounded bg-light mb-4">
+
+            <table class="table">
+                <thead>
+                    <tr class="table-dark">
+                        <th class="fw-bolder" scope="col">Entidade</th>
+                        <th class="fw-bolder" scope="col">Categoria</th>
+                        <th class="fw-bolder" scope="col">#</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>Medico</td>
+                        <td>Pessoa</td>
+                        <td>+</td>
+                    </tr>
+                </tbody>
+
+                <tfoot>
+                    <tr>
+                        <td colspan="3">Quantidade: 1</td>
+                    </tr>
+                </tfoot>
+            </table>
+        </section>
+    </div>
+
+</div>
+

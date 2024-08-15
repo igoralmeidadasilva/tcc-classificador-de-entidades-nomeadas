@@ -1,6 +1,6 @@
 namespace Classificador.Api.Presentation.Models;
 
-public sealed class ErrorViewModel
+public sealed record ErrorViewModel
 {
     public string? RequestId { get; set; }
 

@@ -1,0 +1,65 @@
+@model ChoosePrescribingInformationViewModel;
+@{
+    ViewData["Title"] = "Selecionar Bula Farmacêutica";
+}
+
+<div class="container my-5">
+    <div class="row row-cols-1 row-cols-md-2 p-3 shadow-sm border rounded bg-light ">
+        <div class="col">
+            <form class="p-3" asp-controller="User" asp-action="ChoosePrescribingInformation" method="get">
+                <h1 class="display-6 text-color-primary">Buscar</h1>
+
+                <hr>
+
+                <div class="form-floating mb-3 position-relative">
+                    <input
+                        class="form-control" 
+                        type="text"
+                        id="InputPrescribingInformation"
+                        placeholder="Bula Farmacêutica" 
+                        asp-for="PrescribingInformationName"
+                    >
+                    <label class="form-label" for="InputPrescribingInformation">Insira o nome da bula.</label>
+                </div>
+
+                <div>
+                    <button type="submit" class="btn btn-color-success w-25 mb-3">Buscar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col">
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-dark">
+                        <th class="fw-bolder" scope="col">Bulas</th>
+                        <th class="fw-bolder" scope="col">Qtde. de Entidades</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if(Model.PrescribingInformations != null)
+                    {
+                        @foreach(var item in Model.PrescribingInformations)
+                        {
+                            <tr>
+                                <td>
+                                    <a 
+                                        class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover" 
+                                        asp-controller="User" 
+                                        asp-action="ClassifyNamedEntity" 
+                                        asp-route-prescribingInformationId=@item.Id
+                                    >
+                                        @item.Name
+                                    </a>
+                                </td>
+
+                                <td>@item.Amount</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

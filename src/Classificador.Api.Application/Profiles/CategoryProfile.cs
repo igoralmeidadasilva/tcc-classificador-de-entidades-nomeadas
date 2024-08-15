@@ -5,5 +5,8 @@ public sealed class CategoryProfile : Profile
     public CategoryProfile()
     {
         CreateMap<CreateCategoryCommand, Category>();
+
+        CreateMap<ClassifyNamedEntityViewCategoryDto, Category>()
+            .ReverseMap();
     }
 }

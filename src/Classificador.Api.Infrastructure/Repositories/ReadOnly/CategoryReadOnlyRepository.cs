@@ -10,4 +10,10 @@ public sealed class CategoryReadOnlyRepository : BaseReadOnlyRepository<Category
     {
         return await _context.Categories.AsNoTracking().AnyAsync(x => x.Name == name, cancellationToken);
     }
+
+    public new async Task<IEnumerable<Category>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.Categories.AsNoTracking().OrderBy(x => x.Name).ToListAsync(cancellationToken);
+    }
+    
 }

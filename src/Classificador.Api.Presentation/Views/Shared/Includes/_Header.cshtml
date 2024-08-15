@@ -9,33 +9,37 @@
         <div class="collapse navbar-collapse" id="navbarMenu">
 
             <div class="navbar-nav me-auto mb-2 mb-lg-0">
+                <a href="#" class="nav-link">Como Funciona?</a>
+                <a asp-controller="Home" asp-action="Classifications" class="nav-link">Classificações</a>
+                <a asp-controller="Home" asp-action="Contact" class="nav-link">Contatos</a>
+                <a asp-controller="Home" asp-action="About" class="nav-link">Sobre</a>
                 @if(!User!.Identity!.IsAuthenticated)
                 {
                     <a asp-controller="Home" asp-action="Login" class="nav-link">Entrar</a>
+                    <a asp-controller="Home" asp-action="SignUp" class="nav-link">Cadastro</a>
                 }
-                <a asp-controller="Home" asp-action="SignUp" class="nav-link">Cadastro</a>
-                <a asp-controller="Home" asp-action="Classifications" class="nav-link">Classificações</a>
-                <a asp-controller="Home" asp-action="About" class="nav-link">Sobre</a>
-                <a asp-controller="Home" asp-action="Contact" class="nav-link">Contatos</a>
             </div>
 
             <div class="navbar-nav ms-auto mb-2 mb-lg-0">
-                @if(User.IsInRole(UserRole.Admin.ToString()))
-                {
-                    <a asp-asp-controller="" asp-action="" class="nav-link">Painel do Administrador</a>
-                }
 
                 @if(User.Identity.IsAuthenticated)
                 {
+                    @if(User.IsInRole(UserRole.Admin.ToString()))
+                    {
+                        <a href="#" class="nav-link">Painel do Administrador</a>
+                    }
+
+                    <a asp-controller="User" asp-action="ChoosePrescribingInformation" class="nav-link">Começar a classificar</a>
+
                     <div class="dropdown">
                         <button class="link nav-link dropdown-toggle p-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <span>@User.Identity.Name</span>
                             <i class="bi bi-person-circle"></i>
                         </button>
                         <ul class="dropdown-menu">
+                            @* <li><a class="dropdown-item" href="#">Action</a></li>
                             <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Action</a></li>
+                            <li><a class="dropdown-item" href="#">Action</a></li> *@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <form class="dropdown-item" asp-controller="User" asp-action="Logout">

@@ -1,8 +1,6 @@
-using Classificador.Api.Application.Commands.SendEmailToContact;
-
 namespace Classificador.Api.Presentation.Models;
 
-public sealed class ContactViewModel
+public sealed record ContactViewModel
 {
     public string Name { get; init; } = string.Empty;
     public string Subject { get; init; } = string.Empty;

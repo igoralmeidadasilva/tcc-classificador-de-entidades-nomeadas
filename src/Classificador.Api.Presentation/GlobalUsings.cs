@@ -30,3 +30,6 @@ global using Microsoft.AspNetCore.Authentication.Cookies;
 global using Classificador.Api.Application.Commands.SendEmailToContact;
 global using Classificador.Api.Application.Models.Options;
 global using Microsoft.Extensions.Options;
+global using Classificador.Api.Application.Dtos;
+global using Classificador.Api.Application.Queries.GetCategories;
+global using Classificador.Api.Application.Queries.GetPrescribingInformation;

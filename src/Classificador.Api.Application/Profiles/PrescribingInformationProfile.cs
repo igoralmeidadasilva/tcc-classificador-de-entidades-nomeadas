@@ -7,6 +7,10 @@ public sealed class PrescribingInformationProfile : Profile
         CreateMap<CreatePrescribingInformationTxtCommand, PrescribingInformation>()
             .ForMember(dest => dest.Text, opt => opt.MapFrom(src => ReadPrescribingInformationText(src.File!)))
             .ForMember(dest => dest.Name, opt => opt.MapFrom(src => RemoveFileExtensionName(src.File!.FileName)));
+
+        CreateMap<ChoosePrescribingInformationViewDto, PrescribingInformation>()
+            .ReverseMap()
+            .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.NamedEntities!.Count()));
     }
 
     private static string ReadPrescribingInformationText(IFormFile file)

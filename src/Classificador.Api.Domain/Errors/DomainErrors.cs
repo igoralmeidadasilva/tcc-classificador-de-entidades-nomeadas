@@ -21,6 +21,7 @@ public static class DomainErrors
 
     public static class Category
     {
+        public static Error CategoryEntityNoneWereFound => new("Category.NoneWereFound", "Não foi possivel encontrar nenhuma categoria.", ErrorType.NotFound);
         public static Error CategoryEntityNotFound => new("Category.NotFound", "Não foi possivel encontrar a categoria.", ErrorType.NotFound);
         public static Error NameAlredyExists => new("Category.Name.AlreadyExists", "Uma categoria com esse nome já existe.", ErrorType.Conflict);
     }
@@ -31,8 +32,16 @@ public static class DomainErrors
         public static Error NameAlredyExists => new("Specialty.Name.AlreadyExists", "Uma especialidae com esse nome já existe.", ErrorType.Conflict);
     }
 
+    public static class PrescribingInformation
+    {
+        public static Error PrescribingInformationEntityNotFound => 
+            new("PrescribingInformation.NotFound", "Não foi possivel encontrar a bula farmacêutica.", ErrorType.NotFound);
+    }
+
     public static class EmailSend
     {
         public static Error FailedToSendEmail => new("EmailSend.Failure", "Não foi possivel enviar o email.", ErrorType.Failure);
     }
+
+
 }
