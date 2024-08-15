@@ -31,3 +31,4 @@ global using Classificador.Api.Application.Commands.SendEmailToContact;
 global using Classificador.Api.Application.Commands.CreateClassification;
 global using Classificador.Api.Application.Dtos;
 global using Classificador.Api.Application.Queries.GetCategories;
+global using Classificador.Api.Application.Queries.GetPrescribingInformation;
