@@ -1,18 +1,11 @@
-using Classificador.Api.Domain.Entities;
-using Classificador.Api.Domain.Interfaces.Repositories.ReadOnly;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("[controller]")]
 [AllowAnonymous]
 public sealed class HomeController : WebController<HomeController>
 {
-    private readonly ISpecialtyReadOnlyRepository _repo;
-    public HomeController(ILogger<HomeController> logger, IMediator mediator, ISpecialtyReadOnlyRepository repo) : base(logger, mediator)
-    {
-        _repo = repo;
-    }
+    public HomeController(ILogger<HomeController> logger, IMediator mediator) : base(logger, mediator)
+    { }
 
     [HttpGet("/")]
     public IActionResult Index()
@@ -46,7 +39,7 @@ public sealed class HomeController : WebController<HomeController>
     }
 
     [HttpGet(nameof(SignUp))]
-    public async Task<IActionResult> SignUp()
+    public async Task<IActionResult> SignUp([FromServices]ISpecialtyReadOnlyRepository _repo)
     {
         var viewModel = new SignUpViewModel
         {
@@ -169,5 +162,11 @@ public sealed class HomeController : WebController<HomeController>
         GenerateSuccessMessage(Constants.Messages.MessageSendSuccessfully);
         return View();
     } 
+
+    [HttpGet(nameof(WhereToStart))]
+    public IActionResult WhereToStart()
+    {
+        return View();
+    }
 
 }
