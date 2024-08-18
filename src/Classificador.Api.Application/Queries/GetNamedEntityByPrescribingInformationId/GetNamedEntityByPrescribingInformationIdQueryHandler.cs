@@ -19,14 +19,23 @@ public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler : IRequ
     public async Task<Result> Handle(GetNamedEntityByPrescribingInformationIdQuery request, CancellationToken cancellationToken)
     {
         IEnumerable<NamedEntity> namedEntities = 
-            await _namedEntityReadOnlyRepository.GetByPrescribingInformationIdAsync(request.PrescribingInformationId, cancellationToken);
+            await _namedEntityReadOnlyRepository.GetByPrescribingInformationIdAsync(request.IdPrescribingInformation, cancellationToken);
     
-        if(namedEntities == null)
+        if(namedEntities is null)
         {
             _logger.LogInformation("{RequestName} did not find any named entities",
                 nameof(GetNamedEntityByPrescribingInformationIdQuery));
 
             return  Result.Failure(DomainErrors.NamedEntity.NamedEntityNoneWereFound);
+        }
+
+        if(!namedEntities.Any())
+        {
+            _logger.LogInformation("{RequestName} Prescribing Information with Id {id} it has no named entities to classify.",
+                nameof(GetNamedEntityByPrescribingInformationIdQuery),
+                request.IdPrescribingInformation);
+
+            return Result.Success(new List<ClassifyNamedEntityViewNamedEntityDto>());
         }
 
         _logger.LogInformation("{RequestName} found {RecordsCount} named entities records",
