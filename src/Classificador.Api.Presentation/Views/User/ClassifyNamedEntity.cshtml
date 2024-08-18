@@ -65,7 +65,7 @@
                         </a>
                         
                         <a
-                            class="btn btn-dark flex-fill @(Model.NameEntityIndex >= (namedEntities.Count-1) ? "disabled" : "")" 
+                            class="btn btn-dark flex-fill @(Model.NameEntityIndex >= (namedEntities!.Count-1) ? "disabled" : "")" 
                             asp-controller="User" 
                             asp-action="ClassifyNamedEntity" 
                             asp-route-entityIndex="@(Model.NameEntityIndex+1)">
