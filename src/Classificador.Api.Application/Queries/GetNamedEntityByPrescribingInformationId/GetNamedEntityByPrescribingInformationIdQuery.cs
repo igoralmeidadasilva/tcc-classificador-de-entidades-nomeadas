@@ -2,11 +2,11 @@ namespace Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInfor
 
 public sealed record GetNamedEntityByPrescribingInformationIdQuery : IQuery<Result>
 {
-    public Guid PrescribingInformationId { get; set; }
+    public Guid IdPrescribingInformation { get; set; }
 
-    public GetNamedEntityByPrescribingInformationIdQuery(string prescribingInformationId)
+    public GetNamedEntityByPrescribingInformationIdQuery(string idPrescribingInformation)
     {
-        PrescribingInformationId = new Guid(prescribingInformationId);
+        IdPrescribingInformation = new Guid(idPrescribingInformation);
     }
     
 }
