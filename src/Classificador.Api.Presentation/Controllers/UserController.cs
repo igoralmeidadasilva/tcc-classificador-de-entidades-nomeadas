@@ -43,24 +43,24 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
             ?? throw new InvalidOperationException("Error converting value from Result to ResultT");;
         
         var responseGetNamedEntity = 
-            await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(idPrescribingInformation)) 
+            await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(idPrescribingInformation, User.FindFirstValue(ClaimTypes.NameIdentifier)!)) 
             as Result<List<ClassifyNamedEntityViewNamedEntityDto>> ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
 
         // var responseGetUncompletedClassifications = await _mediator.Send();
 
-        if(responseGetNamedEntity.Value!.Count == 0)
-        {
-            GenerateSuccessMessage(Constants.Messages.MessageClassificationIsDone);
-            return RedirectToAction(nameof(ChoosePrescribingInformation));
-        }
+        // if(responseGetNamedEntity.Value!.Count == 0)
+        // {
+        //     GenerateSuccessMessage(Constants.Messages.MessageClassificationIsDone);
+        //     return RedirectToAction(nameof(ChoosePrescribingInformation));
+        // }
 
         viewModel.IdPrescribingInformation = new Guid(idPrescribingInformation);
         viewModel.Categories = responseGetCategoriesQuery.Value!.ToList();
         viewModel.NameEntityIndex = entityIndex;
        
-        ViewData["NamedEntities"] = responseGetNamedEntity.Value;
-        ViewData["UncompletedClassifications"] = "";
-        ViewData["AllClassifications"] = "";
+        ViewData["NamedEntitiesList"] = responseGetNamedEntity.Value;
+        ViewData["UncompletedClassificationsList"] = "";
+        ViewData["AllClassificationsList"] = "";
         ViewBag.ReturnUrl = Request.Path;
         
         return View(viewModel);
