@@ -39,12 +39,9 @@ public sealed class HomeController : WebController<HomeController>
     }
 
     [HttpGet(nameof(SignUp))]
-    public async Task<IActionResult> SignUp([FromServices]ISpecialtyReadOnlyRepository _repo)
+    public async Task<IActionResult> SignUp(SignUpViewModel viewModel,[FromServices]ISpecialtyReadOnlyRepository _repo)
     {
-        var viewModel = new SignUpViewModel
-        {
-            Specialties = new SelectList(await _repo.GetAllAsync(), nameof(Specialty.Id), nameof(Specialty.Name))
-        };
+        viewModel.Specialties = new SelectList(await _repo.GetAllAsync(), nameof(Specialty.Id), nameof(Specialty.Name));
         return View(viewModel);
     }
 
@@ -129,11 +126,11 @@ public sealed class HomeController : WebController<HomeController>
     }
 
     [HttpGet(nameof(Contact))]
-    public IActionResult Contact([FromServices] IOptions<EmailOptions> emailOptions)
+    public IActionResult Contact(ContactViewModel viewModel, [FromServices] IOptions<EmailOptions> emailOptions)
     {
         var option = emailOptions.Value;
         ViewBag.ContactEmail = option.EmailAddress;
-        return View();
+        return View(viewModel);
     }  
 
     [HttpPost(nameof(Contact))]
@@ -156,11 +153,11 @@ public sealed class HomeController : WebController<HomeController>
                 TempData["MessageFailures"] = validationError!.ExtractValidationErrors("SendEmailToContact.Message");
             }
 
-            return View();
+            return View(viewModel);
         }
 
         GenerateSuccessMessage(Constants.Messages.MessageSendSuccessfully);
-        return View();
+        return View(viewModel);
     } 
 
     [HttpGet(nameof(WhereToStart))]
