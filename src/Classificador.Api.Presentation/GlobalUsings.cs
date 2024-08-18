@@ -33,3 +33,8 @@ global using Microsoft.Extensions.Options;
 global using Classificador.Api.Application.Dtos;
 global using Classificador.Api.Application.Queries.GetCategories;
 global using Classificador.Api.Application.Queries.GetPrescribingInformation;
+global using Classificador.Api.Domain.Entities;
+global using Classificador.Api.Domain.Interfaces.Repositories.ReadOnly;
+global using Microsoft.AspNetCore.Mvc.Rendering;
+global using Classificador.Api.Application.Commands.UpdateClassificationToCompletedCommand;
+global using Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
