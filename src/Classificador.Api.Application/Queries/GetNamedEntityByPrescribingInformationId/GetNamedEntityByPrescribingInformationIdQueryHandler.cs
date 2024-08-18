@@ -19,7 +19,7 @@ public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler : IRequ
     public async Task<Result> Handle(GetNamedEntityByPrescribingInformationIdQuery request, CancellationToken cancellationToken)
     {
         IEnumerable<NamedEntity> namedEntities = 
-            await _namedEntityReadOnlyRepository.GetByPrescribingInformationIdAsync(request.IdPrescribingInformation, cancellationToken);
+            await _namedEntityReadOnlyRepository.GetByPrescribingInformationIdAsync(request.IdPrescribingInformation, request.IdUser, cancellationToken);
     
         if(namedEntities is null)
         {
