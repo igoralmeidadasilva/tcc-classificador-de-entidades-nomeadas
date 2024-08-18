@@ -2,7 +2,7 @@ namespace Classificador.Api.Presentation.Models;
 
 public sealed record ClassifyNamedEntityViewModel
 {
-    public Guid PrescribingInformationId { get; set; }
+    public Guid IdPrescribingInformation { get; set; }
     public List<ClassifyNamedEntityViewCategoryDto>? Categories { get; set; } 
     public int NameEntityIndex { get; set; }
     public Guid IdUser { get; set; }
