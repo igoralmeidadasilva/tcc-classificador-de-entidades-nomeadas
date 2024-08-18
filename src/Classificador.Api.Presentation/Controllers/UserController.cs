@@ -13,7 +13,9 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
     }
 
     [HttpGet(nameof(ChoosePrescribingInformation))] 
-    public async Task<IActionResult> ChoosePrescribingInformation([FromQuery] string prescribingInformationName = "")
+    public async Task<IActionResult> ChoosePrescribingInformation(
+        ChoosePrescribingInformationViewModel viewModel, 
+        [FromQuery] string prescribingInformationName = "")
     {
         var response = await _mediator.Send(new GetPrescribingInformationQuery
         {
@@ -29,29 +31,38 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
         var valueResponse = response as Result<IEnumerable<ChoosePrescribingInformationViewDto>>
             ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
 
-        var choosePrescribingInformationViewModel = new ChoosePrescribingInformationViewModel
-        {
-            PrescribingInformations = valueResponse.Value!.ToList()
-        };
+        viewModel.PrescribingInformations = valueResponse.Value!.ToList();
 
-        return View(choosePrescribingInformationViewModel);
+        return View(viewModel);
     }
 
-    [HttpGet("[action]/{prescribingInformationId}")]
-    public async Task<IActionResult> ClassifyNamedEntity(ClassifyNamedEntityViewModel viewModel, string prescribingInformationId, int entityIndex)
+    [HttpGet("[action]/{idPrescribingInformation}")]
+    public async Task<IActionResult> ClassifyNamedEntity(ClassifyNamedEntityViewModel viewModel, string idPrescribingInformation, int entityIndex)
     {
         var responseGetCategoriesQuery = await _mediator.Send(new GetCategoriesQuery()) as Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>>
             ?? throw new InvalidOperationException("Error converting value from Result to ResultT");;
         
-        var responseGetNamedEntityByPrescribingInformationId = 
-            await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(prescribingInformationId)) as Result<List<ClassifyNamedEntityViewNamedEntityDto>>
-                ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
+        var responseGetNamedEntity = 
+            await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(idPrescribingInformation)) 
+            as Result<List<ClassifyNamedEntityViewNamedEntityDto>> ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
 
-        viewModel.PrescribingInformationId = new Guid(prescribingInformationId);
+        // var responseGetUncompletedClassifications = await _mediator.Send();
+
+        if(responseGetNamedEntity.Value!.Count == 0)
+        {
+            GenerateSuccessMessage(Constants.Messages.MessageClassificationIsDone);
+            return RedirectToAction(nameof(ChoosePrescribingInformation));
+        }
+
+        viewModel.IdPrescribingInformation = new Guid(idPrescribingInformation);
         viewModel.Categories = responseGetCategoriesQuery.Value!.ToList();
         viewModel.NameEntityIndex = entityIndex;
        
-        ViewData["NamedEntities"] = responseGetNamedEntityByPrescribingInformationId.Value;
+        ViewData["NamedEntities"] = responseGetNamedEntity.Value;
+        ViewData["UncompletedClassifications"] = "";
+        ViewData["AllClassifications"] = "";
+        ViewBag.ReturnUrl = Request.Path;
+        
         return View(viewModel);
     }
 
@@ -61,6 +72,7 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
     {
         CreateClassificationCommand command = viewModel;
         Result response = await _mediator.Send(command);
+        viewModel.IdPrescribingInformation = new Guid(prescribingInformationId);
 
         if (!response.IsSuccess)
         {
@@ -73,15 +85,16 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
     }
 
     [HttpPost(nameof(PatchClassificationToCompleted))]
-    public async Task<IActionResult> PatchClassificationToCompleted(UpdateClassificationToCompletedCommand command)
+    public async Task<IActionResult> PatchClassificationToCompleted(UpdateClassificationToCompletedCommand command, string returnUrl = "")
     {
         var response = await _mediator.Send(command);
-
         if(!response.IsSuccess)
         {
             GenerateWarningMessage(response.Error.Message);
-            // TODO: Mudar para ClassifyNamedEntity com um return url para ela
-            return RedirectToAction(nameof(ChoosePrescribingInformation));
+            ViewBag.ReturnUrl = returnUrl;
+            return string.IsNullOrEmpty(returnUrl) 
+                ? RedirectToAction(nameof(ChoosePrescribingInformation)) 
+                : Redirect(returnUrl);
         }
 
         return RedirectToAction(nameof(ThanksForTheClassifications));
