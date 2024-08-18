@@ -75,7 +75,7 @@
 
                     <form class="col d-grid" method="post" action="/User/PatchClassificationToCompleted">
                         <input type="hidden" name="IdUser" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
-                        <input type="hidden" name="IdPrescribingInformation" value="@Model.PrescribingInformationId">
+                        <input type="hidden" name="IdPrescribingInformation" value="@Model.IdPrescribingInformation">
 
                         <button type="submit" class="btn btn-success">Enviar</button>
                     </form>
