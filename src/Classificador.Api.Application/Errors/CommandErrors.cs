@@ -106,4 +106,11 @@ public static class CommandErrors
         public static PropertyFailure IdNamedEntityIsRequired => new("CreateClassification.IdNamedEntity.IsRequired", "A entidade não pode ser vazia.");
         public static PropertyFailure IdCategoryIsRequired => new("CreateClassification.IdCategory.IsRequired", "A categoria não pode ser vazia.");
     }
+
+    public static class UpdateClassificationToCompletedFailures
+    {
+        public static PropertyFailure UserIdIsRequired => new("UpdateClassificationToCompleted.IdUser.IsRequired", "O Id do usuário não pode ser vazio.");
+        public static PropertyFailure PrescribingInformationIdIsRequired => 
+            new("UpdateClassificationToCompleted.IdPrescribingInformation.IsRequired", "O Id da bula não pode ser vazia.");
+    }
 }

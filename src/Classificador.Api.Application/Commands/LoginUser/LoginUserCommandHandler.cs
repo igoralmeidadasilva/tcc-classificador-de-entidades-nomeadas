@@ -43,6 +43,7 @@ public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, 
 
         IEnumerable<Claim> claims =
         [
+            new (ClaimTypes.NameIdentifier, user.Id.ToString()),
             new (ClaimTypes.Email, user.Email),
             new (ClaimTypes.Name, user.Name),
             new (ClaimTypes.Role, user.Role.ToString())

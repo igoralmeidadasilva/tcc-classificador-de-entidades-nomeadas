@@ -17,6 +17,7 @@ public static class DomainErrors
     public static class NamedEntity
     {
         public static Error NamedEntityNotFound => new("NamedEntity.NotFound", "Não foi possivel encontrar a entidade nomeada.", ErrorType.NotFound);
+        public static Error NamedEntityNoneWereFound => new("NamedEntity.NoneWereFound", "Não foi possivel encontrar nenhuma entidade nomeada.", ErrorType.NotFound);
     }
 
     public static class Category
@@ -38,10 +39,15 @@ public static class DomainErrors
             new("PrescribingInformation.NotFound", "Não foi possivel encontrar a bula farmacêutica.", ErrorType.NotFound);
     }
 
+    public static class Classification
+    {
+        public static Error ClassificationsPendingNotFound => 
+            new("Classification.PendingNotFound", "Não foi possivel encontrar nenhuma classificação pendente para este usuário.", ErrorType.NotFound);
+    }
+
     public static class EmailSend
     {
         public static Error FailedToSendEmail => new("EmailSend.Failure", "Não foi possivel enviar o email.", ErrorType.Failure);
     }
-
 
 }

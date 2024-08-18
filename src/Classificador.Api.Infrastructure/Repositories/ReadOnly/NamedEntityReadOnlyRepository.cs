@@ -6,4 +6,13 @@ public class NamedEntityReadOnlyRepository : BaseReadOnlyRepository<NamedEntity>
     {
     }
 
+    public async Task<IEnumerable<NamedEntity>> GetByPrescribingInformationIdAsync(Guid id, CancellationToken cancellationToken)
+    {
+        return await _context.NamedEntities
+            .AsNoTracking()
+            .Where(x => x.IdPrescribingInformation.Equals(id))
+            .OrderBy(x => x.Name)
+            .ToListAsync(cancellationToken);
+    }
+
 }

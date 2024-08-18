@@ -11,6 +11,10 @@ public sealed class ClassificationConfiguration : EntityConfiguration<Classifica
         builder.Property(x => x.Comment)
             .HasColumnName("comentarios");
 
+        builder.Property(x => x.Status)
+            .HasColumnName("status")
+            .HasConversion<string>();
+
         builder.Property(x => x.IdCategory)
             .HasColumnName("id_categoria")
             .IsRequired();

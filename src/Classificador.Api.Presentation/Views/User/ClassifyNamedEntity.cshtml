@@ -1,55 +1,91 @@
 @model ClassifyNamedEntityViewModel;
 @{
     ViewData["Title"] = "Classificar";
+    var namedEntities = ViewData["NamedEntities"] as List<ClassifyNamedEntityViewNamedEntityDto>;
 }
 
 <div class="container my-5">
+
     <div class="row mb-4">
         <div class="row">
             <h1 class="display-6 text-color-primary">Por favor, classifique a entidade a baixo:</h1>
-            <h2 class="display-4 font-monospace">Entidade</h2>
+            @if(namedEntities != null)
+            {
+                <h2 class="display-4">@namedEntities[Model.NameEntityIndex].Name</h2>
+            }
         </div>
 
         <section class="row row-cols-2 p-3 shadow-sm border rounded bg-light mb-4">
             <div class="col">
                 <div class="row">
                     <div class="col-12">
-                        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
-                            @if(Model.Categories != null)
-                            {
-                                @foreach(var category in Model.Categories)
+                        <form 
+                            id="PendingClassifyForm"
+                            method="post">
+
+                            <input type="hidden" id="InputIdCategory" asp-for="IdCategory">
+                            <input type="hidden" id="InputIdUser" asp-for="IdUser" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+                            <input type="hidden" id="InputIdNamedEntity" asp-for="IdNamedEntity" value="@namedEntities![Model.NameEntityIndex]!.Id">
+
+                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                                @if(Model.Categories != null)
                                 {
-                                    <div class="col d-grid mb-2">
-                                        <button type="button" class="btn btn-primary text-break">@category</button>
-                                    </div>
+                                    @foreach(var category in Model.Categories)
+                                    {
+                                        <div class="col d-grid mb-2">
+                                            <button 
+                                                type="submit" 
+                                                class="btn btn-primary text-break" 
+                                                onclick="SetValueToCategoryInput(event, '@category.Id')"
+                                            >
+                                                @category
+                                            </button>
+                                        </div>
+                                    }
                                 }
-                            }
-                        </div>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="TextAreaComment" name="Comment" rows="3" placeholder="Comentários"></textarea>
+                                <label class="form-label" for="TextAreaComment">Comentários</label>
+                            </div>
+
+                        </form>
                     </div>
                 </div>
 
                 <div class="row row-cols-1 row-cols-md-2">
                     <div class="col d-grid gap-2 d-md-flex mb-2 mb-md-0">
-                        <button type="button" class="btn btn-dark flex-fill">Voltar</button>
-                        <button type="button" class="btn btn-dark flex-fill">Pular</button>
-                        @* <fieldset class="btn-group m-0 p-0 d-grid d-md-flex" role="group">
-                            <button type="button" class="btn btn-dark flex-fill"> << </button>
-                            <button type="button" class="btn btn-dark flex-fill"> >> </button>
-                        </fieldset> *@
+                        <a
+                            class="btn btn-dark flex-fill @(Model.NameEntityIndex <= 0 ? "disabled" : "")"
+                            asp-controller="User" 
+                            asp-action="ClassifyNamedEntity" 
+                            asp-route-entityIndex="@(Model.NameEntityIndex-1)">
+                                Voltar
+                        </a>
+                        
+                        <a
+                            class="btn btn-dark flex-fill @(Model.NameEntityIndex >= (namedEntities.Count-1) ? "disabled" : "")" 
+                            asp-controller="User" 
+                            asp-action="ClassifyNamedEntity" 
+                            asp-route-entityIndex="@(Model.NameEntityIndex+1)">
+                                Pular
+                        </a>
                     </div>
 
-                    <div class="col d-grid">
-                        <button type="button" class="btn btn-success">Enviar</button>
-                    </div>
+                    <form class="col d-grid" method="post" action="/User/PatchClassificationToCompleted">
+                        <input type="hidden" name="IdUser" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+                        <input type="hidden" name="IdPrescribingInformation" value="@Model.PrescribingInformationId">
+
+                        <button type="submit" class="btn btn-success">Enviar</button>
+                    </form>
 
                 </div>
 
             </div>
 
             <div class="col">
-                @* <p>nada por aqui</p>
-                <p>Fazer aqui uma tabela bem clean com as entidades da bula escolhida catalogadas por essa pessoa</p> *@
-                <table class="table">
+                <table id="TableUserClassifications" class="table">
                     <thead>
                         <tr class="table-dark">
                             <th class="fw-bolder" scope="col">Entidade</th>
@@ -82,7 +118,6 @@
         </div>
 
         <section class="row p-3 shadow-sm border rounded bg-light mb-4">
-
             <table class="table">
                 <thead>
                     <tr class="table-dark">
@@ -111,3 +146,15 @@
 
 </div>
 
+<script>
+    function SetValueToCategoryInput(event, categoryId)
+    {
+        event.preventDefault()
+
+        const inputIdCategory = document.getElementById('InputIdCategory');
+        inputIdCategory.value = categoryId;
+
+        document.getElementById('PendingClassifyForm').submit();
+    }
+
+</script>

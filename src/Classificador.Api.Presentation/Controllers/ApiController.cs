@@ -132,10 +132,26 @@ public sealed class ApiController : ControllerBase
         return Created("", valueResponse!.Value);
     }
 
+    // [HttpPost(nameof(PostClassifyNamedEntity))]
+    // public async Task<IActionResult> PostClassifyNamedEntity(CreateClassificationCommand command)
+    // {
+    //     Result response = await _mediator.Send(command);
+
+    //     if (!response.IsSuccess)
+    //     {
+    //         return BadRequest(response);
+    //     }
+
+    //     Result<Guid>? valueResponse = response as Result<Guid>;
+
+    //     return Created("", valueResponse!.Value);
+    // }
+
     [HttpPost(nameof(PostClassifyNamedEntity))]
-    public async Task<IActionResult> PostClassifyNamedEntity(CreateClassificationCommand command)
+    public async Task<IActionResult> PostClassifyNamedEntity(string idUser, string idNamedEntity, string idCategory, string comment = "")
     {
-        Result response = await _mediator.Send(command);
+
+        Result response = await _mediator.Send(new CreateClassificationCommand(new Guid(idUser), new Guid(idNamedEntity), new Guid(idCategory), comment));
 
         if (!response.IsSuccess)
         {

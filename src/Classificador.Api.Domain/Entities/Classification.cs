@@ -3,6 +3,7 @@ namespace Classificador.Api.Domain.Entities;
 public sealed class Classification : Entity<Classification>, IAggregateRoot
 {
     public string? Comment { get; private set; }
+    public ClassificationStatus Status { get; private set; }
     public Guid IdNamedEntity { get; private set; }
     public Guid IdCategory { get; private set; }
     public Guid IdUser { get; private set; }
@@ -21,6 +22,7 @@ public sealed class Classification : Entity<Classification>, IAggregateRoot
         IdCategory = idCategory;
         IdUser = idUser;
         Comment = comment;
+        Status = ClassificationStatus.Pendente;
     }
 
     public Classification() {} //ORM
@@ -35,4 +37,10 @@ public sealed class Classification : Entity<Classification>, IAggregateRoot
         return this;
     }
 
+    public Classification UpdateToComplete()
+    {
+        Status = ClassificationStatus.Completo;
+
+        return this;
+    }
 }

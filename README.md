@@ -120,8 +120,6 @@ Migrações podem ser geradas para alterar o esquema presente no banco de dados,
     dotnet ef database update
 ```
 
-
-
 ### 🌱 Data Seed
 Data seeding é o processo de pré-carregar dados iniciais no banco de dados. Esses dados podem ser úteis para testar a aplicação ou fornecer um conjunto inicial de dados para o usuário final, para saber mais, [clique aqui](https://learn.microsoft.com/pt-br/ef/core/modeling/data-seeding). Você pode adicionar um novo *seeder* nas sessão "DatabaseSeedOptions" do [appsettings](./src/Classificador.Api.Presentation/appsettings.json) da aplicação. Lembre-se que. para cada seeder existe uma opção 'booleana' que controla se ele será executado ou não, por padrão essas opções vem desligadas **exceto** para as tabelas 'categorias' e 'especialidades'.
 

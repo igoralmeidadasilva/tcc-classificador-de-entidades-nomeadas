@@ -22,9 +22,22 @@ public class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Classific
                 Votes = group.Count(),
                 Entity = group.Key.NamedEntityName,
                 Category = group.Key.CategoryName
-            }).ToListAsync();
+            }).ToListAsync(cancellationToken: cancellationToken);
         
         return query;
-    } 
+    }
+
+    public async Task<IEnumerable<Classification>> GetPendingClassificationsByPrescribingInformationAndIdUser
+        (Guid idPrescribingInformation, Guid idUser, CancellationToken cancellationToken = default)
+    {
+        var query = await _context.Classifications
+            .Include(cla => cla.NamedEntity)
+            .Where(cla => cla.IdUser.Equals(idUser))
+            .Where(cla => cla.Status.Equals(ClassificationStatus.Pendente))
+            .Where(cla => cla.NamedEntity!.IdPrescribingInformation.Equals(idPrescribingInformation))
+            .ToListAsync(cancellationToken);
+        return query;
+        
+    }
 }
 

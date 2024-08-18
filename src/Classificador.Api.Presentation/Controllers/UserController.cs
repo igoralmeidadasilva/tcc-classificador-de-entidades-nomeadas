@@ -1,3 +1,6 @@
+using Classificador.Api.Application.Commands.UpdateClassificationToCompletedCommand;
+using Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
+
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("[controller]")]
@@ -10,29 +13,6 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         return RedirectToAction("Login", "Home");
-    }
-
-    [HttpGet("[action]/{prescribingInformationId}")] 
-    public async Task<IActionResult> ClassifyNamedEntity(string prescribingInformationId)
-    {
-        var response = await _mediator.Send(new GetCategoriesQuery());
-
-        if(!response.IsSuccess)
-        {
-            GenerateErrorMessage(response.Error.Message);
-            return View();
-        }
-
-        var valueResponse = response as Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>>
-            ?? throw new InvalidOperationException("Error converting value from Result to ResultT");;
-
-        var classifyNamedEntityViewModel = new ClassifyNamedEntityViewModel
-        {
-            PrescribingInformationIdId = new Guid(prescribingInformationId),
-            Categories = valueResponse.Value!.ToList()
-        };
-        
-        return View(classifyNamedEntityViewModel);
     }
 
     [HttpGet(nameof(ChoosePrescribingInformation))] 
@@ -59,4 +39,59 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
 
         return View(choosePrescribingInformationViewModel);
     }
+
+    [HttpGet("[action]/{prescribingInformationId}")]
+    public async Task<IActionResult> ClassifyNamedEntity(ClassifyNamedEntityViewModel viewModel, string prescribingInformationId, int entityIndex)
+    {
+        var responseGetCategoriesQuery = await _mediator.Send(new GetCategoriesQuery()) as Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>>
+            ?? throw new InvalidOperationException("Error converting value from Result to ResultT");;
+        
+        var responseGetNamedEntityByPrescribingInformationId = 
+            await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(prescribingInformationId)) as Result<List<ClassifyNamedEntityViewNamedEntityDto>>
+                ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
+
+        viewModel.PrescribingInformationId = new Guid(prescribingInformationId);
+        viewModel.Categories = responseGetCategoriesQuery.Value!.ToList();
+        viewModel.NameEntityIndex = entityIndex;
+       
+        ViewData["NamedEntities"] = responseGetNamedEntityByPrescribingInformationId.Value;
+        return View(viewModel);
+    }
+
+    [HttpPost("[action]/{prescribingInformationId}")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> ClassifyNamedEntity(ClassifyNamedEntityViewModel viewModel, string prescribingInformationId)
+    {
+        CreateClassificationCommand command = viewModel;
+        Result response = await _mediator.Send(command);
+
+        if (!response.IsSuccess)
+        {
+            GenerateErrorMessage(response.Error.Message);
+            return RedirectToAction(nameof(ClassifyNamedEntity));
+        }
+
+        GenerateSuccessMessage(Constants.Messages.MessageClassificationSuccessfully);
+        return RedirectToAction(nameof(ClassifyNamedEntity), viewModel);
+    }
+
+    [HttpPost(nameof(PatchClassificationToCompleted))]
+    public async Task<IActionResult> PatchClassificationToCompleted(UpdateClassificationToCompletedCommand command)
+    {
+        var response = await _mediator.Send(command);
+
+        if(!response.IsSuccess)
+        {
+            GenerateWarningMessage(response.Error.Message);
+            // TODO: Mudar para ClassifyNamedEntity com um return url para ela
+            return RedirectToAction(nameof(ChoosePrescribingInformation));
+        }
+
+        GenerateSuccessMessage(Constants.Messages.MessageClassificationSuccessfully);
+        //TODO: Redirecionar para uma página especifica de agradecimentos por nos ajudar
+        return RedirectToAction(nameof(ChoosePrescribingInformation));
+    }
+
 }
+
+
