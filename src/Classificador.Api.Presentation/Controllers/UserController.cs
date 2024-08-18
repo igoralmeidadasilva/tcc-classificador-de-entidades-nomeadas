@@ -1,6 +1,3 @@
-using Classificador.Api.Application.Commands.UpdateClassificationToCompletedCommand;
-using Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
-
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("[controller]")]
@@ -87,9 +84,19 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
             return RedirectToAction(nameof(ChoosePrescribingInformation));
         }
 
-        GenerateSuccessMessage(Constants.Messages.MessageClassificationSuccessfully);
-        //TODO: Redirecionar para uma página especifica de agradecimentos por nos ajudar
-        return RedirectToAction(nameof(ChoosePrescribingInformation));
+        return RedirectToAction(nameof(ThanksForTheClassifications));
+    }
+
+    [HttpGet(nameof(ThanksForTheClassifications))]
+    public IActionResult ThanksForTheClassifications()
+    {
+        return View();
+    }
+
+    [HttpGet(nameof(YourClassifications))]
+    public IActionResult YourClassifications()
+    {
+        return View();
     }
 
 }
