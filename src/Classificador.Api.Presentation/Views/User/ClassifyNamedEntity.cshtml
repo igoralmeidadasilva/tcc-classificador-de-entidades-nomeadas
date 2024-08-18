@@ -1,18 +1,24 @@
 @model ClassifyNamedEntityViewModel;
 @{
     ViewData["Title"] = "Classificar";
-    var namedEntities = ViewData["NamedEntities"] as List<ClassifyNamedEntityViewNamedEntityDto>;
+    var namedEntities = ViewData["NamedEntitiesList"] as List<ClassifyNamedEntityViewNamedEntityDto>;
+    var namedEntitiesCount = namedEntities!.Count;
 }
 
 <div class="container my-5">
 
     <div class="row mb-4">
         <div class="row">
-            <h1 class="display-6 text-color-primary">Por favor, classifique a entidade a baixo:</h1>
-            @if(namedEntities != null)
+            @if(namedEntities != null && namedEntitiesCount != 0)
             {
+                <h1 class="display-6 text-color-primary">Por favor, classifique a entidade a baixo:</h1>
                 <h2 class="display-4">@namedEntities[Model.NameEntityIndex].Name</h2>
             }
+            else
+            {
+                <h2 class="display-4">Essa bula não tem mais entidades para você classificar</h2>
+            }
+
         </div>
 
         <section class="row row-cols-2 p-3 shadow-sm border rounded bg-light mb-4">
@@ -25,7 +31,10 @@
 
                             <input type="hidden" id="InputIdCategory" asp-for="IdCategory">
                             <input type="hidden" id="InputIdUser" asp-for="IdUser" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
-                            <input type="hidden" id="InputIdNamedEntity" asp-for="IdNamedEntity" value="@namedEntities![Model.NameEntityIndex]!.Id">
+                            @if(namedEntities != null && namedEntitiesCount != 0)
+                            {
+                                <input type="hidden" id="InputIdNamedEntity" asp-for="IdNamedEntity" value="@namedEntities![Model.NameEntityIndex]!.Id">
+                            }
 
                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
                                 @if(Model.Categories != null)
@@ -35,7 +44,7 @@
                                         <div class="col d-grid mb-2">
                                             <button 
                                                 type="submit" 
-                                                class="btn btn-primary text-break" 
+                                                class="btn btn-primary text-break @(namedEntitiesCount == 0 ? "disabled" : "")" 
                                                 onclick="SetValueToCategoryInput(event, '@category.Id')"
                                             >
                                                 @category
@@ -46,7 +55,14 @@
                             </div>
 
                             <div class="form-floating mb-3">
-                                <textarea class="form-control" id="TextAreaComment" name="Comment" rows="3" placeholder="Comentários"></textarea>
+                                <textarea 
+                                    class="form-control @(namedEntitiesCount == 0 ? "disabled" : "")" 
+                                    id="TextAreaComment" 
+                                    name="Comment" 
+                                    rows="3" 
+                                    placeholder="Comentários">
+                                </textarea>
+
                                 <label class="form-label" for="TextAreaComment">Comentários</label>
                             </div>
 
