@@ -35,8 +35,8 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreateSpecialtyCommand>, CreateSpecialtyCommandValidator>();
         services.AddScoped<IValidator<SendEmailToContactCommand>, SendEmailToContactCommandValidator>();
         services.AddScoped<IValidator<CreateClassificationCommand>, CreateClassificationCommandValidator>();
-        services.AddScoped<IValidator<UpdateClassificationToCompletedCommand>, UpdateClassificationToCompletedCommandValidator>();
-
+        services.AddScoped<IValidator<GetPendingClassificationsQuery>, GetPendingClassificationsQueryValidator>();
+        
         return services;
     }
 

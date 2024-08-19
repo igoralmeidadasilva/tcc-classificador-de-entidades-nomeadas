@@ -27,11 +27,15 @@ public class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Classific
         return query;
     }
 
-    public async Task<IEnumerable<Classification>> GetPendingClassificationsByPrescribingInformationAndIdUser
-        (Guid idPrescribingInformation, Guid idUser, CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<Classification>> GetPendingClassificationsByPrescribingInformationAndIdUser(
+        Guid idPrescribingInformation, 
+        Guid idUser, 
+        CancellationToken cancellationToken = default)
     {
         var query = await _context.Classifications
+            .AsNoTracking()
             .Include(cla => cla.NamedEntity)
+            .Include(cla => cla.Category)
             .Where(cla => cla.IdUser.Equals(idUser))
             .Where(cla => cla.Status.Equals(ClassificationStatus.Pendente))
             .Where(cla => cla.NamedEntity!.IdPrescribingInformation.Equals(idPrescribingInformation))

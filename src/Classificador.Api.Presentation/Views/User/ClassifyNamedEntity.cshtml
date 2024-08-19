@@ -3,6 +3,7 @@
     ViewData["Title"] = "Classificar";
     var namedEntities = ViewData["NamedEntitiesList"] as List<ClassifyNamedEntityViewNamedEntityDto>;
     var namedEntitiesCount = namedEntities!.Count;
+    var pendingClassificationsList = ViewData["PendingClassificationsList"] as List<ClassifyNamedEntityViewPendingClassificationDto>;
 }
 
 <div class="container my-5">
@@ -60,8 +61,7 @@
                                     id="TextAreaComment" 
                                     name="Comment" 
                                     rows="3" 
-                                    placeholder="Comentários">
-                                </textarea>
+                                    placeholder="Comentários"></textarea>
 
                                 <label class="form-label" for="TextAreaComment">Comentários</label>
                             </div>
@@ -101,27 +101,36 @@
             </div>
 
             <div class="col">
-                <table id="TableUserClassifications" class="table">
+                <table id="TableUserClassificationsPending" class="table">
                     <thead>
                         <tr class="table-dark">
                             <th class="fw-bolder" scope="col">Entidade</th>
                             <th class="fw-bolder" scope="col">Categoria</th>
-                            <th class="fw-bolder" scope="col">#</th>
+                            <th class="fw-bolder" scope="col">Ações</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td>Medico</td>
-                            <td>Pessoa</td>
-                            <td>+</td>
-                        </tr>
+                        @if(pendingClassificationsList != null)
+                        {
+                            @foreach(var cls in pendingClassificationsList)
+                            {
+                                <tr>
+                                    <td>@cls.NamedEntity</td>
+                                    <td>@cls.Category</td>
+                                    <td>+</td>
+                                </tr>
+                            }
+                        }
                     </tbody>
 
                     <tfoot>
-                        <tr>
-                            <td colspan="3">Quantidade: 1</td>
-                        </tr>
+                        @if(pendingClassificationsList != null)
+                        {
+                            <tr>
+                                <td colspan="3">Quantidade: @pendingClassificationsList.Count</td>
+                            </tr>
+                        }
                     </tfoot>
                 </table>
             </div>
@@ -162,15 +171,3 @@
 
 </div>
 
-<script>
-    function SetValueToCategoryInput(event, categoryId)
-    {
-        event.preventDefault()
-
-        const inputIdCategory = document.getElementById('InputIdCategory');
-        inputIdCategory.value = categoryId;
-
-        document.getElementById('PendingClassifyForm').submit();
-    }
-
-</script>

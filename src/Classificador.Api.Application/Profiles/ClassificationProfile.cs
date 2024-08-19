@@ -5,9 +5,14 @@ public sealed class ClassificationProfile : Profile
     public ClassificationProfile()
     {
         CreateMap<CreateClassificationCommand, Classification>()
-            .ForMember(x => x.NamedEntity, opt => opt.Ignore())
-            .ForMember(x => x.User, opt => opt.Ignore())
-            .ForMember(x => x.Category, opt => opt.Ignore());
+            .ForMember(dest => dest.NamedEntity, opt => opt.Ignore())
+            .ForMember(dest => dest.User, opt => opt.Ignore())
+            .ForMember(dest => dest.Category, opt => opt.Ignore());
+
+        CreateMap<ClassifyNamedEntityViewPendingClassificationDto, Classification>()
+            .ReverseMap()
+            .ForMember(dest => dest.NamedEntity, opt => opt.MapFrom(src => src.NamedEntity!.Name))
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category!.Name));
     }
 
 }

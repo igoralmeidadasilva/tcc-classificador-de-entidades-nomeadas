@@ -37,4 +37,4 @@ global using Microsoft.AspNetCore.Authentication.Cookies;
 global using Classificador.Api.Application.Commands.SendEmailToContact;
 global using Classificador.Api.Domain.ValueObjects.NamedEntity;
 global using Classificador.Api.Application.Dtos;
-global using Classificador.Api.Application.Commands.UpdateClassificationToCompletedCommand;
+global using Classificador.Api.Application.Queries.GetPendingClassifications;

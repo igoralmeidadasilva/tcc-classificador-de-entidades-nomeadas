@@ -1,3 +1,5 @@
+using Classificador.Api.Application.Queries.GetPendingClassifications;
+
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("[controller]")]
@@ -46,20 +48,16 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
             await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(idPrescribingInformation, User.FindFirstValue(ClaimTypes.NameIdentifier)!)) 
             as Result<List<ClassifyNamedEntityViewNamedEntityDto>> ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
 
-        // var responseGetUncompletedClassifications = await _mediator.Send();
-
-        // if(responseGetNamedEntity.Value!.Count == 0)
-        // {
-        //     GenerateSuccessMessage(Constants.Messages.MessageClassificationIsDone);
-        //     return RedirectToAction(nameof(ChoosePrescribingInformation));
-        // }
+        var responseGetPendingClassifications =
+            await _mediator.Send(new GetPendingClassificationsQuery(User.FindFirstValue(ClaimTypes.NameIdentifier)!, idPrescribingInformation))
+            as Result<List<ClassifyNamedEntityViewPendingClassificationDto>> ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
 
         viewModel.IdPrescribingInformation = new Guid(idPrescribingInformation);
         viewModel.Categories = responseGetCategoriesQuery.Value!.ToList();
         viewModel.NameEntityIndex = entityIndex;
        
         ViewData["NamedEntitiesList"] = responseGetNamedEntity.Value;
-        ViewData["UncompletedClassificationsList"] = "";
+        ViewData["PendingClassificationsList"] = responseGetPendingClassifications.Value;
         ViewData["AllClassificationsList"] = "";
         ViewBag.ReturnUrl = Request.Path;
         

@@ -10,5 +10,5 @@ public sealed record GetNamedEntityByPrescribingInformationIdQuery : IQuery<Resu
         IdPrescribingInformation = new Guid(idPrescribingInformation);
         IdUser = new Guid(idUser);
     }
-
+    
 }
