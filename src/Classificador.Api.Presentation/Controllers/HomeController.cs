@@ -107,7 +107,7 @@ public sealed class HomeController : WebController<HomeController>
         }
 
         Result<ClaimsIdentity>? valueResponse = response as Result<ClaimsIdentity> 
-            ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
+            ?? throw new ResultConvertionException();
 
         AuthenticationProperties authProperties = new();
 

@@ -8,4 +8,10 @@ public static class QueryErrors
         public static PropertyFailure PrescribingInformationIdIsRequired => 
             new("GetPendingClassifications.IdPrescribingInformation.IsRequired", "O Id da bula não pode ser vazia.");
     }
+
+    public static class GetAllClassificationByVotesFailures
+    {
+        public static PropertyFailure PrescribingInformationIdIsRequired => 
+            new("GetAllClassificationByVotesFailures.IdPrescribingInformation.IsRequired", "O Id da bula não pode ser vazia.");
+    }
 }

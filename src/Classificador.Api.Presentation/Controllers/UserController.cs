@@ -1,3 +1,4 @@
+using Classificador.Api.Application.Queries.GetAllClassificationByVotes;
 using Classificador.Api.Application.Queries.GetPendingClassifications;
 
 namespace Classificador.Api.Presentation.Controllers;
@@ -31,7 +32,7 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
         }     
 
         var valueResponse = response as Result<IEnumerable<ChoosePrescribingInformationViewDto>>
-            ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
+            ?? throw new ResultConvertionException();
 
         viewModel.PrescribingInformations = valueResponse.Value!.ToList();
 
@@ -39,28 +40,37 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
     }
 
     [HttpGet("[action]/{idPrescribingInformation}")]
-    public async Task<IActionResult> ClassifyNamedEntity(ClassifyNamedEntityViewModel viewModel, string idPrescribingInformation, int entityIndex)
+    public async Task<IActionResult> ClassifyNamedEntity(
+        ClassifyNamedEntityViewModel viewModel, 
+        string idPrescribingInformation, 
+        int entityIndex, 
+        string namePrescribingInformation = "-")
     {
         var responseGetCategoriesQuery = await _mediator.Send(new GetCategoriesQuery()) as Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>>
-            ?? throw new InvalidOperationException("Error converting value from Result to ResultT");;
-        
+            ?? throw new ResultConvertionException();
+
         var responseGetNamedEntity = 
             await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(idPrescribingInformation, User.FindFirstValue(ClaimTypes.NameIdentifier)!)) 
-            as Result<List<ClassifyNamedEntityViewNamedEntityDto>> ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
+            as Result<List<ClassifyNamedEntityViewNamedEntityDto>> ?? throw new ResultConvertionException();
 
         var responseGetPendingClassifications =
             await _mediator.Send(new GetPendingClassificationsQuery(User.FindFirstValue(ClaimTypes.NameIdentifier)!, idPrescribingInformation))
-            as Result<List<ClassifyNamedEntityViewPendingClassificationDto>> ?? throw new InvalidOperationException("Error converting value from Result to ResultT");
+                as Result<List<ClassifyNamedEntityViewPendingClassificationDto>> 
+                    ?? throw new ResultConvertionException();
+
+        var responseGetAllClassification = await _mediator.Send(new GetAllClassificationByVotesQuery(idPrescribingInformation))
+            as Result<List<CountVoteForNamedEntity>> ?? throw new ResultConvertionException();
 
         viewModel.IdPrescribingInformation = new Guid(idPrescribingInformation);
         viewModel.Categories = responseGetCategoriesQuery.Value!.ToList();
-        viewModel.NameEntityIndex = entityIndex;
-       
+        viewModel.NamedEntityIndex = entityIndex;
+        viewModel.NamePrescribingInformation = namePrescribingInformation;
+
         ViewData["NamedEntitiesList"] = responseGetNamedEntity.Value;
         ViewData["PendingClassificationsList"] = responseGetPendingClassifications.Value;
-        ViewData["AllClassificationsList"] = "";
+        ViewData["AllClassificationsList"] = responseGetAllClassification.Value;
         ViewBag.ReturnUrl = Request.Path;
-        
+
         return View(viewModel);
     }
 

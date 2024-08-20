@@ -8,8 +8,9 @@ public class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Classific
 
     public async Task<IEnumerable<CountVoteForNamedEntity>> GetCountingVotesForNamedEntityAsync(Guid id, CancellationToken cancellationToken = default)
     {   
-        var query = await _context.Classifications
+        return await _context.Classifications
             .Where(cla => cla.IdNamedEntity == id)
+            .Where(cla => cla.Status == ClassificationStatus.Completo)
             .AsNoTracking()
             .GroupBy(cla => new 
             { 
@@ -22,9 +23,9 @@ public class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Classific
                 Votes = group.Count(),
                 Entity = group.Key.NamedEntityName,
                 Category = group.Key.CategoryName
-            }).ToListAsync(cancellationToken: cancellationToken);
-        
-        return query;
+            })
+            .OrderByDescending(x => x.Votes)
+            .ToListAsync(cancellationToken);         
     }
 
     public async Task<IEnumerable<Classification>> GetPendingClassificationsByPrescribingInformationAndIdUser(

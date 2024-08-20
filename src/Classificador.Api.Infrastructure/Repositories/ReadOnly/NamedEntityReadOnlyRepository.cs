@@ -5,10 +5,10 @@ public class NamedEntityReadOnlyRepository : BaseReadOnlyRepository<NamedEntity>
     public NamedEntityReadOnlyRepository(ClassifierContext context) : base(context)
     { }
 
-    public async Task<IEnumerable<NamedEntity>> GetByPrescribingInformationIdAsync(
+    public async Task<IEnumerable<NamedEntity>> GetByPrescribingInformationAndUserAsync(
         Guid idPrescribingInformation, 
         Guid idUser,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default)
     {
         return await _context.NamedEntities
             .AsNoTracking()
@@ -18,4 +18,11 @@ public class NamedEntityReadOnlyRepository : BaseReadOnlyRepository<NamedEntity>
             .ToListAsync(cancellationToken);
     }
 
+    public async Task<IEnumerable<NamedEntity>> GetByPrescribingInformationAsync(Guid idPrescribingInformation, CancellationToken cancellationToken = default)
+    {
+        return await _context.NamedEntities
+            .AsNoTracking()
+            .Where(en => en.IdPrescribingInformation.Equals(idPrescribingInformation))
+            .ToListAsync(cancellationToken);
+    }
 }

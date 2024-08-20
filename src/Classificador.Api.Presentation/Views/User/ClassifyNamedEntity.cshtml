@@ -4,6 +4,7 @@
     var namedEntities = ViewData["NamedEntitiesList"] as List<ClassifyNamedEntityViewNamedEntityDto>;
     var namedEntitiesCount = namedEntities!.Count;
     var pendingClassificationsList = ViewData["PendingClassificationsList"] as List<ClassifyNamedEntityViewPendingClassificationDto>;
+    var allClassificationList = ViewData["AllClassificationsList"] as List<CountVoteForNamedEntity>;
 }
 
 <div class="container my-5">
@@ -13,7 +14,7 @@
             @if(namedEntities != null && namedEntitiesCount != 0)
             {
                 <h1 class="display-6 text-color-primary">Por favor, classifique a entidade a baixo:</h1>
-                <h2 class="display-4">@namedEntities[Model.NameEntityIndex].Name</h2>
+                <h2 class="display-4">@namedEntities[Model.NamedEntityIndex].Name</h2>
             }
             else
             {
@@ -34,7 +35,7 @@
                             <input type="hidden" id="InputIdUser" asp-for="IdUser" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
                             @if(namedEntities != null && namedEntitiesCount != 0)
                             {
-                                <input type="hidden" id="InputIdNamedEntity" asp-for="IdNamedEntity" value="@namedEntities![Model.NameEntityIndex]!.Id">
+                                <input type="hidden" id="InputIdNamedEntity" asp-for="IdNamedEntity" value="@namedEntities![Model.NamedEntityIndex]!.Id">
                             }
 
                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
@@ -73,18 +74,20 @@
                 <div class="row row-cols-1 row-cols-md-2">
                     <div class="col d-grid gap-2 d-md-flex mb-2 mb-md-0">
                         <a
-                            class="btn btn-dark flex-fill @(Model.NameEntityIndex <= 0 ? "disabled" : "")"
+                            class="btn btn-dark flex-fill @(Model.NamedEntityIndex <= 0 ? "disabled" : "")"
                             asp-controller="User" 
                             asp-action="ClassifyNamedEntity" 
-                            asp-route-entityIndex="@(Model.NameEntityIndex-1)">
+                            asp-route-entityIndex="@(Model.NamedEntityIndex-1)"
+                            asp-route-namePrescribingInformation="@Model.NamePrescribingInformation">
                                 Voltar
                         </a>
                         
                         <a
-                            class="btn btn-dark flex-fill @(Model.NameEntityIndex >= (namedEntities!.Count-1) ? "disabled" : "")" 
+                            class="btn btn-dark flex-fill @(Model.NamedEntityIndex >= (namedEntities!.Count-1) ? "disabled" : "")" 
                             asp-controller="User" 
                             asp-action="ClassifyNamedEntity" 
-                            asp-route-entityIndex="@(Model.NameEntityIndex+1)">
+                            asp-route-entityIndex="@(Model.NamedEntityIndex+1)"
+                            asp-route-namePrescribingInformation="@Model.NamePrescribingInformation">
                                 Pular
                         </a>
                     </div>
@@ -128,7 +131,7 @@
                         @if(pendingClassificationsList != null)
                         {
                             <tr>
-                                <td colspan="3">Quantidade: @pendingClassificationsList.Count</td>
+                                <td colspan="3" class="bg-body-secondary">Quantidade: @pendingClassificationsList.Count</td>
                             </tr>
                         }
                     </tfoot>
@@ -139,7 +142,7 @@
 
     <div class="row mb-4">
         <div class="row">
-            <h2 class="display-6">Nome da Bula</h2>
+            <h2 class="display-6">@Model.NamePrescribingInformation</h2>
         </div>
 
         <section class="row p-3 shadow-sm border rounded bg-light mb-4">
@@ -148,22 +151,31 @@
                     <tr class="table-dark">
                         <th class="fw-bolder" scope="col">Entidade</th>
                         <th class="fw-bolder" scope="col">Categoria</th>
-                        <th class="fw-bolder" scope="col">#</th>
+                        <th class="fw-bolder" scope="col">Qtde. de votos</th>
                     </tr>
                 </thead>
 
                 <tbody>
-                    <tr>
-                        <td>Medico</td>
-                        <td>Pessoa</td>
-                        <td>+</td>
-                    </tr>
+                    @if(allClassificationList != null)
+                    {
+                        @foreach(var cls in allClassificationList)
+                        {
+                            <tr>
+                                <td>@cls.Entity</td>
+                                <td>@cls.Category</td>
+                                <td>@cls.Votes</td>
+                            </tr>
+                        }
+                    }
                 </tbody>
 
                 <tfoot>
-                    <tr>
-                        <td colspan="3">Quantidade: 1</td>
-                    </tr>
+                    @if(allClassificationList != null)
+                    {
+                        <tr>
+                            <td colspan="3" class="bg-body-secondary">Quantidade: @allClassificationList!.Count: </td>
+                        </tr>
+                    }
                 </tfoot>
             </table>
         </section>

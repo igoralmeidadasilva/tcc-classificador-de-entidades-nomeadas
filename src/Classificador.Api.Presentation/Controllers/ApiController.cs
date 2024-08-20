@@ -1,12 +1,12 @@
 using Classificador.Api.Domain.Interfaces.Services;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 
+// FIXME: This class is being replaced by other controllers
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("/api/")]
 [AllowAnonymous]
 [ApiController]
+[Obsolete]
 public sealed class ApiController : ControllerBase
 {
     private readonly ILogger<ApiController> _logger;
@@ -24,7 +24,7 @@ public sealed class ApiController : ControllerBase
     public async Task<IActionResult> PostUser(CreateUserCommand command)
     {
         Result response = await _mediator.Send(command);
-        if (!response.IsSuccess)
+        if(!response.IsSuccess)
         {
             return BadRequest(response);
         }
@@ -38,7 +38,7 @@ public sealed class ApiController : ControllerBase
     {
         Result response = await _mediator.Send(command);
 
-        if (!response.IsSuccess)
+        if(!response.IsSuccess)
         {
             return Unauthorized(response);
         }
@@ -52,7 +52,7 @@ public sealed class ApiController : ControllerBase
     {
         Result response = await _mediator.Send(query);
 
-        if (!response.IsSuccess)
+        if(!response.IsSuccess)
         {
             return NotFound(response);
         }
