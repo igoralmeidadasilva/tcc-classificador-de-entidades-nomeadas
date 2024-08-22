@@ -1,4 +1,4 @@
-namespace Classificador.Api.Tests.Unit.Application.Queries;
+namespace Classificador.Api.Tests.Unit.Application.Queries.GetPescribingInformation;
 
 public sealed class GetPrescribingInformationQueryHandlerTests
 {
@@ -14,8 +14,8 @@ public sealed class GetPrescribingInformationQueryHandlerTests
         _mapperMock = new Mock<IMapper>();
 
         _handler = new GetPrescribingInformationQueryHandler(
-            _loggerMock.Object, 
-            _mapperMock.Object, 
+            _loggerMock.Object,
+            _mapperMock.Object,
             _prescribingInformationReadOnlyRepositoryMock.Object);
     }
 
@@ -27,7 +27,7 @@ public sealed class GetPrescribingInformationQueryHandlerTests
             .Setup(repo => repo.GetByNameOrDescriptionAsync(It.IsAny<string>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(Enumerable.Empty<PrescribingInformation>());
 
-        var query = new GetPrescribingInformationQuery { PrescribingInformationName = "Info" };
+        var query = new GetPrescribingInformationQuery("Info");
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);
@@ -57,7 +57,7 @@ public sealed class GetPrescribingInformationQueryHandlerTests
             .Setup(mapper => mapper.Map<ChoosePrescribingInformationViewDto>(It.IsAny<PrescribingInformation>()))
             .Returns((PrescribingInformation src) => new ChoosePrescribingInformationViewDto { Id = src.Id, Name = src.Name });
 
-        var query = new GetPrescribingInformationQuery { PrescribingInformationName = "Info" };
+        var query = new GetPrescribingInformationQuery("Info");
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);

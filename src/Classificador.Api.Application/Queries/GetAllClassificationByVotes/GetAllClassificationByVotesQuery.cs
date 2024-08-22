@@ -8,4 +8,7 @@ public sealed record GetAllClassificationByVotesQuery : IQuery<Result>
     {
         IdPrescribingInformation = new Guid(idPrescribingInformation);
     }
+
+    public GetAllClassificationByVotesQuery()
+    { }
 }

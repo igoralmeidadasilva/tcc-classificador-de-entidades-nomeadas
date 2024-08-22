@@ -12,7 +12,8 @@ public sealed class ClassificationProfile : Profile
         CreateMap<ClassifyNamedEntityViewPendingClassificationDto, Classification>()
             .ReverseMap()
             .ForMember(dest => dest.NamedEntity, opt => opt.MapFrom(src => src.NamedEntity!.Name))
-            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category!.Name));
+            .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category!.Name))
+            .ForMember(dest => dest.IdClassification, opt => opt.MapFrom(src => src.Id));
     }
 
 }

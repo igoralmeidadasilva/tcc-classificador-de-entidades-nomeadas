@@ -1,5 +1,6 @@
 namespace Classificador.Api.Application.Queries.CountingVotesForNamedEntity;
 
+[Obsolete]
 public sealed class CountingVotesForNamedEntityQueryHandler : IRequestHandler<CountingVotesForNamedEntityQuery, Result>
 {
     private readonly ILogger<CountingVotesForNamedEntityQueryHandler> _logger;
@@ -30,9 +31,9 @@ public sealed class CountingVotesForNamedEntityQueryHandler : IRequestHandler<Co
         IEnumerable<CountVoteForNamedEntity> response = 
             await _classificationReadOnlyRepository.GetCountingVotesForNamedEntityAsync(request.IdNamedEntity, cancellationToken);
 
-            _logger.LogInformation("{RequestName} successfully fechting for named entity votes. Amount records: {Count}",
-                nameof(CountingVotesForNamedEntityQuery),
-                response.Count());
+        _logger.LogInformation("{RequestName} successfully fechting for named entity votes. Amount records: {Count}",
+            nameof(CountingVotesForNamedEntityQuery),
+            response.Count());
 
         return Result.Success(response);
     }

@@ -113,4 +113,10 @@ public static class CommandErrors
         public static PropertyFailure PrescribingInformationIdIsRequired => 
             new("UpdateClassificationToCompleted.IdPrescribingInformation.IsRequired", "O Id da bula não pode ser vazia.");
     }
+
+    public static class DeletePendingClassificationFailures
+    {
+        public static PropertyFailure ClassificationIdIsRequired => 
+            new("DeletePendingClassification.IdClassification.IsRequired", "O Id da classificação não pode ser vazia.");
+    }
 }

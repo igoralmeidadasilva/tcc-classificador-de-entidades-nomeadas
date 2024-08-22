@@ -1,4 +1,4 @@
-namespace Classificador.Api.Tests.Unit.Application.Queries;
+namespace Classificador.Api.Tests.Unit.Application.Queries.GetCategories;
 public sealed class GetCategoriesQueryHandlerTests
 {
     private readonly Mock<ICategoryReadOnlyRepository> _categoryReadOnlyRepositoryMock;
@@ -13,8 +13,8 @@ public sealed class GetCategoriesQueryHandlerTests
         _mapperMock = new Mock<IMapper>();
 
         _handler = new GetCategoriesQueryHandler(
-            _loggerMock.Object, 
-            _mapperMock.Object, 
+            _loggerMock.Object,
+            _mapperMock.Object,
             _categoryReadOnlyRepositoryMock.Object);
     }
 
@@ -52,16 +52,15 @@ public sealed class GetCategoriesQueryHandlerTests
 
         _mapperMock
             .Setup(mapper => mapper.Map<ClassifyNamedEntityViewCategoryDto>(It.IsAny<Category>()))
-            .Returns((Category src) => new ClassifyNamedEntityViewCategoryDto 
-            { 
-                Name = src.Name 
+            .Returns((Category src) => new ClassifyNamedEntityViewCategoryDto
+            {
+                Name = src.Name
             });
 
         var query = new GetCategoriesQuery();
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);
-
         var valueResult = result as Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>>;
 
         // Assert

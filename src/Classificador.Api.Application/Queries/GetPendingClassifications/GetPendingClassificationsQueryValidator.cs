@@ -6,10 +6,10 @@ public sealed class GetPendingClassificationsQueryValidator : AbstractValidator<
     {
         RuleFor(x => x.IdPrescribingInformation)
             .NotEmpty()
-                .WithError(CommandErrors.UpdateUserRoleFailures.UserIdIsRequired);
+                .WithError(QueryErrors.GetPendingClassificationsFailures.PrescribingInformationIdIsRequired);
 
         RuleFor(x => x.IdUser)
             .NotEmpty()
-                .WithError(CommandErrors.UpdateUserRoleFailures.UserIdIsRequired);
+                .WithError(QueryErrors.GetPendingClassificationsFailures.UserIdIsRequired);
     }
 }

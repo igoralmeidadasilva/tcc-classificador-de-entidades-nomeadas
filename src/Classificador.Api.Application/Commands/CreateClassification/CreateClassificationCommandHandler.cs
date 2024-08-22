@@ -2,7 +2,7 @@ namespace Classificador.Api.Application.Commands.CreateClassification;
 
 public sealed class CreateClassificationCommandHandler : IRequestHandler<CreateClassificationCommand, Result>
 {
-    private ILogger<CreateClassificationCommandHandler> _logger;
+    private readonly ILogger<CreateClassificationCommandHandler> _logger;
     private readonly IMapper _mapper;
     private readonly IUserReadOnlyRepository _userReadOnlyRepository;
     private readonly INamedEntityReadOnlyRepository _namedEntityReadOnlyRepository;

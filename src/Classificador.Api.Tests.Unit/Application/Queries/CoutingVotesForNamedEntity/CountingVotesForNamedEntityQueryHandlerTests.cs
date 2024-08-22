@@ -1,4 +1,4 @@
-namespace Classificador.Api.Tests.Unit.Application.Queries;
+namespace Classificador.Api.Tests.Unit.Application.Queries.CoutingVotesForNamedEntity;
 
 public class CountingVotesForNamedEntityQueryHandlerTests
 {
@@ -22,9 +22,9 @@ public class CountingVotesForNamedEntityQueryHandlerTests
     public async Task Handle_NamedEntityDoesNotExist_ReturnsFailureResult()
     {
         // Arrange
-        var request = new CountingVotesForNamedEntityQuery 
-        { 
-            IdNamedEntity = Guid.NewGuid() 
+        var request = new CountingVotesForNamedEntityQuery
+        {
+            IdNamedEntity = Guid.NewGuid()
         };
 
         _namedEntityReadOnlyRepositoryMock.Setup(repo => repo.ExistsAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
@@ -41,18 +41,18 @@ public class CountingVotesForNamedEntityQueryHandlerTests
     public async Task Handle_NamedEntityExists_ReturnsSuccessResultWithVotes()
     {
         // Arrange
-        var request = new CountingVotesForNamedEntityQuery 
-        { 
-            IdNamedEntity = Guid.NewGuid() 
+        var request = new CountingVotesForNamedEntityQuery
+        {
+            IdNamedEntity = Guid.NewGuid()
         };
 
         _namedEntityReadOnlyRepositoryMock.Setup(repo => repo.ExistsAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(true);
 
-        var expectedVotes = new List<CountVoteForNamedEntity> 
-        { 
+        var expectedVotes = new List<CountVoteForNamedEntity>
+        {
             new CountVoteForNamedEntity(),
-            new CountVoteForNamedEntity() 
+            new CountVoteForNamedEntity()
         };
 
         _classificationReadOnlyRepositoryMock.Setup(repo => repo.GetCountingVotesForNamedEntityAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
@@ -72,8 +72,8 @@ public class CountingVotesForNamedEntityQueryHandlerTests
     public async Task Handle_NamedEntityExists_NoVotes_ReturnsSuccessResultWithEmptyList()
     {
         // Arrange
-        var request = new CountingVotesForNamedEntityQuery 
-        { 
+        var request = new CountingVotesForNamedEntityQuery
+        {
             IdNamedEntity = Guid.NewGuid()
         };
 

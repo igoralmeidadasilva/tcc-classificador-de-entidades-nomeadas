@@ -1,4 +1,4 @@
-namespace Classificador.Api.Application.Commands.UpdateClassificationToCompletedCommand;
+namespace Classificador.Api.Application.Commands.UpdateClassificationToCompleted;
 
 public sealed class UpdateClassificationToCompletedCommandHandler : IRequestHandler<UpdateClassificationToCompletedCommand, Result>
 {
@@ -23,7 +23,7 @@ public sealed class UpdateClassificationToCompletedCommandHandler : IRequestHand
 
         if (!pendingClassifications.Any())
         {
-            _logger.LogInformation("{RequestName} pending classifications could not be found", 
+            _logger.LogInformation("{RequestName} pending classifications could not be found",
                 nameof(UpdateClassificationToCompletedCommand));
             return Result.Failure(DomainErrors.Classification.ClassificationsPendingNotFound);
         }

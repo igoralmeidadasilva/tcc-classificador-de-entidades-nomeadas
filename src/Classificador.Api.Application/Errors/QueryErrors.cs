@@ -14,4 +14,14 @@ public static class QueryErrors
         public static PropertyFailure PrescribingInformationIdIsRequired => 
             new("GetAllClassificationByVotesFailures.IdPrescribingInformation.IsRequired", "O Id da bula não pode ser vazia.");
     }
+
+    public static class GetNamedEntityByPrescribingInformationIdFailures
+    {
+        public static PropertyFailure PrescribingInformationIdIsRequired =>
+            new("GetNamedEntityByPrescribingInformationIdQueryValidator.IdPrescribingInformation.IsRequired", "O Id da bula não pode ser vazia.");
+
+        public static PropertyFailure UserIdIsRequired =>
+            new("GetNamedEntityByPrescribingInformationIdQueryValidator.IdUser.IsRequired", "O Id do usuário não pode ser vazio.");
+    }
+
 }

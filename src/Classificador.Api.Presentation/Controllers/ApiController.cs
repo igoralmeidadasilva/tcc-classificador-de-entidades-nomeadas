@@ -47,20 +47,20 @@ public sealed class ApiController : ControllerBase
         return Ok(valueResponse!.Value);
     }
 
-    [HttpGet(nameof(GetCountVotesForNamedEntities))]
-    public async Task<IActionResult> GetCountVotesForNamedEntities([FromQuery]CountingVotesForNamedEntityQuery query)
-    {
-        Result response = await _mediator.Send(query);
+    //[HttpGet(nameof(GetCountVotesForNamedEntities))]
+    //public async Task<IActionResult> GetCountVotesForNamedEntities([FromQuery]CountingVotesForNamedEntityQuery query)
+    //{
+    //    Result response = await _mediator.Send(query);
 
-        if(!response.IsSuccess)
-        {
-            return NotFound(response);
-        }
+    //    if(!response.IsSuccess)
+    //    {
+    //        return NotFound(response);
+    //    }
 
-        Result<IEnumerable<CountVoteForNamedEntity>>? valueResponse = response as Result<IEnumerable<CountVoteForNamedEntity>>;
+    //    Result<IEnumerable<CountVoteForNamedEntity>>? valueResponse = response as Result<IEnumerable<CountVoteForNamedEntity>>;
 
-        return Ok(valueResponse);
-    }
+    //    return Ok(valueResponse);
+    //}
 
     [HttpPatch(nameof(PatchUserRoleToAdmin))]
     public async Task<IActionResult> PatchUserRoleToAdmin(UpdateUserRoleToAdminCommand command)

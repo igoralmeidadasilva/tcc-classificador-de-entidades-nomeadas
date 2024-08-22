@@ -1,6 +1,3 @@
-using Classificador.Api.Application.Queries.GetAllClassificationByVotes;
-using Classificador.Api.Application.Queries.GetPendingClassifications;
-
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("[controller]")]
@@ -15,15 +12,12 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
         return RedirectToAction("Login", "Home");
     }
 
-    [HttpGet(nameof(ChoosePrescribingInformation))] 
+    [HttpGet(nameof(ChoosePrescribingInformation))]
     public async Task<IActionResult> ChoosePrescribingInformation(
-        ChoosePrescribingInformationViewModel viewModel, 
+        ChoosePrescribingInformationViewModel viewModel,
         [FromQuery] string prescribingInformationName = "")
     {
-        var response = await _mediator.Send(new GetPrescribingInformationQuery
-        {
-            PrescribingInformationName = prescribingInformationName
-        }); 
+        var response = await _mediator.Send(new GetPrescribingInformationQuery(prescribingInformationName));
         
         if(!response.IsSuccess)
         {
@@ -43,69 +37,128 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
     public async Task<IActionResult> ClassifyNamedEntity(
         ClassifyNamedEntityViewModel viewModel, 
         string idPrescribingInformation, 
-        int entityIndex, 
-        string namePrescribingInformation = "-")
+        string namePrescribingInformation, 
+        int entityIndex)
     {
-        var responseGetCategoriesQuery = await _mediator.Send(new GetCategoriesQuery()) as Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>>
+        viewModel.NamePrescribingInformation = namePrescribingInformation;
+        string idUser = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+        var responseGetCategoriesQuery = await _mediator.Send(new GetCategoriesQuery());
+        if(!responseGetCategoriesQuery.IsSuccess)
+        {
+            GenerateErrorMessage(responseGetCategoriesQuery.Error.Message);
+            return RedirectToAction(nameof(ChoosePrescribingInformation));
+        }
+        var valueOfGetCategoriesQuery = responseGetCategoriesQuery as Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>> 
             ?? throw new ResultConvertionException();
 
-        var responseGetNamedEntity = 
-            await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(idPrescribingInformation, User.FindFirstValue(ClaimTypes.NameIdentifier)!)) 
-            as Result<List<ClassifyNamedEntityViewNamedEntityDto>> ?? throw new ResultConvertionException();
+        var responseGetNamedEntity = await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(idPrescribingInformation, idUser));
+        if(!responseGetNamedEntity.IsSuccess)
+        {
+            GenerateErrorMessage(responseGetNamedEntity.Error.Message);
+            return RedirectToAction(nameof(ChoosePrescribingInformation));
+        }
+        var valueOfGetNamedEntity = responseGetNamedEntity as Result<List<ClassifyNamedEntityViewNamedEntityDto>> 
+            ?? throw new ResultConvertionException();
 
-        var responseGetPendingClassifications =
-            await _mediator.Send(new GetPendingClassificationsQuery(User.FindFirstValue(ClaimTypes.NameIdentifier)!, idPrescribingInformation))
-                as Result<List<ClassifyNamedEntityViewPendingClassificationDto>> 
-                    ?? throw new ResultConvertionException();
+        var responseGetPendingClassifications = await _mediator.Send(new GetPendingClassificationsQuery(idUser, idPrescribingInformation));
+        if(!responseGetPendingClassifications.IsSuccess)
+        {
+            GenerateErrorMessage(responseGetPendingClassifications.Error.Message);
+            return RedirectToAction(nameof(ChoosePrescribingInformation));
+        }
+        var valueOfGetPendingClassifications = responseGetPendingClassifications as Result<List<ClassifyNamedEntityViewPendingClassificationDto>> 
+            ?? throw new ResultConvertionException();
 
-        var responseGetAllClassification = await _mediator.Send(new GetAllClassificationByVotesQuery(idPrescribingInformation))
-            as Result<List<CountVoteForNamedEntity>> ?? throw new ResultConvertionException();
+        var responseGetAllClassification = await _mediator.Send(new GetAllClassificationByVotesQuery(idPrescribingInformation));
+        if(!responseGetAllClassification.IsSuccess)
+        {
+            GenerateErrorMessage(responseGetAllClassification.Error.Message);
+            return RedirectToAction(nameof(ChoosePrescribingInformation));
+        }
+        var valueOfGetAllClassification = responseGetAllClassification as Result<List<CountVoteForNamedEntity>> 
+            ?? throw new ResultConvertionException();
 
         viewModel.IdPrescribingInformation = new Guid(idPrescribingInformation);
-        viewModel.Categories = responseGetCategoriesQuery.Value!.ToList();
+        viewModel.Categories = valueOfGetCategoriesQuery.Value!.ToList();
         viewModel.NamedEntityIndex = entityIndex;
-        viewModel.NamePrescribingInformation = namePrescribingInformation;
 
-        ViewData["NamedEntitiesList"] = responseGetNamedEntity.Value;
-        ViewData["PendingClassificationsList"] = responseGetPendingClassifications.Value;
-        ViewData["AllClassificationsList"] = responseGetAllClassification.Value;
-        ViewBag.ReturnUrl = Request.Path;
+        ViewData["NamedEntitiesList"] = valueOfGetNamedEntity.Value;
+        ViewData["PendingClassificationsList"] = valueOfGetPendingClassifications.Value;
+        ViewData["AllClassificationsList"] = valueOfGetAllClassification.Value;
+        ViewBag.ReturnUrl = Request.Path + Request.QueryString;
 
         return View(viewModel);
     }
 
-    [HttpPost("[action]/{prescribingInformationId}")]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ClassifyNamedEntity(ClassifyNamedEntityViewModel viewModel, string prescribingInformationId)
+    [HttpPost(nameof(PostCreateClassification))]
+    public async Task<IActionResult> PostCreateClassification(
+        CreateClassificationViewModel viewModel, 
+        string idPrescribingInformation, 
+        string namePrescribingInformation)
     {
         CreateClassificationCommand command = viewModel;
+
+        ClassifyNamedEntityViewModel classifyNamedEntityViewModel = new()
+        {
+            IdPrescribingInformation = new Guid(idPrescribingInformation),
+            NamePrescribingInformation = namePrescribingInformation
+        };
         Result response = await _mediator.Send(command);
-        viewModel.IdPrescribingInformation = new Guid(prescribingInformationId);
 
         if (!response.IsSuccess)
         {
             GenerateErrorMessage(response.Error.Message);
-            return RedirectToAction(nameof(ClassifyNamedEntity));
+            return View(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
         }
 
-        GenerateSuccessMessage(Constants.Messages.MessageClassificationSuccessfully);
-        return RedirectToAction(nameof(ClassifyNamedEntity), viewModel);
+        GenerateSuccessMessage(Constants.Messages.ClassificationSuccessfully);
+        return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
     }
-
-    [HttpPost(nameof(PatchClassificationToCompleted))]
-    public async Task<IActionResult> PatchClassificationToCompleted(UpdateClassificationToCompletedCommand command, string returnUrl = "")
+        
+    [HttpPost(nameof(PostUpdateClassificationToCompleted))]
+    public async Task<IActionResult> PostUpdateClassificationToCompleted(PatchClassificationToCompletedViewModel viewModel, string returnUrl = "")
     {
-        var response = await _mediator.Send(command);
+        UpdateClassificationToCompletedCommand command = viewModel;
+
+        Result response = await _mediator.Send(command);
+
         if(!response.IsSuccess)
         {
             GenerateWarningMessage(response.Error.Message);
-            ViewBag.ReturnUrl = returnUrl;
+
             return string.IsNullOrEmpty(returnUrl) 
                 ? RedirectToAction(nameof(ChoosePrescribingInformation)) 
                 : Redirect(returnUrl);
         }
 
         return RedirectToAction(nameof(ThanksForTheClassifications));
+    }
+
+    [HttpPost(nameof(PostDeletePendingClassification))]
+    public async Task<IActionResult> PostDeletePendingClassification(
+        DeletePendingClassificationViewModel viewModel,
+        string idPrescribingInformation, 
+        string namePrescribingInformation)
+    {
+        DeletePendingClassificationCommand command = viewModel;
+
+        ClassifyNamedEntityViewModel classifyNamedEntityViewModel = new()
+        {
+            IdPrescribingInformation = new Guid(idPrescribingInformation),
+            NamePrescribingInformation = namePrescribingInformation
+        };
+
+        Result response = await _mediator.Send(command);
+
+        if(!response.IsSuccess)
+        {
+            GenerateErrorMessage(response.Error.Message);
+            return View(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
+        }
+
+        GenerateSuccessMessage(Constants.Messages.DeletePendingClassificationSuccessfully);
+        return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
     }
 
     [HttpGet(nameof(ThanksForTheClassifications))]

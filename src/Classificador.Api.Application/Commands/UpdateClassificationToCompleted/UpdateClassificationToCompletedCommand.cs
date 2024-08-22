@@ -1,4 +1,4 @@
-namespace Classificador.Api.Application.Commands.UpdateClassificationToCompletedCommand;
+namespace Classificador.Api.Application.Commands.UpdateClassificationToCompleted;
 
 public sealed record UpdateClassificationToCompletedCommand() : IQuery<Result>
 {

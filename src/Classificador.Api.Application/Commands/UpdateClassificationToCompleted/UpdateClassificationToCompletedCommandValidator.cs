@@ -1,4 +1,4 @@
-namespace Classificador.Api.Application.Commands.UpdateClassificationToCompletedCommand;
+namespace Classificador.Api.Application.Commands.UpdateClassificationToCompleted;
 
 public sealed class UpdateClassificationToCompletedCommandValidator : AbstractValidator<UpdateClassificationToCompletedCommand>
 {
@@ -6,10 +6,10 @@ public sealed class UpdateClassificationToCompletedCommandValidator : AbstractVa
     {
         RuleFor(x => x.IdPrescribingInformation)
             .NotEmpty()
-                .WithError(CommandErrors.UpdateUserRoleFailures.UserIdIsRequired);
+                .WithError(CommandErrors.UpdateClassificationToCompletedFailures.PrescribingInformationIdIsRequired);
 
         RuleFor(x => x.IdUser)
             .NotEmpty()
-                .WithError(CommandErrors.UpdateUserRoleFailures.UserIdIsRequired);
+                .WithError(CommandErrors.UpdateClassificationToCompletedFailures.UserIdIsRequired);
     }
 }

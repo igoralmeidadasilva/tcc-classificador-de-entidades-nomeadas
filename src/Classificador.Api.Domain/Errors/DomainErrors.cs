@@ -42,7 +42,10 @@ public static class DomainErrors
     public static class Classification
     {
         public static Error ClassificationsPendingNotFound => 
-            new("Classification.PendingNotFound", "Não foi possivel encontrar nenhuma classificação pendente para este usuário.", ErrorType.NotFound);
+            new("Classification.PendingNotFound", "Não foi possivel encontrar nenhuma classificação pendente.", ErrorType.NotFound);
+        
+        public static Error ClassificationsCompletedNotFound => 
+            new("Classification.PendingNotFound", "Não foi possivel encontrar nenhuma classificação completa.", ErrorType.NotFound);
     }
 
     public static class EmailSend

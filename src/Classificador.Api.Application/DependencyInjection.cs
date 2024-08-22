@@ -1,3 +1,5 @@
+using Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
+
 namespace Classificador.Api.Application;
 
 public static class DependencyInjection
@@ -36,6 +38,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<SendEmailToContactCommand>, SendEmailToContactCommandValidator>();
         services.AddScoped<IValidator<CreateClassificationCommand>, CreateClassificationCommandValidator>();
         services.AddScoped<IValidator<GetPendingClassificationsQuery>, GetPendingClassificationsQueryValidator>();
+        services.AddScoped<IValidator<GetNamedEntityByPrescribingInformationIdQuery>, GetNamedEntityByPrescribingInformationIdQueryValidator>();
         
         return services;
     }

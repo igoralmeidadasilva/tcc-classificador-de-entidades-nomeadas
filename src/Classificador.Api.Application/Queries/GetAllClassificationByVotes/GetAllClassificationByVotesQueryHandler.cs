@@ -3,37 +3,52 @@ namespace Classificador.Api.Application.Queries.GetAllClassificationByVotes;
 public sealed class GetAllClassificationByVotesQueryHandler : IRequestHandler<GetAllClassificationByVotesQuery, Result>
 {
     private readonly ILogger<GetAllClassificationByVotesQueryHandler> _logger;
-    private readonly IMapper _mapper;
     private readonly IClassificationReadOnlyRepository _classificationReadOnlyRepository;
-    private readonly INamedEntityReadOnlyRepository _namedEntityReadOnlyRepository;
+    private readonly IPrescribingInformationReadOnlyRepository _prescribingInformationReadOnlyRepository;
 
     public GetAllClassificationByVotesQueryHandler(
         ILogger<GetAllClassificationByVotesQueryHandler> logger,
-        IMapper mapper,
         IClassificationReadOnlyRepository classificationReadOnlyRepository,
-        INamedEntityReadOnlyRepository namedEntityReadOnlyRepository)
+        IPrescribingInformationReadOnlyRepository prescribingInformationReadOnlyRepository)
     {
         _logger = logger;
-        _mapper = mapper;
         _classificationReadOnlyRepository = classificationReadOnlyRepository;
-        _namedEntityReadOnlyRepository = namedEntityReadOnlyRepository;
+        _prescribingInformationReadOnlyRepository = prescribingInformationReadOnlyRepository;
     }
 
     public async Task<Result> Handle(GetAllClassificationByVotesQuery request, CancellationToken cancellationToken)
     {
-        // FIXME: Melhorar esse handler, de preferencia jogar toda a manipulação de dados para o banco
-        var namedEntities = await _namedEntityReadOnlyRepository.GetByPrescribingInformationAsync(request.IdPrescribingInformation, cancellationToken);
-        List<CountVoteForNamedEntity> response = [];
-
-        foreach(NamedEntity item in namedEntities)
+        if(!await _prescribingInformationReadOnlyRepository.ExistsAsync(request.IdPrescribingInformation, cancellationToken))
         {
-            var votes = await _classificationReadOnlyRepository.GetCountingVotesForNamedEntityAsync(item.Id, cancellationToken);
-            if(votes.FirstOrDefault() != default)
-            {
-             response.Add(votes.FirstOrDefault()!);
-            }
+            _logger.LogInformation("{RequestName} Prescribing information does not exist",
+                nameof(GetAllClassificationByVotesQuery));
+
+            return Result.Failure(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound);
         }
 
-        return Result.Success(response);
+        IEnumerable<CountVoteForNamedEntity> response = await _classificationReadOnlyRepository
+            .GetMostVotedEntityByPrescribingInformation(request.IdPrescribingInformation, cancellationToken);
+
+        if(response is null)
+        {
+            _logger.LogInformation("{RequestName} error to find classifications.",
+                nameof(GetAllClassificationByVotesQuery));
+
+            return Result.Failure(DomainErrors.Classification.ClassificationsCompletedNotFound);
+        }
+
+        if(!response.Any())
+        {
+            _logger.LogInformation("{RequestName} did not find any classification.",
+                nameof(GetAllClassificationByVotesQuery));
+            
+            return Result.Success(new List<CountVoteForNamedEntity>());
+        }
+
+        _logger.LogInformation("{RequestName} successfully fechting for named entity votes. Amount records: {Count}",
+            nameof(GetAllClassificationByVotesQuery),
+            response.Count());
+
+        return Result.Success(response.ToList());
     }
 }

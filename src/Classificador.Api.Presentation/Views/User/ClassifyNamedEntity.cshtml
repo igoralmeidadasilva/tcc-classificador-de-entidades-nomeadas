@@ -2,9 +2,9 @@
 @{
     ViewData["Title"] = "Classificar";
     var namedEntities = ViewData["NamedEntitiesList"] as List<ClassifyNamedEntityViewNamedEntityDto>;
-    var namedEntitiesCount = namedEntities!.Count;
     var pendingClassificationsList = ViewData["PendingClassificationsList"] as List<ClassifyNamedEntityViewPendingClassificationDto>;
     var allClassificationList = ViewData["AllClassificationsList"] as List<CountVoteForNamedEntity>;
+    var namedEntitiesCount = namedEntities != null ? namedEntities.Count : 0;
 }
 
 <div class="container my-5">
@@ -29,13 +29,20 @@
                     <div class="col-12">
                         <form 
                             id="PendingClassifyForm"
+                            asp-action="PostCreateClassification" 
+                            asp-controller="User" 
+                            asp-route-idPrescribingInformation="@Model.IdPrescribingInformation" 
+                            asp-route-namePrescribingInformation="@Model.NamePrescribingInformation"
                             method="post">
 
-                            <input type="hidden" id="InputIdCategory" asp-for="IdCategory">
-                            <input type="hidden" id="InputIdUser" asp-for="IdUser" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+                            <input type="hidden" id="InputIdCategory" asp-for="CreateClassificationForm!.IdCategory" name="IdCategory">
+                            <input type="hidden" id="InputIdUser" asp-for="CreateClassificationForm!.IdUser" name="IdUser"
+                                value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+
                             @if(namedEntities != null && namedEntitiesCount != 0)
                             {
-                                <input type="hidden" id="InputIdNamedEntity" asp-for="IdNamedEntity" value="@namedEntities![Model.NamedEntityIndex]!.Id">
+                                <input type="hidden" id="InputIdNamedEntity" asp-for="CreateClassificationForm!.IdNamedEntity" name="IdNamedEntity" 
+                                    value="@namedEntities![Model.NamedEntityIndex]!.Id">
                             }
 
                             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
@@ -59,7 +66,8 @@
                             <div class="form-floating mb-3">
                                 <textarea 
                                     class="form-control @(namedEntitiesCount == 0 ? "disabled" : "")" 
-                                    id="TextAreaComment" 
+                                    id="TextAreaComment"
+                                    asp-for="CreateClassificationForm!.Comment" 
                                     name="Comment" 
                                     rows="3" 
                                     placeholder="Comentários"></textarea>
@@ -91,10 +99,21 @@
                                 Pular
                         </a>
                     </div>
-
-                    <form class="col d-grid" method="post" action="/User/PatchClassificationToCompleted">
-                        <input type="hidden" name="IdUser" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
-                        <input type="hidden" name="IdPrescribingInformation" value="@Model.IdPrescribingInformation">
+                    <form 
+                        id="SendClassificationToCompletedForm"
+                        class="col d-grid" 
+                        asp-action="PostUpdateClassificationToCompleted"
+                        asp-controller="User"
+                        asp-route-returnUrl = "@(ViewBag.ReturnURL != null ? ViewBag.ReturnURL : ' ')"
+                        method="post" 
+                    >
+                        <input type="hidden" asp-for="PatchClassificationForm!.IdUser" name="IdUser" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
+                        <input 
+                            type="hidden" 
+                            asp-for="PatchClassificationForm!.IdPrescribingInformation" 
+                            name="IdPrescribingInformation" 
+                            value="@Model.IdPrescribingInformation"
+                        >
 
                         <button type="submit" class="btn btn-success">Enviar</button>
                     </form>
@@ -121,7 +140,22 @@
                                 <tr>
                                     <td>@cls.NamedEntity</td>
                                     <td>@cls.Category</td>
-                                    <td>+</td>
+                                    <td>
+                                        <form 
+                                            id="DeletePendingClassificationForm" 
+                                            asp-action="PostDeletePendingClassification"
+                                            asp-controller="User"
+                                            asp-route-idPrescribingInformation="@Model.IdPrescribingInformation" 
+                                            asp-route-namePrescribingInformation="@Model.NamePrescribingInformation"
+                                            method="post" 
+                                        >
+                                            <input type="hidden" asp-for="DeletePendingClassificationForm!.IdClassification" 
+                                                name="IdClassification" value="@cls.IdClassification">
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">
+                                                <i class="bi bi-trash3 fs-6"></i>
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             }
                         }
@@ -173,13 +207,11 @@
                     @if(allClassificationList != null)
                     {
                         <tr>
-                            <td colspan="3" class="bg-body-secondary">Quantidade: @allClassificationList!.Count: </td>
+                            <td colspan="3" class="bg-body-secondary">Quantidade: @allClassificationList!.Count</td>
                         </tr>
                     }
                 </tfoot>
             </table>
         </section>
     </div>
-
 </div>
-

@@ -102,6 +102,7 @@ public sealed class HomeController : WebController<HomeController>
             {
                 TempData["EmailFailures"] = validationError!.ExtractValidationErrors("LoginUser.Email");
                 TempData["PasswordFailures"] = validationError!.ExtractValidationErrors("LoginUser.Password");
+  
             }
             return View();
         }
@@ -156,7 +157,7 @@ public sealed class HomeController : WebController<HomeController>
             return View(viewModel);
         }
 
-        GenerateSuccessMessage(Constants.Messages.MessageSendSuccessfully);
+        GenerateSuccessMessage(Constants.Messages.SendSuccessfully);
         return View(viewModel);
     } 
 
