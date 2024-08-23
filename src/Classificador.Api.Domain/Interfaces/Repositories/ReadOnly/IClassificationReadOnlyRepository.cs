@@ -8,4 +8,6 @@ public interface IClassificationReadOnlyRepository : IReadOnlyRepository<Classif
         Guid idPrescribingInformation, 
         Guid idUser, 
         CancellationToken cancellationToken = default);
+
+    Task<int> GetCountClassificationByUserId(Guid idUser, Guid idPrescribingInformation, CancellationToken cancellationToken = default);
 }

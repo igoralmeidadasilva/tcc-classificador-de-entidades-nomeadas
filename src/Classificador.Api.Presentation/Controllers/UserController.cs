@@ -17,7 +17,9 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
         ChoosePrescribingInformationViewModel viewModel,
         [FromQuery] string prescribingInformationName = "")
     {
-        var response = await _mediator.Send(new GetPrescribingInformationQuery(prescribingInformationName));
+        string idUser = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+        var response = await _mediator.Send(new GetPrescribingInformationQuery(prescribingInformationName, idUser));
         
         if(!response.IsSuccess)
         {
@@ -25,10 +27,10 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
             return View();
         }     
 
-        var valueResponse = response as Result<IEnumerable<ChoosePrescribingInformationViewDto>>
+        var valueResponse = response as Result<List<ChoosePrescribingInformationViewDto>>
             ?? throw new ResultConvertionException();
 
-        viewModel.PrescribingInformations = valueResponse.Value!.ToList();
+        viewModel.PrescribingInformations = valueResponse.Value!;
 
         return View(viewModel);
     }

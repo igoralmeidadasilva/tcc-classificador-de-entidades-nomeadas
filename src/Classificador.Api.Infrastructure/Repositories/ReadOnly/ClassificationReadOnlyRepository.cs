@@ -1,6 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using Npgsql;
-
 namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Classification>, IClassificationReadOnlyRepository
@@ -74,7 +71,7 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
         Guid idUser, 
         CancellationToken cancellationToken = default)
     {
-        var query = await _context.Classifications
+        return await _context.Classifications
             .AsNoTracking()
             .Include(cla => cla.NamedEntity)
             .Include(cla => cla.Category)
@@ -82,8 +79,17 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
             .Where(cla => cla.Status.Equals(ClassificationStatus.Pendente))
             .Where(cla => cla.NamedEntity!.IdPrescribingInformation.Equals(idPrescribingInformation))
             .ToListAsync(cancellationToken);
-        return query;
-        
+    }
+
+    public async Task<int> GetCountClassificationByUserId(Guid idUser, Guid idPrescribingInformation, CancellationToken cancellationToken = default)
+    {
+        return await _context.Classifications
+            .AsNoTracking()
+            .Include(cla => cla.NamedEntity)
+            .Where(cla => cla.IdUser.Equals(idUser))
+            .Where(cla => cla.Status.Equals(ClassificationStatus.Completo))
+            .Where(cla => cla.NamedEntity!.IdPrescribingInformation.Equals(idPrescribingInformation))
+            .CountAsync(cancellationToken);
     }
 }
 

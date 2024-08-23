@@ -4,16 +4,19 @@ public sealed class GetAllClassificationByVotesQueryHandlerTests
 {
     private readonly Mock<ILogger<GetAllClassificationByVotesQueryHandler>> _loggerMock;
     private readonly Mock<IClassificationReadOnlyRepository> _classificationReadOnlyRepoMock;
+    private readonly Mock<IPrescribingInformationReadOnlyRepository> _prescribingInformationReadOnlyRepoMock;
     private readonly GetAllClassificationByVotesQueryHandler _handler;
 
     public GetAllClassificationByVotesQueryHandlerTests()
     {
         _loggerMock = new Mock<ILogger<GetAllClassificationByVotesQueryHandler>>();
         _classificationReadOnlyRepoMock = new Mock<IClassificationReadOnlyRepository>();
+        _prescribingInformationReadOnlyRepoMock = new Mock<IPrescribingInformationReadOnlyRepository>();
 
         _handler = new GetAllClassificationByVotesQueryHandler(
             _loggerMock.Object,
-            _classificationReadOnlyRepoMock.Object);
+            _classificationReadOnlyRepoMock.Object,
+            _prescribingInformationReadOnlyRepoMock.Object);
     }
 
     [Fact]
@@ -50,10 +53,12 @@ public sealed class GetAllClassificationByVotesQueryHandlerTests
         _classificationReadOnlyRepoMock.Setup(repo => repo.GetMostVotedEntityByPrescribingInformation(
                 query.IdPrescribingInformation, It.IsAny<CancellationToken>()))
             .ReturnsAsync(counts);
+        _prescribingInformationReadOnlyRepoMock.Setup(repo => repo.ExistsAsync(It.IsAny<Guid>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(true);
 
         // Act
         var result = await _handler.Handle(query, CancellationToken.None);
-        var valueResult = result as Result<IEnumerable<CountVoteForNamedEntity>>;
+        var valueResult = result as Result<List<CountVoteForNamedEntity>>;
 
         // Assert
         Assert.True(result.IsSuccess);
