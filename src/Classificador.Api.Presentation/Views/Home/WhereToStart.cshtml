@@ -3,5 +3,46 @@
 }
 
 <div class="container my-5">
-    <h1>Por onde Começar</h1>
+    <div class="mb-4">
+        <h1 class="display-6 text-color-primary">Por onde Começar</h1>
+        <h2 class="display-4">Estamos aqui para ajudar</h2>
+    </div>
+
+    <hr>
+
+    <div class="mb-4">
+        <h3>Por Onde Começar</h3>
+        <p class="lead">Bem-vindo à nossa plataforma de classificação de entidades nomeadas em bulas farmacêuticas! Estamos aqui para facilitar a extração e organização de informações cruciais presentes nas bulas de medicamentos. Siga os passos abaixo para começar a utilizar nossa ferramenta de forma eficiente:</p>
+
+        <h3>Crie uma Conta</h3>
+        <p class="lead">Para acessar todas as funcionalidades da nossa plataforma, você precisará criar uma conta. Clique no botão <a asp-asp-controller="Home" asp-action="SignUp">Cadastrar</a> no menu superior da página e preencha os campos necessários.</p>
+
+        <h3>Escolha a Bula</h3>
+        <p class="lead">Clique em <a asp-asp-controller="User" asp-action="ChoosePrescribingInformation">Comece a Classificar</a> no menu superior. Até o momento, não oferecemos uma forma de cadastrar sua própria bula. As bulas disponíveis são fornecidas pela equipe de administração da plataforma. No entanto, estamos trabalhando para permitir o upload de bulas personalizadas no futuro. Lembre-se é importante estar <strong>logado no sistema</strong> para realizar essa ação.</p>
+
+        @* Inserir Foto da escolha da bula *@
+
+        <h3>Selecione as Entidades Nomeadas</h3>
+        <p class="lead">Após escolher a bula, nossa ferramenta de reconhecimento de entidades nomeadas (NER) analisará o documento e destacará automaticamente as entidades relevantes, como nomes de medicamentos, dosagens, efeitos colaterais, entre outros.</p>
+
+        <h3>Classifique as Entidades Nomeadas</h3>
+        <p class="lead">
+            Após escolher a bula, as entidades pré-cadastradas pelos usuários serão dispostas na tela. Uma série de botões de categorias aparecerá, permitindo que você classifique as entidades apenas clicando nos botões. Você também terá a opção de adicionar um comentário. As entidades serão dispostas em uma tabela à esquerda da tela, mostrando as classificações feitas por você. Caso haja alguma classificação errada, você poderá excluí-la diretamente na tabela. A classificação será completa somente quando você clicar no botão “Enviar”.
+        </p>
+        
+         @* Inserir Foto da escolha da bula *@
+
+        <h4>Suporte e Ajuda</h4>
+        <p class="lead">Se você encontrar qualquer dificuldade ou tiver dúvidas, nossa equipe de suporte está à disposição para ajudar. Acesse a seção <a asp-asp-controller="Home" asp-action="Contact">Contatos</a> ou entre em contato diretamente conosco através do e-mail medtagger.contato@gmail.com.</p>
+         
+
+         <p class="lead">
+            Obrigado por nos visitar!
+        </p>
+        
+        <p class="lead">
+            <strong>Equipe MedTagger</strong>
+        </p>
+    </div>
+
 </div>
