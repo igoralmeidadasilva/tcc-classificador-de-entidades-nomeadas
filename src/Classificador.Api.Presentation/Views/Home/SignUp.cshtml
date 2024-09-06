@@ -1,14 +1,24 @@
 @model SignUpViewModel;
-
 @{
     ViewData["Title"] = "Cadastrar";
+    var emailFailures = TempData["EmailFailures"] as List<string>;
+    var passwordFailures = TempData["PasswordFailures"] as List<string>;
+    var confirmPasswordFailures = TempData["ConfirmPasswordFailures"] as List<string>;
+    var nameFailures = TempData["NameFailures"] as List<string>;  
+    var contactFailures = TempData["ContactFailures"] as List<string>; 
+    var specialtyFailures = TempData["SpecialtyFailures"] as List<string>; 
 }
 
 <div class="container my-5">
     <section class="row justify-content-center">
-        <form class="col-10 col-md-6 border rounded p-3 bg-light shadow-sm needs-validation" method="post">
+        <form 
+            class="col-10 col-md-6 border rounded p-3 bg-light shadow-sm needs-validation" 
+            method="post"
+            asp-action="PostSignUp" 
+            asp-controller="Home"
+        >
             <h1 class="display-6 text-color-primary">Cadastrar</h1>
-            
+
             <hr>
 
             <div class="form-floating mb-3 position-relative">
@@ -22,10 +32,14 @@
                     required
                 >
                 <label class="form-label" for="InputEmail">Email</label>
-                @if(TempData["EmailFailures"] != null && (TempData!["EmailFailures"] as string) != string.Empty)
+                @if(emailFailures != null && emailFailures.Count() != 0)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @TempData["EmailFailures"]
+                        @foreach(var failure in emailFailures)
+                        {
+                            <span>•</span> @failure
+                            <br> 
+                        }
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }
@@ -41,12 +55,17 @@
                     minlength=@Classificador.Api.Domain.Constants.Constraints.USER_PASSWORD_MIN_LENGHT 
                     maxlength=@Classificador.Api.Domain.Constants.Constraints.USER_PASSWORD_MAX_LENGHT
                     required
-                    >
+                >
+
                 <label class="form-label" for="InputPassword">Senha</label>
-                @if(TempData["PasswordFailures"] != null && (TempData!["PasswordFailures"] as string) != string.Empty)
+                @if(passwordFailures != null && passwordFailures.Count() != 0)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @TempData["PasswordFailures"]
+                        @foreach(var failure in passwordFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }
@@ -63,11 +82,16 @@
                     maxlength=@Classificador.Api.Domain.Constants.Constraints.USER_PASSWORD_MAX_LENGHT 
                     required
                 >
+
                 <label class="form-label" for="InputConfirmPassword">Confirmar a Senha</label>
-                @if(TempData["ConfirmPasswordFailures"] != null && (TempData!["ConfirmPasswordFailures"] as string)!= string.Empty)
+                @if(confirmPasswordFailures != null && confirmPasswordFailures.Count() != 0)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @TempData["ConfirmPasswordFailures"]
+                        @foreach(var failure in confirmPasswordFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }
@@ -83,11 +107,16 @@
                     maxlength=@Classificador.Api.Domain.Constants.Constraints.USER_FIRST_NAME_MAX_LENGHT 
                     required
                 >
+
                 <label class="form-label" for="InputName">Nome Completo</label>
-                @if(TempData["NameFailures"] != null && (TempData!["NameFailures"] as string) != string.Empty)
+                @if(nameFailures != null && nameFailures.Count() != 0)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @TempData["NameFailures"]
+                        @foreach(var failure in nameFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }
@@ -104,11 +133,16 @@
                     data-mask="tel" 
                     asp-for="Contact"
                 >
+
                 <label class="form-label" for="InputContact">Contato</label>
-                @if(TempData["ContactFailures"] != null && (TempData!["ContactFailures"] as string) != string.Empty)
+                @if(contactFailures != null && contactFailures.Count() != 0)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @TempData["ContactFailures"]
+                        @foreach(var failure in contactFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }
@@ -119,10 +153,15 @@
                 <select class="form-select" asp-for="SpecialtyId" asp-items="@Model.Specialties" required>
                     <option disabled selected value=""> -- Por favor selecione uma especialidade -- </option>
                 </select>
-                @if(TempData["SpecialtyFailures"] != null && (TempData!["SpecialtyFailures"] as string) != string.Empty)
+                
+                @if(specialtyFailures != null && specialtyFailures.Count() != 0)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @TempData["SpecialtyFailures"]
+                        @foreach(var failure in specialtyFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }

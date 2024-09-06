@@ -1,6 +1,11 @@
 ﻿@model ContactViewModel;
 @{
     ViewData["Title"] = "Contatos";
+    var nameFailures = TempData["NameFailures"] as List<string>;
+    var emailFailures = TempData["EmailFailures"] as List<string>;
+    var subjectFailures = TempData["SubjectFailures"] as List<string>;
+    var messageFailures = TempData["MessageFailures"] as List<string>;
+
 }
 
 <div class="container my-5">
@@ -22,14 +27,18 @@
         <div class="row row-cols-1 row-cols-md-2 mt-4 g-6">
             <div class="col mb-3">
                 <h4 class="display-6 mb-3">Formulário de Contato</h4>
-                <form method="post">
+                <form method="post" asp-action="PostSendEmailToContact" asp-controller="Home">
                     <div class="form-floating mb-3">
                         <input class="form-control" type="text" id="InputName" placeholder="Nome Completo" asp-for="Name" required>
                         <label class="form-label" for="InputName">Nome Completo</label>
-                        @if(TempData["NameFailures"] != null && (TempData!["NameFailures"] as string) != string.Empty)
+                        @if(nameFailures != null && nameFailures.Count() != 0)
                         {
                             <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                                @TempData["NameFailures"]
+                                @foreach(var failure in nameFailures)
+                                {
+                                    <span>•</span> @failure
+                                    <br>
+                                }
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                             </div>
                         }
@@ -38,10 +47,14 @@
                     <div class="form-floating mb-3">
                         <input class="form-control" type="email" id="InputEmail" placeholder="Email" asp-for="Email" required>
                         <label class="form-label" for="InputEmail">Email</label>
-                        @if(TempData["EmailFailures"] != null && (TempData!["EmailFailures"] as string) != string.Empty)
+                        @if(emailFailures != null && emailFailures.Count() != 0)
                         {
                             <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                                @TempData["EmailFailures"]
+                                @foreach(var failure in emailFailures)
+                                {
+                                    <span>•</span> @failure
+                                    <br>
+                                }
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                             </div>
                         }
@@ -50,10 +63,14 @@
                     <div class="form-floating mb-3">
                         <input class="form-control" type="text" id="InputSubject" placeholder="Assunto" asp-for="Subject" required>
                         <label class="form-label" for="InputSubject">Assunto</label>
-                        @if(TempData["SubjectFailures"] != null && (TempData!["SubjectFailures"] as string) != string.Empty)
+                        @if(subjectFailures != null && subjectFailures.Count() != 0)
                         {
                             <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                                @TempData["SubjectFailures"]
+                                @foreach(var failure in subjectFailures)
+                                {
+                                    <span>•</span> @failure
+                                    <br>
+                                }
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                             </div>
                         }
@@ -62,10 +79,14 @@
                     <div class="form-floating mb-3">
                         <textarea class="form-control" id="TextAreaMessage" rows="3" placeholder="Mensagem" asp-for="Message" required></textarea>
                         <label class="form-label" for="TextAreaMessage">Mensagem</label>
-                        @if(TempData["MessageFailures"] != null && (TempData!["MessageFailures"] as string) != string.Empty)
+                        @if(messageFailures != null && messageFailures.Count() != 0)
                         {
                             <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                                @TempData["MessageFailures"]
+                                @foreach(var failure in messageFailures)
+                                {
+                                    <span>•</span> @failure
+                                    <br>
+                                }
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                             </div>
                         }
@@ -82,7 +103,7 @@
             <div class="col mb-3">
                 <h4 class="display-6 mb-3">E-mail</h4>
                 <p class="lead">Prefere enviar um e-mail? Sem problemas! Você pode nos contatar pelo endereço:</p>
-                <p class="lead"><strong>@ViewBag.ContactEmail</strong></p>
+                <p class="lead"><strong>@Model.EmailToContact</strong></p>
             </div>
 
         </div>

@@ -9,10 +9,10 @@ public sealed record SendEmailToContactCommand : ICommand<Result>
 
     public SendEmailToContactCommand(string name, string subject, string email, string message)
     {
-        Name = name;
-        Subject = subject;
-        Email = email.ToLowerInvariant();
-        Message = message;
+        Name = name ?? string.Empty;
+        Subject = subject ?? string.Empty;
+        Email = email is null ? string.Empty : email.ToLowerInvariant();
+        Message = message ?? string.Empty;
     }
 
     public SendEmailToContactCommand() 

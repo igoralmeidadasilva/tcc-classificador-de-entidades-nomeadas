@@ -39,23 +39,21 @@ public sealed class HomeController : WebController<HomeController>
     }
 
     [HttpGet(nameof(SignUp))]
-    public async Task<IActionResult> SignUp(SignUpViewModel viewModel,[FromServices]ISpecialtyReadOnlyRepository _repo)
+    public async Task<IActionResult> SignUp(SignUpViewModel viewModel, [FromServices]ISpecialtyReadOnlyRepository _repo)
     {
-        viewModel.Specialties = new SelectList(await _repo.GetAllAsync(), nameof(Specialty.Id), nameof(Specialty.Name));
+        await LoadSpecialtiesAsync(viewModel, _repo);
         return View(viewModel);
     }
 
-    [HttpPost(nameof(SignUp))]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> SignUp(SignUpViewModel viewModel)
+    [HttpPost(nameof(SignUp))]
+    public async Task<IActionResult> PostSignUp(SignUpViewModel viewModel, [FromServices] ISpecialtyReadOnlyRepository _repo)
     {
         CreateUserCommand command = viewModel;
         Result response = await _mediator.Send(command);
 
         if (!response.IsSuccess)
         {
-            GenerateErrorMessage(response.Error.Message);
-
             var validationError = response.Error as ValidationError;
 
             if(validationError != null)
@@ -65,14 +63,24 @@ public sealed class HomeController : WebController<HomeController>
                 TempData["ConfirmPasswordFailures"] = validationError!.ExtractValidationErrors("CreateUser.ConfirmPassword");
                 TempData["NameFailures"] = validationError!.ExtractValidationErrors("CreateUser.Name");
                 TempData["ContactFailures"] = validationError!.ExtractValidationErrors("CreateUser.Contact");
-                TempData["SpecialtyFailures"] = validationError!.ExtractValidationErrors("CreateUser.IdSpecialty");
+                TempData["SpecialtyFailures"] = validationError!.ExtractValidationErrors("CreateUser.Specialty");
             }
-
-            return View();
+            else
+            {
+                GenerateErrorMessage(response.Error.Message);
+            }
+            await LoadSpecialtiesAsync(viewModel, _repo);
+            return View(nameof(SignUp), viewModel);
         }
 
         GenerateSuccessMessage(Constants.Messages.SignUpSuccess);
         return RedirectToAction(nameof(Login));
+    }
+
+    private async Task LoadSpecialtiesAsync(SignUpViewModel viewModel, ISpecialtyReadOnlyRepository repo)
+    {
+        var specialties = await repo.GetAllAsync();
+        viewModel.Specialties = new SelectList(specialties, nameof(Specialty.Id), nameof(Specialty.Name));
     }
 
     
@@ -95,14 +103,16 @@ public sealed class HomeController : WebController<HomeController>
 
         if(!response.IsSuccess)
         {
-            GenerateErrorMessage(response.Error.Message);
             ValidationError? validationError = response.Error as ValidationError;
 
             if(validationError != null)
             {
                 TempData["EmailFailures"] = validationError!.ExtractValidationErrors("LoginUser.Email");
                 TempData["PasswordFailures"] = validationError!.ExtractValidationErrors("LoginUser.Password");
-  
+            }
+            else
+            {
+                GenerateErrorMessage(response.Error.Message);
             }
             return View();
         }
@@ -113,7 +123,7 @@ public sealed class HomeController : WebController<HomeController>
         AuthenticationProperties authProperties = new();
 
         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(valueResponse!.Value!), authProperties);
-        if (Url.IsLocalUrl(returnUrl))
+        if(Url.IsLocalUrl(returnUrl))
         {
             return Redirect(returnUrl);
         }
@@ -130,16 +140,19 @@ public sealed class HomeController : WebController<HomeController>
     public IActionResult Contact(ContactViewModel viewModel, [FromServices] IOptions<EmailOptions> emailOptions)
     {
         var option = emailOptions.Value;
-        ViewBag.ContactEmail = option.EmailAddress;
+        viewModel.EmailToContact = option.EmailAddress!;
         return View(viewModel);
     }  
 
     [HttpPost(nameof(Contact))]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Contact(ContactViewModel viewModel)
+    public async Task<IActionResult> PostSendEmailToContact(ContactViewModel viewModel, [FromServices] IOptions<EmailOptions> emailOptions)
     {
         SendEmailToContactCommand command = viewModel;
         Result response = await _mediator.Send(command);
+
+        var option = emailOptions.Value;
+        viewModel.EmailToContact = option.EmailAddress!;
 
         if(!response.IsSuccess)
         {
@@ -154,11 +167,11 @@ public sealed class HomeController : WebController<HomeController>
                 TempData["MessageFailures"] = validationError!.ExtractValidationErrors("SendEmailToContact.Message");
             }
 
-            return View(viewModel);
+            return RedirectToAction(nameof(Contact), viewModel);
         }
 
         GenerateSuccessMessage(Constants.Messages.SendSuccessfully);
-        return View(viewModel);
+        return RedirectToAction(nameof(Contact), viewModel);
     } 
 
     [HttpGet(nameof(WhereToStart))]

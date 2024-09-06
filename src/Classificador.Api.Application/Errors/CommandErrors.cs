@@ -41,7 +41,7 @@ public static class CommandErrors
         public static PropertyFailure ContactMaximumLenght => 
             new("CreateUser.Contact.MaximumLenght", $"O contato não pode ser maior que {Constants.Constraints.USER_CONTACT_MAX_LENGHT} caracteres.");
         public static PropertyFailure ContactFormat => new("CreateUser.Contact.FormatInvalid", "O número de contato deve serguir o formato (XX)XXXXX-XXXX");
-        public static PropertyFailure IdSpecialtyIsRequired => new("CreateUser.IdSpecialty.IsRequired", "A Especialidade não pode ser vazia.");
+        public static PropertyFailure SpecialtyIsRequired => new("CreateUser.Specialty.IsRequired", "A Especialidade não pode ser vazia.");
     }
     
     public static class UpdateUserRoleFailures
@@ -55,6 +55,7 @@ public static class CommandErrors
         public static PropertyFailure EmailMaximumLenght => 
             new("LoginUser.Email.MaximumLenght", $"O Email não pode ser maior que {Constants.Constraints.USER_EMAIL_MAX_LENGHT} caracteres.");
         public static PropertyFailure EmailFormat => new("LoginUser.Email.FormatInvalid", "O Formato do email é inválido.");
+        public static PropertyFailure EmailNotFound => new("LoginUser.Email.NotFound", "O Email não existe ou está incorreto.");
         public static PropertyFailure PasswordIsRequired => new("LoginUser.Password.IsRequired", "A senha não pode ser vazia.");
         public static PropertyFailure PasswordMinimumLenght => 
             new("LoginUser.Password.MinimumLenght", $"A senha não pode ser menor que {Constants.Constraints.USER_PASSWORD_MIN_LENGHT} caracteres.");

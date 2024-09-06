@@ -1,6 +1,8 @@
 @model LoginViewModel;
 @{
     ViewData["Title"] = "Entrar";
+    var emailFailures = TempData["EmailFailures"] as List<string>;
+    var passwordFailures = TempData["PasswordFailures"] as List<string>;
 }
 
 <div class="container my-5">
@@ -20,11 +22,16 @@
                     maxlength=@Classificador.Api.Domain.Constants.Constraints.USER_EMAIL_MAX_LENGHT
                     required
                 >
+
                 <label class="form-label" for="InputEmail">Email</label>
-                @if(TempData["EmailFailures"] != null && (TempData!["EmailFailures"] as string) != string.Empty)
+                @if(emailFailures != null && emailFailures.Count() != 0)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @TempData["EmailFailures"]
+                        @foreach(var failure in emailFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>
+                        }
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }
@@ -40,12 +47,17 @@
                     minlength=@Classificador.Api.Domain.Constants.Constraints.USER_PASSWORD_MIN_LENGHT 
                     maxlength=@Classificador.Api.Domain.Constants.Constraints.USER_PASSWORD_MAX_LENGHT
                     required
-                    >
+                >
+                
                 <label class="form-label" for="InputPassword">Senha</label>
-                @if(TempData["PasswordFailures"] != null && (TempData!["PasswordFailures"] as string) != string.Empty)
+                @if(passwordFailures != null && passwordFailures.Count() != 0)
                 {
                     <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
-                        @TempData["PasswordFailures"]
+                        @foreach(var failure in passwordFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
                     </div>
                 }

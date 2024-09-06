@@ -10,6 +10,8 @@ public static class DomainErrors
     public static class User
     {
         public static Error UserNotFound => new("User.NotFound", "Não foi possivel encontrar o usuário.", ErrorType.NotFound);
+        public static Error EmailNotExists => 
+            new("User.Email.NotExists", "Não conseguimos encontrar o seu e-mai. Por favor, verifique se o endereço de e-mail fornecido está correto e tente novamente", ErrorType.NotFound);
         public static Error EmailAlreadyExists => new("User.Email.AlreadyExists", "O Email já existe.", ErrorType.Conflict);
         public static Error AuthenticationPasswordFailed => new("User.AuthenticationPassword.Failed", "Credênciais Inválidas.", ErrorType.Unauthorized);
     }

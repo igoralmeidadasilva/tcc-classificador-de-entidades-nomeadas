@@ -11,10 +11,10 @@ public sealed record CreateUserCommand : ICommand<Result>
 
     public CreateUserCommand(string email, string password, string confirmPassword, string name, string? contact, Guid? idSpecialty)
     {
-        Email = email.ToLowerInvariant();
-        Password = password;
-        ConfirmPassword = confirmPassword;
-        Name = name;
+        Email = email is null ? string.Empty : email.ToLowerInvariant();
+        Password = password ?? string.Empty;
+        ConfirmPassword = confirmPassword ?? string.Empty;
+        Name = name ?? string.Empty;
         Contact = contact ?? string.Empty;
         IdSpecialty = idSpecialty ?? Guid.Empty;
     }

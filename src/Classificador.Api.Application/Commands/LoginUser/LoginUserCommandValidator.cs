@@ -8,10 +8,10 @@ public sealed class LoginUserCommandValidator : AbstractValidator<LoginUserComma
             .NotEmpty()
                 .WithError(CommandErrors.LoginUserFailures.EmailIsRequired)
             .MaximumLength(Constants.Constraints.USER_EMAIL_MAX_LENGHT)
-                .WithError(CommandErrors.LoginUserFailures.EmailIsRequired)
+                .WithError(CommandErrors.LoginUserFailures.EmailMaximumLenght)
             .EmailAddress()
                 .WithError(CommandErrors.LoginUserFailures.EmailFormat);
-        
+
         RuleFor(x => x.Password)
             .NotEmpty()
                 .WithError(CommandErrors.LoginUserFailures.PasswordIsRequired)
@@ -27,6 +27,5 @@ public sealed class LoginUserCommandValidator : AbstractValidator<LoginUserComma
                 .WithError(CommandErrors.LoginUserFailures.PasswordFormatInvalidNumber)
             .Matches("(?=.*[@#$%^&+=])")
                 .WithError(CommandErrors.LoginUserFailures.PasswordFormatInvalidNonAlphanumeric);
-
     }
 }

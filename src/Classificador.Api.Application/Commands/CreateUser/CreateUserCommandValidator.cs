@@ -60,8 +60,10 @@ public sealed class CreateUserCommandValidator : AbstractValidator<CreateUserCom
                 .When(x => x.Contact != string.Empty);
 
         RuleFor(x => x.IdSpecialty)
-            .NotNull()
-                .WithError(CommandErrors.CreateUserFailures.IdSpecialtyIsRequired);
+            .NotEmpty()
+                .WithError(CommandErrors.CreateUserFailures.SpecialtyIsRequired)
+            .NotEqual(x => Guid.Empty)
+                .WithError(CommandErrors.CreateUserFailures.SpecialtyIsRequired);
     }
 
 }

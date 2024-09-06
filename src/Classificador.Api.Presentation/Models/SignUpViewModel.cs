@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc.Rendering;
-
 namespace Classificador.Api.Presentation.Models;
 
 public sealed record SignUpViewModel
