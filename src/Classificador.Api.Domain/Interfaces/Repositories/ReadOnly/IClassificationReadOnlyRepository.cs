@@ -12,4 +12,6 @@ public interface IClassificationReadOnlyRepository : IReadOnlyRepository<Classif
     Task<int> GetCountClassificationByUserId(Guid idUser, Guid idPrescribingInformation, CancellationToken cancellationToken = default);
 
     Task<int> GetCountClassification(Guid idPrescribingInformation, CancellationToken cancellationToken = default);
+
+    Task<bool> VerifyIfClassificationExistsAsync(Guid idNamedEntity, Guid idUser, CancellationToken cancellationToken = default);
 }

@@ -101,5 +101,14 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
             .Where(cla => cla.NamedEntity!.IdPrescribingInformation.Equals(idPrescribingInformation))
             .CountAsync(cancellationToken);
     }
+
+    public async Task<bool> VerifyIfClassificationExistsAsync(Guid idNamedEntity, Guid idUser, CancellationToken cancellationToken = default)
+    {
+        var result = await _context.Classifications.AsNoTracking()
+            .AnyAsync(x => x.IdUser.Equals(idUser) && x.IdNamedEntity.Equals(idNamedEntity), cancellationToken);
+
+        return result;
+    }
+
 }
 

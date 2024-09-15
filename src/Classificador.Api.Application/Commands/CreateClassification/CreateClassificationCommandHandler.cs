@@ -8,6 +8,7 @@ public sealed class CreateClassificationCommandHandler : IRequestHandler<CreateC
     private readonly INamedEntityReadOnlyRepository _namedEntityReadOnlyRepository;
     private readonly ICategoryReadOnlyRepository _categoryReadOnlyRepository;
     private readonly IClassificationPersistenceRepository _classificationPersistenceRepository;
+    private readonly IClassificationReadOnlyRepository _classificationReadOnlyRepository;
 
     public CreateClassificationCommandHandler(
         ILogger<CreateClassificationCommandHandler> logger,
@@ -15,7 +16,8 @@ public sealed class CreateClassificationCommandHandler : IRequestHandler<CreateC
         IUserReadOnlyRepository userReadOnlyRepository,
         INamedEntityReadOnlyRepository namedEntityReadOnlyRepository,
         ICategoryReadOnlyRepository categoryReadOnlyRepository,
-        IClassificationPersistenceRepository classificationPersistenceRepository)
+        IClassificationPersistenceRepository classificationPersistenceRepository,
+        IClassificationReadOnlyRepository classificationReadOnlyRepository)
     {
         _logger = logger;
         _mapper = mapper;
@@ -23,6 +25,7 @@ public sealed class CreateClassificationCommandHandler : IRequestHandler<CreateC
         _namedEntityReadOnlyRepository = namedEntityReadOnlyRepository;
         _categoryReadOnlyRepository = categoryReadOnlyRepository;
         _classificationPersistenceRepository = classificationPersistenceRepository;
+        _classificationReadOnlyRepository = classificationReadOnlyRepository;
     }
 
 
@@ -59,7 +62,10 @@ public sealed class CreateClassificationCommandHandler : IRequestHandler<CreateC
         
         if(!await _categoryReadOnlyRepository.ExistsAsync(request.IdCategory, cancellationToken))
             return Result.Failure(DomainErrors.Category.CategoryEntityNotFound);
-        
+
+        if(await _classificationReadOnlyRepository.VerifyIfClassificationExistsAsync(request.IdNamedEntity, request.IdUser, cancellationToken))
+            return Result.Failure(DomainErrors.Classification.ClassificationAlreadyExists);
+
         return Result.Success();
     }
 

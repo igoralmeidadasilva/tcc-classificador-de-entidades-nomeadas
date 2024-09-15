@@ -48,6 +48,9 @@ public static class DomainErrors
         
         public static Error ClassificationsCompletedNotFound => 
             new("Classification.PendingNotFound", "Não foi possivel encontrar nenhuma classificação completa.", ErrorType.NotFound);
+
+        public static Error ClassificationAlreadyExists =>
+            new("Classification.AlreadyExists", "A Classificação já existe.", ErrorType.NotFound);
     }
 
     public static class EmailSend
