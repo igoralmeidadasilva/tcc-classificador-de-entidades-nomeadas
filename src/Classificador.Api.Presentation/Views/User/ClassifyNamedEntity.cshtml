@@ -3,7 +3,6 @@
     ViewData["Title"] = "Classificar";
     var namedEntities = ViewData["NamedEntitiesList"] as List<ClassifyNamedEntityViewNamedEntityDto>;
     var pendingClassificationsList = ViewData["PendingClassificationsList"] as List<ClassifyNamedEntityViewPendingClassificationDto>;
-    var allClassificationList = ViewData["AllClassificationsList"] as List<CountVoteForNamedEntity>;
     var namedEntitiesCount = namedEntities != null ? namedEntities.Count : 0;
 }
 
@@ -173,45 +172,4 @@
             </div>
         </section>
     </div>
-
-    @* <div class="row mb-4">
-        <div class="row">
-            <h2 class="display-6">@Model.NamePrescribingInformation</h2>
-        </div>
-
-        <section class="row p-3 shadow-sm border rounded bg-light mb-4">
-            <table class="table">
-                <thead>
-                    <tr class="table-dark">
-                        <th class="fw-bolder" scope="col">Entidade</th>
-                        <th class="fw-bolder" scope="col">Categoria</th>
-                        <th class="fw-bolder" scope="col">Qtde. de votos</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    @if(allClassificationList != null)
-                    {
-                        @foreach(var cls in allClassificationList)
-                        {
-                            <tr>
-                                <td>@cls.Entity</td>
-                                <td>@cls.Category</td>
-                                <td>@cls.Votes</td>
-                            </tr>
-                        }
-                    }
-                </tbody>
-
-                <tfoot>
-                    @if(allClassificationList != null)
-                    {
-                        <tr>
-                            <td colspan="3" class="bg-body-secondary">Quantidade: @allClassificationList!.Count</td>
-                        </tr>
-                    }
-                </tfoot>
-            </table>
-        </section>
-    </div> *@
 </div>

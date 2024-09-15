@@ -19,7 +19,7 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
     {
         string idUser = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-        var response = await _mediator.Send(new GetPrescribingInformationQuery(prescribingInformationName, idUser));
+        var response = await _mediator.Send(new GetPrescribingInformationByIdQuery(prescribingInformationName, idUser));
         
         if(!response.IsSuccess)
         {
@@ -72,14 +72,14 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
         var valueOfGetPendingClassifications = responseGetPendingClassifications as Result<List<ClassifyNamedEntityViewPendingClassificationDto>> 
             ?? throw new ResultConvertionException();
 
-        var responseGetAllClassification = await _mediator.Send(new GetAllClassificationByVotesQuery(idPrescribingInformation));
-        if(!responseGetAllClassification.IsSuccess)
-        {
-            GenerateErrorMessage(responseGetAllClassification.Error.Message);
-            return RedirectToAction(nameof(ChoosePrescribingInformation));
-        }
-        var valueOfGetAllClassification = responseGetAllClassification as Result<List<CountVoteForNamedEntity>> 
-            ?? throw new ResultConvertionException();
+        // var responseGetAllClassification = await _mediator.Send(new GetAllClassificationByVotesQuery(idPrescribingInformation));
+        // if(!responseGetAllClassification.IsSuccess)
+        // {
+        //     GenerateErrorMessage(responseGetAllClassification.Error.Message);
+        //     return RedirectToAction(nameof(ChoosePrescribingInformation));
+        // }
+        // var valueOfGetAllClassification = responseGetAllClassification as Result<List<CountVoteForNamedEntity>> 
+        //     ?? throw new ResultConvertionException();
 
         viewModel.IdPrescribingInformation = new Guid(idPrescribingInformation);
         viewModel.Categories = valueOfGetCategoriesQuery.Value!.ToList();
@@ -87,7 +87,7 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
 
         ViewData["NamedEntitiesList"] = valueOfGetNamedEntity.Value;
         ViewData["PendingClassificationsList"] = valueOfGetPendingClassifications.Value;
-        ViewData["AllClassificationsList"] = valueOfGetAllClassification.Value;
+        // ViewData["AllClassificationsList"] = valueOfGetAllClassification.Value;
         ViewBag.ReturnUrl = Request.Path + Request.QueryString;
 
         return View(viewModel);

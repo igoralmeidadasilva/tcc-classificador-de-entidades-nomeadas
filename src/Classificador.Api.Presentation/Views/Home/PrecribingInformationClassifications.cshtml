@@ -1,0 +1,47 @@
+@model PrecribingInformationClassificationsViewModel;
+@{
+    ViewData["Title"] = $"Classificação - {Model.NamePrescribingInformation}";
+}
+
+<div class="container my-5">
+    <div class="row mb-4">
+        <div class="row">
+            <h2 class="display-6">@Model.NamePrescribingInformation</h2>
+        </div>
+
+        <section class="row p-3 shadow-sm border rounded bg-light mb-4">
+            <table class="table">
+                <thead>
+                    <tr class="table-dark">
+                        <th class="fw-bolder" scope="col">Entidade</th>
+                        <th class="fw-bolder" scope="col">Categoria</th>
+                        <th class="fw-bolder" scope="col">Qtde. de votos</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if(Model.Classifications != null)
+                    {
+                        @foreach (var cls in Model.Classifications)
+                        {
+                            <tr>
+                                <td>@cls.Entity</td>
+                                <td>@cls.Category</td>
+                                <td>@cls.Votes</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+
+                <tfoot>
+                    @if (Model.Classifications != null)
+                    {
+                        <tr>
+                            <td colspan="3" class="bg-body-secondary">Quantidade: @Model.Classifications!.Count</td>
+                        </tr>
+                    }
+                </tfoot>
+            </table>
+        </section>
+    </div>
+</div>

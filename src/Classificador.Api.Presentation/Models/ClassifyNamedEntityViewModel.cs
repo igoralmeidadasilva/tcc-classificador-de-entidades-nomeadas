@@ -1,5 +1,3 @@
-using Classificador.Api.Application.Commands.UpdateClassificationToCompleted;
-
 namespace Classificador.Api.Presentation.Models;
 
 public sealed record ClassifyNamedEntityViewModel

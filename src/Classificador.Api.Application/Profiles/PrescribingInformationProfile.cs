@@ -11,6 +11,14 @@ public sealed class PrescribingInformationProfile : Profile
         CreateMap<ChoosePrescribingInformationViewDto, PrescribingInformation>()
             .ReverseMap()
             .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.NamedEntities!.Count()));
+
+        CreateMap<ChoosePrescribingInformationViewDto, PrescribingInformation>()
+            .ReverseMap()
+            .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.NamedEntities!.Count()));
+        
+        CreateMap<PrescribingInformationClassificationViewDto, PrescribingInformation>()
+            .ReverseMap()
+            .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.NamedEntities!.Count()));
     }
 
     private static string ReadPrescribingInformationText(IFormFile file)

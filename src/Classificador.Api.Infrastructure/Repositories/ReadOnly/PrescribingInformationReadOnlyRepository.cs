@@ -16,4 +16,12 @@ public sealed class PrescribingInformationReadOnlyRepository
             .OrderBy(x => x.Name)
             .ToListAsync(cancellationToken);
     }
+
+    public new async Task<IEnumerable<PrescribingInformation>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        return await _context.PrescribingsInformation
+            .AsNoTracking()
+            .Include(x => x.NamedEntities)
+            .ToListAsync(cancellationToken);
+    }
 }

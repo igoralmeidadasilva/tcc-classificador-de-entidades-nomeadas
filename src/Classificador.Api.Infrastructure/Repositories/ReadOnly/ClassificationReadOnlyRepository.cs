@@ -91,5 +91,15 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
             .Where(cla => cla.NamedEntity!.IdPrescribingInformation.Equals(idPrescribingInformation))
             .CountAsync(cancellationToken);
     }
+
+    public async Task<int> GetCountClassification(Guid idPrescribingInformation, CancellationToken cancellationToken = default)
+    {
+        return await _context.Classifications
+            .AsNoTracking()
+            .Include(cla => cla.NamedEntity)
+            .Where(cla => cla.Status.Equals(ClassificationStatus.Completo))
+            .Where(cla => cla.NamedEntity!.IdPrescribingInformation.Equals(idPrescribingInformation))
+            .CountAsync(cancellationToken);
+    }
 }
 

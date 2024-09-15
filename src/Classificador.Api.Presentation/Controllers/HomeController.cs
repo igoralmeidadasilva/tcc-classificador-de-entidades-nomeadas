@@ -1,3 +1,5 @@
+using Classificador.Api.Application.Queries.GetGetPrescribingInformation;
+
 namespace Classificador.Api.Presentation.Controllers;
 
 [Route("[controller]")]
@@ -33,9 +35,46 @@ public sealed class HomeController : WebController<HomeController>
     }
 
     [HttpGet(nameof(Classifications))]
-    public IActionResult Classifications()
+    public async Task<IActionResult> Classifications(ClassificationsViewModel viewModel)
     {
-        return View();
+        var response = await _mediator.Send(new GetPrescribingInformationQuery());
+
+        if(!response.IsSuccess)
+        {
+            GenerateErrorMessage(response.Error.Message);
+            return View(viewModel);
+        }
+
+        Result<List<PrescribingInformationClassificationViewDto>> valueResponse = response as  Result<List<PrescribingInformationClassificationViewDto>>
+            ?? throw new ResultConvertionException(); 
+        
+        viewModel.PrescribingInformations = valueResponse.Value;
+
+        return View(viewModel);
+    }
+
+    [HttpGet(nameof(PrecribingInformationClassifications))]
+    public async Task<IActionResult> PrecribingInformationClassifications(
+        PrecribingInformationClassificationsViewModel viewModel, 
+        string idPrescribingInformation, 
+        string namePrescribingInformation)
+    {
+        viewModel.NamePrescribingInformation = namePrescribingInformation;
+        
+        var response = await _mediator.Send(new GetAllClassificationByVotesQuery(idPrescribingInformation));
+
+        if(!response.IsSuccess)
+        {
+            GenerateErrorMessage(response.Error.Message);
+            return View(nameof(Classifications));
+        }
+
+        var responseValue = response as Result<List<CountVoteForNamedEntity>> 
+            ?? throw new ResultConvertionException();
+
+        viewModel.Classifications = responseValue.Value!;
+
+        return View(viewModel);
     }
 
     [HttpGet(nameof(SignUp))]
@@ -77,7 +116,7 @@ public sealed class HomeController : WebController<HomeController>
         return RedirectToAction(nameof(Login));
     }
 
-    private async Task LoadSpecialtiesAsync(SignUpViewModel viewModel, ISpecialtyReadOnlyRepository repo)
+    private static async Task LoadSpecialtiesAsync(SignUpViewModel viewModel, ISpecialtyReadOnlyRepository repo)
     {
         var specialties = await repo.GetAllAsync();
         viewModel.Specialties = new SelectList(specialties, nameof(Specialty.Id), nameof(Specialty.Name));

@@ -2,19 +2,19 @@ namespace Classificador.Api.Tests.Unit.Application.Queries.GetPescribingInformat
 
 public sealed class GetPrescribingInformationQueryHandlerTests
 {
-    private readonly Mock<ILogger<GetPrescribingInformationQueryHandler>> _loggerMock;
+    private readonly Mock<ILogger<GetPrescribingInformationByIdQueryHandler>> _loggerMock;
     private readonly Mock<IMapper> _mapperMock;
     private readonly Mock<IPrescribingInformationReadOnlyRepository> _prescribingInformationReadOnlyRepositoryMock;
     private readonly Mock<IClassificationReadOnlyRepository> _classificationReadOnlyRepositoryMock;
-    private readonly GetPrescribingInformationQueryHandler _handler;
+    private readonly GetPrescribingInformationByIdQueryHandler _handler;
 
     public GetPrescribingInformationQueryHandlerTests()
     {
-        _loggerMock = new Mock<ILogger<GetPrescribingInformationQueryHandler>>();
+        _loggerMock = new Mock<ILogger<GetPrescribingInformationByIdQueryHandler>>();
         _mapperMock = new Mock<IMapper>();
         _prescribingInformationReadOnlyRepositoryMock = new Mock<IPrescribingInformationReadOnlyRepository>();
         _classificationReadOnlyRepositoryMock = new Mock<IClassificationReadOnlyRepository>();
-        _handler = new GetPrescribingInformationQueryHandler(
+        _handler = new GetPrescribingInformationByIdQueryHandler(
             _loggerMock.Object,
             _mapperMock.Object,
             _prescribingInformationReadOnlyRepositoryMock.Object,
@@ -25,7 +25,7 @@ public sealed class GetPrescribingInformationQueryHandlerTests
     public async Task Handle_NoPrescribingInformationsFound_ShouldReturnFailure()
     {
         // Arrange
-        var query = new GetPrescribingInformationQuery("TestName", Guid.NewGuid().ToString());
+        var query = new GetPrescribingInformationByIdQuery("TestName", Guid.NewGuid().ToString());
 
         _prescribingInformationReadOnlyRepositoryMock
             .Setup(x => x.GetByNameOrDescriptionAsync(query.PrescribingInformationName!, It.IsAny<CancellationToken>()))
@@ -43,7 +43,7 @@ public sealed class GetPrescribingInformationQueryHandlerTests
     public async Task Handle_PrescribingInformationsFound_ShouldReturnMappedSuccess()
     {
         // Arrange
-        var query = new GetPrescribingInformationQuery("TestName", Guid.NewGuid().ToString());
+        var query = new GetPrescribingInformationByIdQuery("TestName", Guid.NewGuid().ToString());
 
         var prescribingInformations = new List<PrescribingInformation>
         {
