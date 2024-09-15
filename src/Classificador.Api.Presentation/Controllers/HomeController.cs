@@ -93,6 +93,7 @@ public sealed class HomeController : WebController<HomeController>
 
         if (!response.IsSuccess)
         {
+            GenerateErrorMessage(response.Error.Message);
             var validationError = response.Error as ValidationError;
 
             if(validationError != null)
@@ -104,10 +105,7 @@ public sealed class HomeController : WebController<HomeController>
                 TempData["ContactFailures"] = validationError!.ExtractValidationErrors("CreateUser.Contact");
                 TempData["SpecialtyFailures"] = validationError!.ExtractValidationErrors("CreateUser.Specialty");
             }
-            else
-            {
-                GenerateErrorMessage(response.Error.Message);
-            }
+
             await LoadSpecialtiesAsync(viewModel, _repo);
             return View(nameof(SignUp), viewModel);
         }

@@ -1,0 +1,49 @@
+﻿@model CreatePrescribingInformationViewModel;
+@{
+    ViewData["Title"] = "Cadastrar Bulas Farmacêuticas";
+    var fileFailures = TempData["FileFailures"] as List<string>;
+}
+
+<div class="container my-5">
+    <div class="mb-4">
+        <h1 class="display-6 text-color-primary">Cadastrar Bulas Farmacêuticas</h1>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 p-3 shadow-sm border rounded bg-light ">
+        <form 
+            enctype="multipart/form-data"
+            method="post"
+            asp-controller="Admin"
+            asp-action="PostCreatePrescribingInformation"
+        >
+            <div class="col">
+                <input class="form-control"
+                        type="file"
+                        id="InputTxt"
+                        placeholder="Arquivo .txt"
+                        asp-for="File"
+                        name="File"
+                        >
+                <label class="form-label" for="InputTxt">Arquivo formato .txt</label>
+                @if (fileFailures != null && fileFailures.Count() != 0)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                        @foreach (var failure in fileFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>
+                        }
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                }
+            </div>
+
+            <div class="col">
+                <textarea class="form-control" id="TextAreaDescription" rows="3" placeholder="Descrição" asp-for="Description"></textarea>
+                <label class="form-label" for="TextAreaDescription">Descrição</label>
+            </div>
+
+            <button type="submit" class="btn btn-success">Enviar</button>
+        </form>
+    </div>
+</div>
