@@ -93,6 +93,12 @@ public sealed class DatabaseSeedService(
             return;
         }
 
+        if(_options.Users is null)
+        {
+            _logger.LogInformation("There are no users to insert, skipping dataseeder.");
+            return;
+        }
+
         var usersWithPasswordsIsHashing =  _options.Users!.Select(user => 
         {
             var passwordHashing = passwordHashingService.HashPassword(user.HashedPassword);
@@ -120,8 +126,11 @@ public sealed class DatabaseSeedService(
         }
 
         using IServiceScope scope = _scopeFactory.CreateScope();
-        var context = scope.ServiceProvider.GetService<ClassifierContext>() 
+
+        var contextFactory = scope.ServiceProvider.GetService<IDbContextFactory<ClassifierContext>>() 
             ?? throw new Exception("An error occurred when trying to recover the Database.");
+
+        using var context = contextFactory.CreateDbContext();
 
         await context.Database.MigrateAsync(cancellationToken);
         _logger.LogInformation("Migration executed successfully.");

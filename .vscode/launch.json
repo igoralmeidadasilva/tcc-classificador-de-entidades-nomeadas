@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "name": "Development",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}\\src\\Classificador.Api.Presentation\\Classificador.Api.Presentation.csproj",
+            "launchConfigurationId": "TargetFramework=;Development"
+        },
+        {
+            "name": "Production",
+            "type": "dotnet",
+            "request": "launch",
+            "projectPath": "${workspaceFolder}\\src\\Classificador.Api.Presentation\\Classificador.Api.Presentation.csproj",
+            "launchConfigurationId": "TargetFramework=;Production"
+        }
+    ]
+}
