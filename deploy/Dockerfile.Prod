@@ -1,0 +1,37 @@
+## Dockerfile.Dev
+# Etapa 1: Build da aplicação
+FROM mcr.microsoft.com/dotnet/sdk:8.0.303 AS build
+WORKDIR /app
+
+# Copiar o arquivo de solução e os arquivos de projeto
+COPY ../src/Classificador.Api.Presentation/*.csproj /src/Classificador.Api.Presentation/
+COPY ../src/Classificador.Api.Application/*.csproj /src/Classificador.Api.Application/
+COPY ../src/Classificador.Api.Infrastructure/*.csproj /src/Classificador.Api.Infrastructure/
+COPY ../src/Classificador.Api.Domain/*.csproj /src/Classificador.Api.Domain/
+
+# Restaurar dependências
+WORKDIR /src/Classificador.Api.Presentation
+RUN dotnet restore
+
+# Copiar o restante do código
+COPY ../src/ /src/
+
+# Fazer o build da aplicação
+WORKDIR /src/Classificador.Api.Presentation
+RUN dotnet publish -c Release -o /app/out
+
+# Etapa 2: Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+WORKDIR /app
+
+# Copiar os arquivos publicados da etapa de build
+COPY --from=build /app/out .
+
+# Expor a porta padrão da aplicação
+EXPOSE 8080
+
+# Definir o comando de inicialização
+ENTRYPOINT ["dotnet", "Classificador.Api.Presentation.dll"]
+
+# Definir o ambiente para desenvolvimento
+ENV ASPNETCORE_ENVIRONMENT=Production
