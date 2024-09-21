@@ -15,8 +15,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("PostgreSQL");
-
+        var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection");
         // services.AddSingleton<SoftDeleteInterceptor>();
 
         services.AddDbContextFactory<ClassifierContext>

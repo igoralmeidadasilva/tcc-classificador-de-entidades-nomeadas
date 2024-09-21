@@ -26,7 +26,6 @@ public sealed class EmailSenderService : IEmailSenderService
             message.Subject = $"From: {from} - {subject}";
             message.Body = new TextPart("plain")
             {
-
                 Text = $"Nome: {name} \r\n{body}"
             };
 
