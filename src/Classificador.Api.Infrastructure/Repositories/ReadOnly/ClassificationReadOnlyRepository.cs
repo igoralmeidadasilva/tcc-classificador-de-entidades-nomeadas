@@ -2,13 +2,14 @@ namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Classification>, IClassificationReadOnlyRepository
 {
-    public ClassificationReadOnlyRepository(ClassifierContext context) : base(context)
+    public ClassificationReadOnlyRepository(IDbContextFactory<ClassifierContext> context) : base(context)
     {
     }
 
     public async Task<IEnumerable<CountVoteForNamedEntity>> GetCountingVotesForNamedEntityAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        return await _context.Classifications
+        using var context = _contextFactory.CreateDbContext();
+        return await context.Classifications
             .Where(cla => cla.IdNamedEntity == id)
             .Where(cla => cla.Status == ClassificationStatus.Completo)
             .AsNoTracking()
@@ -30,6 +31,7 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
 
     public async Task<IEnumerable<CountVoteForNamedEntity>> GetMostVotedEntityByPrescribingInformation(Guid id, CancellationToken cancellationToken = default)
     {
+        using var context = _contextFactory.CreateDbContext();
         string query = @"
             SELECT 
                 nome_entidade as Entity,
@@ -60,7 +62,7 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
             ORDER BY nome_entidade;
         ";
 
-        return await _context.Database
+        return await context.Database
                                 .SqlQueryRaw<CountVoteForNamedEntity>(query, id)
                                 .AsNoTracking()
                                 .ToListAsync(cancellationToken);
@@ -71,7 +73,8 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
         Guid idUser, 
         CancellationToken cancellationToken = default)
     {
-        return await _context.Classifications
+        using var context = _contextFactory.CreateDbContext();
+        return await context.Classifications
             .AsNoTracking()
             .Include(cla => cla.NamedEntity)
             .Include(cla => cla.Category)
@@ -83,7 +86,8 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
 
     public async Task<int> GetCountClassificationByUserId(Guid idUser, Guid idPrescribingInformation, CancellationToken cancellationToken = default)
     {
-        return await _context.Classifications
+        using var context = _contextFactory.CreateDbContext();
+        return await context.Classifications
             .AsNoTracking()
             .Include(cla => cla.NamedEntity)
             .Where(cla => cla.IdUser.Equals(idUser))
@@ -94,7 +98,8 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
 
     public async Task<int> GetCountClassification(Guid idPrescribingInformation, CancellationToken cancellationToken = default)
     {
-        return await _context.Classifications
+        using var context = _contextFactory.CreateDbContext();
+        return await context.Classifications
             .AsNoTracking()
             .Include(cla => cla.NamedEntity)
             .Where(cla => cla.Status.Equals(ClassificationStatus.Completo))
@@ -104,7 +109,8 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
 
     public async Task<bool> VerifyIfClassificationExistsAsync(Guid idNamedEntity, Guid idUser, CancellationToken cancellationToken = default)
     {
-        var result = await _context.Classifications.AsNoTracking()
+        using var context = _contextFactory.CreateDbContext();
+        var result = await context.Classifications.AsNoTracking()
             .AnyAsync(x => x.IdUser.Equals(idUser) && x.IdNamedEntity.Equals(idNamedEntity), cancellationToken);
 
         return result;

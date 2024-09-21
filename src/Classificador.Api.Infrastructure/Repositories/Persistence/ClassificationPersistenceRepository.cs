@@ -3,13 +3,14 @@ namespace Classificador.Api.Infrastructure.Repositories.Persistence;
 
 public sealed class ClassificationPersistenceRepository : BasePersistenceRepository<Classification>, IClassificationPersistenceRepository
 {
-    public ClassificationPersistenceRepository(ClassifierContext context) : base(context)
+    public ClassificationPersistenceRepository(IDbContextFactory<ClassifierContext> contextFactory) : base(contextFactory)
     {
     }
 
     public async Task UpdateStatusToCompletedAsync(Guid id, CancellationToken cancellationToken)
     {
-        await _context.Classifications
+        using var context = _contextFactory.CreateDbContext();
+        await context.Classifications
             .Where(cla => cla.Id.Equals(id))
             .ExecuteUpdateAsync(x => x.SetProperty(p => p.Status, ClassificationStatus.Completo), cancellationToken);
     }

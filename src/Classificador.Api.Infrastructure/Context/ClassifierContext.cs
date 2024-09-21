@@ -10,7 +10,6 @@ public sealed class ClassifierContext : DbContext
     public DbSet<Category> Categories { get; init; }
 
     public ClassifierContext(DbContextOptions options) : base(options) { }
-    public ClassifierContext(DbContextOptionsBuilder options) {}
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

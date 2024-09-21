@@ -19,10 +19,11 @@ public static class DependencyInjection
 
         services.AddSingleton<SoftDeleteInterceptor>();
 
-        services.AddDbContext<ClassifierContext>
+        services.AddDbContextFactory<ClassifierContext>
         (
-            (sp, opt) => opt.UseNpgsql(connectionString)
-                .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>())
+            // (sp, opt) => opt.UseNpgsql(connectionString)
+            //     .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>())
+            opt => opt.UseNpgsql(connectionString)
         );
 
         return services;
