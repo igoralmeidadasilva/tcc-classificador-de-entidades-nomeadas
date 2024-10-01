@@ -17,7 +17,7 @@ public static class DependencyInjection
     {
         var connectionString = configuration.GetConnectionString("PostgreSQL");
         // services.AddSingleton<SoftDeleteInterceptor>();
-
+        
         services.AddDbContextFactory<ClassifierContext>
         (
             // (sp, opt) => opt.UseNpgsql(connectionString)
