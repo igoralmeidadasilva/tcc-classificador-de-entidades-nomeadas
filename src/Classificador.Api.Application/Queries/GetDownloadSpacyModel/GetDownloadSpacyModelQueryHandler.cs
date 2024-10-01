@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace Classificador.Api.Application.Queries.GetDownloadSpacyModel;
 
 public sealed class GetDownloadSpacyModelQueryHandler : IRequestHandler<GetDownloadSpacyModelQuery, Result>
@@ -8,13 +6,15 @@ public sealed class GetDownloadSpacyModelQueryHandler : IRequestHandler<GetDownl
     private readonly IClassificationReadOnlyRepository _classificationReadOnlyRepository;
     private readonly IPrescribingInformationReadOnlyRepository _prescribingInformationReadOnlyRepository;
 
-    public GetDownloadSpacyModelQueryHandler(ILogger<GetDownloadSpacyModelQueryHandler> logger, IClassificationReadOnlyRepository classificationReadOnlyRepository, IPrescribingInformationReadOnlyRepository prescribingInformationReadOnlyRepository)
+    public GetDownloadSpacyModelQueryHandler(
+        ILogger<GetDownloadSpacyModelQueryHandler> logger, 
+        IClassificationReadOnlyRepository classificationReadOnlyRepository, 
+        IPrescribingInformationReadOnlyRepository prescribingInformationReadOnlyRepository)
     {
         _logger = logger;
         _classificationReadOnlyRepository = classificationReadOnlyRepository;
         _prescribingInformationReadOnlyRepository = prescribingInformationReadOnlyRepository;
     }
-
 
     public async Task<Result> Handle(GetDownloadSpacyModelQuery request, CancellationToken cancellationToken)
     {
@@ -32,22 +32,31 @@ public sealed class GetDownloadSpacyModelQueryHandler : IRequestHandler<GetDownl
         IEnumerable<CountVoteForNamedEntity> classificationsByVotes = await _classificationReadOnlyRepository
             .GetMostVotedEntityByPrescribingInformation(request.IdPrescribingInformation, cancellationToken);
 
-        IEnumerable<SpacyNerModel> spacyNerModelList = classificationsByVotes.Select(e => 
+        List<SpacyNerModel> spacyNerModelList = [];
+        StringBuilder textStringBuilder = new();
+        foreach(var classification in classificationsByVotes)
         {
-            return new SpacyNerModel
+            textStringBuilder
+                .Append(classification.Entity)
+                .Append(Environment.NewLine);
+            
+            var spacyNerModel = new SpacyNerModel
             {
-                Start = e.Start,
-                End = e.End,
-                Label = e.Category
+                Start = classification.Start,
+                End = classification.End,
+                Label = classification.Category
             };
-        });
 
+            spacyNerModelList.Add(spacyNerModel);
+        }
+        
         var GetDownloadSpacyModelQueryResponse = new GetDownloadSpacyModelQueryResponse
         {
-            Entities = spacyNerModelList,
-            Text = prescribingInformation.Text
+            Text = textStringBuilder.ToString(),
+            Entities = spacyNerModelList
         };
 
         return Result.Success(GetDownloadSpacyModelQueryResponse);
     }
+
 }
