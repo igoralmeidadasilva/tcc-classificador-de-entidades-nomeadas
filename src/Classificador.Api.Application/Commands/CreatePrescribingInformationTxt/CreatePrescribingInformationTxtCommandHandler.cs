@@ -52,7 +52,7 @@ public sealed class CreatePrescribingInformationTxtCommandHandler : IRequestHand
             namedEntitiesName.Select(entityNamed =>
             {
                 int startPosition = entityNamed.IndexOf(entityNamed) + 1;
-                int endPosition = startPosition + entityNamed.Length;
+                int endPosition = startPosition + (entityNamed.Length - 1);
                 WordPosition position = WordPosition.Create(startPosition, endPosition);
                 return new NamedEntity
                 (
