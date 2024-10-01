@@ -1,4 +1,7 @@
+using System.Text;
+using Classificador.Api.Application.Queries.GetDownloadSpacyModel;
 using Classificador.Api.Application.Queries.GetGetPrescribingInformation;
+using Newtonsoft.Json;
 
 namespace Classificador.Api.Presentation.Controllers;
 
@@ -59,6 +62,7 @@ public sealed class HomeController : WebController<HomeController>
         string idPrescribingInformation, 
         string namePrescribingInformation)
     {
+        viewModel.IdPrescribingInformation = new Guid(idPrescribingInformation);
         viewModel.NamePrescribingInformation = namePrescribingInformation;
         
         var response = await _mediator.Send(new GetAllClassificationByVotesQuery(idPrescribingInformation));
@@ -75,6 +79,26 @@ public sealed class HomeController : WebController<HomeController>
         viewModel.Classifications = responseValue.Value!;
 
         return View(viewModel);
+    }
+
+    [HttpGet(nameof(DownloadClassificationSpacyModel))]
+    public async Task<IActionResult> DownloadClassificationSpacyModel(string idPrescribingInformation, string namePrescribingInformation)
+    {
+        var response = await _mediator.Send(new GetDownloadSpacyModelQuery(idPrescribingInformation, namePrescribingInformation));
+
+        if(!response.IsSuccess)
+        {
+            GenerateErrorMessage(response.Error.Message);
+            return View(nameof(Classifications));
+        }
+
+        var responseValue = response as Result<GetDownloadSpacyModelQueryResponse> 
+            ?? throw new ResultConvertionException(); 
+        
+        var serializeEntities = JsonConvert.SerializeObject(responseValue.Value, Formatting.Indented);
+
+        byte[] bytes = Encoding.UTF8.GetBytes(serializeEntities);
+        return File(bytes, "text/plain", $"Taggers.{namePrescribingInformation}.json");
     }
 
     [HttpGet(nameof(SignUp))]

@@ -34,33 +34,42 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
         using var context = _contextFactory.CreateDbContext();
         string query = @"
             SELECT 
-                nome_entidade as Entity,
-                nome_categoria as Category,
-                quantidade as Votes
+                nome_entidade AS Entity,
+                CASE 
+                    WHEN nome_categoria IS NULL
+                        THEN ''
+                    ELSE
+                        nome_categoria
+                END AS Category,
+                quantidade AS Votes,
+                posicao_inicial AS Start,
+                posicao_final AS End
             FROM
             (
-                SELECT
+                SELECT 
                     en.nome AS nome_entidade,
                     ca.nome AS nome_categoria,
-                    COUNT(*) AS quantidade,
+                    COUNT(cl.""Id"") AS quantidade,
+                    en.posicao_inicial AS posicao_inicial,
+                    en.posicao_final AS posicao_final,
                     ROW_NUMBER() OVER (PARTITION BY en.""Id"" ORDER BY COUNT(*) DESC) AS rank
                 FROM
-                    classificacoes cl
-                JOIN
+                    entidades_nomeadas en
+                LEFT JOIN
+                    classificacoes cl ON en.""Id"" = cl.id_entidade_nomeada AND cl.status = 'Completo'
+                LEFT JOIN
                     categorias ca ON cl.id_categoria = ca.""Id""
-                JOIN
-                    entidades_nomeadas en ON cl.id_entidade_nomeada = en.""Id""
                 WHERE 
                     en.id_bula = {0}
-                AND
-                    cl.status = 'Completo'
                 GROUP BY
-                    en.""Id"", en.nome, ca.nome
+                    en.""Id"", en.nome, ca.nome, en.posicao_inicial, en.posicao_final
+                ORDER BY 
+                    en.nome
             )
             WHERE
                 rank = 1
-            ORDER BY nome_entidade;
-        ";
+            ORDER BY 
+                Entity;";
 
         return await context.Database
                                 .SqlQueryRaw<CountVoteForNamedEntity>(query, id)

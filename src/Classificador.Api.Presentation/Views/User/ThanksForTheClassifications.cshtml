@@ -1,6 +1,6 @@
 @model ThanksForTheClassificationsViewModel;
 @{
-    ViewData["Title"] = "Obrgiador por nos ajudar";
+    ViewData["Title"] = "Obrigado por nos ajudar";
 }
 
 <div class="container my-5">
@@ -27,8 +27,8 @@
         </p>
 
         <p class="lead">
-            <a asp-controller="User" asp-action="ChoosePrescribingInformation">Voltar a seleção de bulas</a>
-            @* | <a asp-controller="User" asp-action="YourClassifications">Veja suas classificações anteriores</a>   *@
+            <a asp-controller="Home" asp-action="ChoosePrescribingInformation">Voltar a seleção de bulas</a>
+            | <a asp-controller="User" asp-action="YourClassifications">Veja suas classificações anteriores</a>  
             | <a asp-controller="Home" asp-action="WhereToStart">Descubra mais recursos úteis</a>
         </p>
 

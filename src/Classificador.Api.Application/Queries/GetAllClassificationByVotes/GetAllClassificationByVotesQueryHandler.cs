@@ -45,10 +45,12 @@ public sealed class GetAllClassificationByVotesQueryHandler : IRequestHandler<Ge
             return Result.Success(new List<CountVoteForNamedEntity>());
         }
 
+        IEnumerable<CountVoteForNamedEntity> filteredResponse = response.Where(x => x.Category != string.Empty);
+
         _logger.LogInformation("{RequestName} successfully fechting for named entity votes. Amount records: {Count}",
             nameof(GetAllClassificationByVotesQuery),
             response.Count());
 
-        return Result.Success(response.ToList());
+        return Result.Success(filteredResponse.ToList());
     }
 }

@@ -10,38 +10,62 @@
         </div>
 
         <section class="row p-3 shadow-sm border rounded bg-light mb-4">
-            <table class="table">
-                <thead>
-                    <tr class="table-dark">
-                        <th class="fw-bolder" scope="col">Entidade</th>
-                        <th class="fw-bolder" scope="col">Categoria</th>
-                        <th class="fw-bolder" scope="col">Qtde. de votos</th>
-                    </tr>
-                </thead>
 
-                <tbody>
-                    @if(Model.Classifications != null)
-                    {
-                        @foreach (var cls in Model.Classifications)
+            <div class="row">
+                <div class="btn-group w-25 mb-4">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown">
+                        <i class="bi bi-download fs-6 me-1"></i>
+                        <span class="lead ms-1">Download</span>
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li><a 
+                            class="dropdown-item" 
+                            asp-controller="Home" 
+                            asp-action="DownloadClassificationSpacyModel"
+                            asp-route-idPrescribingInformation=@Model.IdPrescribingInformation
+                            asp-route-namePrescribingInformation=@Model.NamePrescribingInformation
+                        >
+                            Spacy
+                        </a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+                <table class="table">
+                    <thead>
+                        <tr class="table-dark">
+                            <th class="fw-bolder" scope="col">Entidade</th>
+                            <th class="fw-bolder" scope="col">Categoria</th>
+                            <th class="fw-bolder" scope="col">Qtde. de votos</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if(Model.Classifications != null)
+                        {
+                            @foreach (var cls in Model.Classifications)
+                            {
+                                <tr>
+                                    <td>@cls.Entity</td>
+                                    <td>@cls.Category</td>
+                                    <td>@cls.Votes</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+
+                    <tfoot>
+                        @if (Model.Classifications != null)
                         {
                             <tr>
-                                <td>@cls.Entity</td>
-                                <td>@cls.Category</td>
-                                <td>@cls.Votes</td>
+                                <td colspan="3" class="bg-body-secondary">Quantidade: @Model.Classifications!.Count</td>
                             </tr>
                         }
-                    }
-                </tbody>
-
-                <tfoot>
-                    @if (Model.Classifications != null)
-                    {
-                        <tr>
-                            <td colspan="3" class="bg-body-secondary">Quantidade: @Model.Classifications!.Count</td>
-                        </tr>
-                    }
-                </tfoot>
-            </table>
+                    </tfoot>
+                </table>
+            </div>
         </section>
     </div>
 </div>

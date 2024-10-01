@@ -22,7 +22,7 @@
 
         </div>
 
-        <section class="row row-cols-2 p-3 shadow-sm border rounded bg-light mb-4">
+        <section class="row row-col-1 row-cols-md-2 p-3 shadow-sm border rounded bg-light mb-4">
             <div class="col">
                 <div class="row">
                     <div class="col-12">
@@ -44,7 +44,7 @@
                                     value="@namedEntities![Model.NamedEntityIndex]!.Id">
                             }
 
-                            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+                            <div class="row row-cols-2 row-cols-md-3">
                                 @if(Model.Categories != null)
                                 {
                                     @foreach(var category in Model.Categories)
@@ -78,7 +78,7 @@
                     </div>
                 </div>
 
-                <div class="row row-cols-1 row-cols-md-2">
+                <div class="row row-cols-2">
                     <div class="col d-grid gap-2 d-md-flex mb-2 mb-md-0">
                         <a
                             class="btn btn-dark flex-fill @(Model.NamedEntityIndex <= 0 ? "disabled" : "")"
@@ -121,7 +121,7 @@
 
             </div>
 
-            <div class="col">
+            <div class="col mt-3 mt-md-0">
                 <table id="TableUserClassificationsPending" class="table">
                     <thead>
                         <tr class="table-dark">
