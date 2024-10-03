@@ -1,0 +1,40 @@
+version: '3.8'
+
+networks: 
+  medtagger-network:
+    driver: bridge
+
+services:
+  medtagger-web:
+    image: medtagger-prod
+    build:
+      context: .
+      dockerfile: ./deploy/Dockerfile.Prod
+    container_name: medtagger_prod
+    networks:
+      - medtagger-network
+    ports:
+      - "8080:8080"
+    depends_on:
+      - medtagger-db
+    environment:
+      - ConnectionStrings__PostgreSQL=${CONNECTIONSTRING_POSTGRES}
+      - DatabaseSeedOptions__Users__0__Email=${EMAIL_ADMIN}
+      - DatabaseSeedOptions__Users__0__HashedPassword=${PASSWORD_ADMIN}
+      - DatabaseSeedOptions__Users__0__Name=${NAME_ADMIN}
+      - EmailOptions__SmtpServer=${EMAIL_SMTP}
+      - EmailOptions__Port=${EMAIL_PORT}
+      - EmailOptions__EmailAddress=${EMAIL_ADDRESS}
+      - EmailOptions__EmailPassword=${EMAIL_PASSWORD}
+
+  medtagger-db:
+    image: postgres
+    container_name: db_medtagger
+    ports:
+      - "5434:5432"
+    networks:
+      - medtagger-network
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD} 
