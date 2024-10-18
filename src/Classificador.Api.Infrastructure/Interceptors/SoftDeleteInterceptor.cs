@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Abstractions;
+
 namespace Classificador.Api.Infrastructure.Interceptors;
 
 public class SoftDeleteInterceptor : SaveChangesInterceptor

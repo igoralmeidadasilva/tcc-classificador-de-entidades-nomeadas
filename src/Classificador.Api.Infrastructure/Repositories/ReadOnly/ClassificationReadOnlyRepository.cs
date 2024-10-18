@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Enums;
+
 namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Classification>, IClassificationReadOnlyRepository

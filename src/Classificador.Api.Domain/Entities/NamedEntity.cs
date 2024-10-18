@@ -1,6 +1,6 @@
 namespace Classificador.Api.Domain.Entities;
 
-public sealed class NamedEntity : Entity<NamedEntity>, IAggregateRoot
+public sealed class NamedEntity : Entity<NamedEntity>
 {
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
@@ -9,22 +9,29 @@ public sealed class NamedEntity : Entity<NamedEntity>, IAggregateRoot
     public PrescribingInformation? PrescribingInformation { get; init; }
     public ICollection<Classification>? Classifications { get; init; }  = [];
 
-    public NamedEntity() {} // ORM
+    public NamedEntity() : base() {} // ORM
 
-    public NamedEntity(string name, string? description, WordPosition wordPosition) : base()
+    private NamedEntity(Guid id, DateTime createdOnUtc, string name, string? description, WordPosition wordPosition) : base(id, createdOnUtc)
     {
-        ArgumentValidator.ThrowIfNullOrWhitespace(name, nameof(name));
-        ArgumentValidator.ThrowIfNull(description!, nameof(description));
-
         Name = name;
         Description = description;
         WordPosition = wordPosition;
+    }
+
+    public static NamedEntity Create(string name, string? description, WordPosition wordPosition)
+    {
+        ArgumentValidator.ThrowIfNullOrWhitespace(name, nameof(Name));
+        ArgumentValidator.ThrowIfNull(description!, nameof(Description));
+        ArgumentValidator.ThrowIfNull(wordPosition!, nameof(WordPosition));
+
+        return new(Guid.NewGuid(), DateTime.UtcNow, name, description, wordPosition);
     }
 
     public override NamedEntity Update(NamedEntity entity)
     {
         Name = entity.Name;
         Description = entity.Description;
+
         return this;
     }
 

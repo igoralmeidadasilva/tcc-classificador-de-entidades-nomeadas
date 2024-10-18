@@ -7,5 +7,4 @@ public sealed class UserProfile : Profile
         CreateMap<CreateUserCommand, User>()
             .ForMember(dest => dest.HashedPassword, opt => opt.MapFrom(src => src.Password));
     }
-
 }

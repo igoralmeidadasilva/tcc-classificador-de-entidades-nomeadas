@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Errors;
+
 namespace Classificador.Api.Tests.Unit.Application.Commands.CreateUser;
 
 public sealed class CreateUserCommandHandlerTests

@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Errors;
+
 namespace Classificador.Api.Application.Queries.GetCategories;
 
 public sealed class GetCategoriesQueryHandler : IRequestHandler<GetCategoriesQuery, Result>

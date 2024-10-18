@@ -4,15 +4,31 @@ public static class Constants
 {
     public static class Constraints
     {
-        public const int PRESCRIBING_INFORMATION_NAME_MAX_LENGHT = 45;
-        public const int NAMED_ENTITY_NAME_MAX_LENGHT = 45;
-        public const int CATEGORYS_NAME_MAX_LENGHT = 45;
-        public const int USER_EMAIL_MAX_LENGHT = 45;
-        public const int USER_FIRST_NAME_MAX_LENGHT = 45;
-        public const int USER_LAST_NAME_MAX_LENGHT = 45;
-        public const int USER_PASSWORD_MIN_LENGHT = 8;
-        public const int USER_PASSWORD_MAX_LENGHT = 64;
-        public const int USER_CONTACT_MAX_LENGHT = 15;
-        public const int SPECIALTY_NAME_MAX_LENGHT = 45;
+        public static class User
+        {
+            public const int EMAIL_MAX_LENGHT = 45;
+            public const int NAME_MAX_LENGHT = 45;
+            public const int PASSWORD_MIN_LENGHT = 8;
+            public const int PASSWORD_MAX_LENGHT = 64;
+            public const int CONTACT_MAX_LENGHT = 15;
+        }
+
+        public static class PrescribingInformation
+        {
+            public const int NAME_MAX_LENGHT = 45;
+        }
+        public static class NamedEntity
+        {
+            public const int NAME_MAX_LENGHT = 45;
+        }
+        public static class Category
+        {
+            public const int NAME_MAX_LENGHT = 45;
+        }
+        public static class Specialty
+        {
+            public const int NAME_MAX_LENGHT = 45;
+        }
     }
+
 }

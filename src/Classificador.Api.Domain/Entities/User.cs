@@ -1,6 +1,8 @@
+using Classificador.Api.Domain.Core.Enums;
+
 namespace Classificador.Api.Domain.Entities;
 
-public sealed class User : Entity<User>, IAggregateRoot
+public sealed class User : Entity<User>
 {
     public string Email { get; private set; } = string.Empty;
     public string HashedPassword { get; private set; } = string.Empty;
@@ -11,15 +13,11 @@ public sealed class User : Entity<User>, IAggregateRoot
     public Specialty? Specialty{ get; init; }
     public ICollection<Classification>? Classifications { get; init; } = [];
 
-    public User(string email, string hashedPassword, string name, UserRole role, Guid idSpecialty, string? contact) : base()
-    {
-        ArgumentValidator.ThrowIfNullOrWhitespace(email, nameof(email));
-        ArgumentValidator.ThrowIfNullOrWhitespace(hashedPassword, nameof(hashedPassword));
-        ArgumentValidator.ThrowIfNullOrWhitespace(name, nameof(name));
-        ArgumentValidator.ThrowIfNull(role, nameof(role));
-        ArgumentValidator.ThrowIfNull(idSpecialty, nameof(idSpecialty));
-        ArgumentValidator.ThrowIfNull(contact!, nameof(contact));
+    public User() {} //ORM
 
+    private User(Guid id, DateTime createdOnUtc, string email, string hashedPassword, string name, UserRole role, Guid idSpecialty, string? contact) 
+        : base(id, createdOnUtc)
+    {
         Email = email;
         HashedPassword = hashedPassword;
         Name = name;
@@ -28,7 +26,16 @@ public sealed class User : Entity<User>, IAggregateRoot
         Contact = contact;
     }
 
-    public User() {} //ORM
+    public static User Create(string email, string hashedPassword, string name, Guid idSpecialty, string? contact)
+    {
+        ArgumentValidator.ThrowIfNullOrWhitespace(email, nameof(Email));
+        ArgumentValidator.ThrowIfNullOrWhitespace(hashedPassword, nameof(HashedPassword));
+        ArgumentValidator.ThrowIfNullOrWhitespace(name, nameof(Name));
+        ArgumentValidator.ThrowIfNull(idSpecialty, nameof(IdSpecialty));
+        ArgumentValidator.ThrowIfNull(contact!, nameof(Contact));
+
+        return new(Guid.NewGuid(), DateTime.UtcNow, email, hashedPassword, name, UserRole.Padrao, idSpecialty, contact);
+    }
 
     public override User Update(User entity)
     {
@@ -44,13 +51,14 @@ public sealed class User : Entity<User>, IAggregateRoot
     {
         ArgumentValidator.ThrowIfNullOrWhitespace(password, nameof(password));
         HashedPassword = password;
+
         return this;
     }
 
     public User UpdateRole(UserRole role)
     {
         Role = role;
+
         return this;
     }
-
 }

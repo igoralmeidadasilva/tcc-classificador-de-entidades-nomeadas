@@ -1,4 +1,6 @@
-﻿namespace Classificador.Api.Tests.Unit.Application.Commands.UpdateClassificationToCompleted;
+﻿using Classificador.Api.Domain.Core.Errors;
+
+namespace Classificador.Api.Tests.Unit.Application.Commands.UpdateClassificationToCompleted;
 
 public sealed class UpdateClassificationToCompletedCommandHandlerTests
 {

@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Errors;
+
 namespace Classificador.Api.Application.Commands.LoginUser;
 
 public sealed class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result>

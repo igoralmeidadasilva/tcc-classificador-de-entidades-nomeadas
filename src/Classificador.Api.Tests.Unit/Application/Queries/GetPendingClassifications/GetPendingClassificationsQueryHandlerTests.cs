@@ -1,4 +1,6 @@
-﻿namespace Classificador.Api.Tests.Unit.Application.Queries.GetPendingClassifications;
+﻿using Classificador.Api.Domain.Core.Errors;
+
+namespace Classificador.Api.Tests.Unit.Application.Queries.GetPendingClassifications;
 
 public sealed class GetPendingClassificationsQueryHandlerTests
 {

@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Errors;
+
 namespace Classificador.Api.Application.Commands.UpdateUserRoleToAdmin;
 
 public sealed class UpdateUserRoleToAdminCommandHandler : IRequestHandler<UpdateUserRoleToAdminCommand, Result>

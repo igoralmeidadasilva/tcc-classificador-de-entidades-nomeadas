@@ -1,4 +1,4 @@
-namespace Classificador.Api.SharedKernel.Shared.Errors;
+namespace Classificador.Api.SharedKernel.Shared.Results;
 
 public enum ErrorType
 {

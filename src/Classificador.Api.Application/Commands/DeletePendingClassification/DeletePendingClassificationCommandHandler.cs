@@ -1,3 +1,4 @@
+using Classificador.Api.Domain.Core.Errors;
 using Microsoft.Extensions.Logging;
 
 namespace Classificador.Api.Application.Commands.DeletePendingClassification;

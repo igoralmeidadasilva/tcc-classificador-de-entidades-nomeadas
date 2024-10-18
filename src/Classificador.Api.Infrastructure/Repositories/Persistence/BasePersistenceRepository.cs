@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Abstractions;
+
 namespace Classificador.Api.Infrastructure.Repositories.Persistence;
 
 public abstract class BasePersistenceRepository<TEntity> : IPersistenceRepository<TEntity> where TEntity : Entity<TEntity>

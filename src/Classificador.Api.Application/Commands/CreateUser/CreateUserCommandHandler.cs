@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Errors;
+
 namespace Classificador.Api.Application.Commands.CreateUser;
 
 public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result>

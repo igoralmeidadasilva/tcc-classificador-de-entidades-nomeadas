@@ -32,9 +32,4 @@ public sealed record WordPosition : IValueObject
             EndPosition = end
         };
     }
-
-    public static implicit operator WordPosition(int start)
-    {
-        return new WordPosition();
-    }
 }

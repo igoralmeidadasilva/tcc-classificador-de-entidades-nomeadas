@@ -1,6 +1,8 @@
+using Classificador.Api.Domain.Core.Enums;
+
 namespace Classificador.Api.Domain.Entities;
 
-public sealed class Classification : Entity<Classification>, IAggregateRoot
+public sealed class Classification : Entity<Classification>
 {
     public string? Comment { get; private set; }
     public ClassificationStatus Status { get; private set; }
@@ -11,13 +13,10 @@ public sealed class Classification : Entity<Classification>, IAggregateRoot
     public Category? Category { get; set; }
     public User? User { get; set; }
 
-    public Classification(Guid idNamedEntity, Guid idCategory, Guid idUser, string? comment) : base()
-    {
-        ArgumentValidator.ThrowIfNullOrDefault(idNamedEntity, nameof(idNamedEntity));
-        ArgumentValidator.ThrowIfNullOrDefault(idCategory, nameof(idCategory));
-        ArgumentValidator.ThrowIfNullOrDefault(idUser, nameof(idUser));
-        ArgumentValidator.ThrowIfNull(comment!, nameof(comment));
+    public Classification() : base() {} //ORM
 
+    private Classification(Guid id, DateTime createdOnUtc, Guid idNamedEntity, Guid idCategory, Guid idUser, string? comment) : base(id, createdOnUtc)
+    {
         IdNamedEntity = idNamedEntity;
         IdCategory = idCategory;
         IdUser = idUser;
@@ -25,7 +24,15 @@ public sealed class Classification : Entity<Classification>, IAggregateRoot
         Status = ClassificationStatus.Pendente;
     }
 
-    public Classification() {} //ORM
+    public static Classification Create(Guid idNamedEntity, Guid idCategory, Guid idUser, string? comment)
+    {
+        ArgumentValidator.ThrowIfNullOrDefault(idNamedEntity, nameof(IdNamedEntity));
+        ArgumentValidator.ThrowIfNullOrDefault(idCategory, nameof(IdCategory));
+        ArgumentValidator.ThrowIfNullOrDefault(idUser, nameof(IdUser));
+        ArgumentValidator.ThrowIfNull(comment!, nameof(Comment));
+        
+        return new(Guid.NewGuid(), DateTime.UtcNow, idNamedEntity, idCategory, idUser, comment);
+    }
 
     public override Classification Update(Classification entity)
     {

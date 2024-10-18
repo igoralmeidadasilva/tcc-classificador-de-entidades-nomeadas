@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Abstractions;
+
 namespace Classificador.Api.Domain.Interfaces.Repositories.Persistence;
 
 public interface IPersistenceRepository<TEntity> where TEntity : Entity<TEntity>

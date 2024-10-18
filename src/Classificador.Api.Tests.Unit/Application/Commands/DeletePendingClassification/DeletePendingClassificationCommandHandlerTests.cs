@@ -1,4 +1,5 @@
 ﻿using Classificador.Api.Application.Commands.DeletePendingClassification;
+using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Tests.Unit.Application.Commands.DeletePendingClassification;
 

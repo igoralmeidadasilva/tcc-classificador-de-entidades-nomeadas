@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Errors;
+
 namespace Classificador.Api.Application.Commands.UpdateUserRoleToStandard;
 
 public sealed class UpdateUserRoleToStandardCommandHandler : IRequestHandler<UpdateUserRoleToStandardCommand, Result>

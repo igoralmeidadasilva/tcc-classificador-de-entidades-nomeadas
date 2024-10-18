@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Abstractions;
+
 namespace Classificador.Api.Infrastructure.Context.Configurations;
 
 public abstract class EntityConfiguration<TEntity> : IEntityTypeConfiguration<TEntity> where TEntity : Entity<TEntity>

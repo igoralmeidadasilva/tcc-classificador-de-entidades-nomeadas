@@ -7,25 +7,30 @@ public sealed class PrescribingInformation : Entity<PrescribingInformation>
     public string? Description { get; private set; }
     public ICollection<NamedEntity>? NamedEntities{ get; set; }
 
-    public PrescribingInformation(string name, string text, string? description) : base()
-    {
-        ArgumentValidator.ThrowIfNullOrWhitespace(name, nameof(name));
-        ArgumentValidator.ThrowIfNullOrWhitespace(text, nameof(text));
-        ArgumentValidator.ThrowIfNull(description!, nameof(description));
+    public PrescribingInformation() : base() {} //ORM
 
+    private PrescribingInformation(Guid id, DateTime createdOnUtc, string name, string text, string? description) : base(id, createdOnUtc)
+    {
         Name = name;
         Text = text;
         Description = description;
     }
 
-    public PrescribingInformation() {} //ORM
+    public static PrescribingInformation Create(string name, string text, string? description)
+    {
+        ArgumentValidator.ThrowIfNullOrWhitespace(name, nameof(Name));
+        ArgumentValidator.ThrowIfNullOrWhitespace(text, nameof(Text));
+        ArgumentValidator.ThrowIfNull(description!, nameof(Description));
+
+        return new(Guid.NewGuid(), DateTime.UtcNow, name, text, description);
+    }
 
     public override PrescribingInformation Update(PrescribingInformation entity)
     {
         Name = entity.Name;
         Text = entity.Text;
         Description = entity.Description;
+
         return this;
     }
-
 }

@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Errors;
+
 namespace Classificador.Api.Application.Commands.CreateCategory;
 
 public sealed class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result>

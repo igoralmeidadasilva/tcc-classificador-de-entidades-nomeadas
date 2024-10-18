@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Errors;
+
 namespace Classificador.Api.Application.Queries.GetGetPrescribingInformation;
 
 public sealed class GetPrescribingInformationQueryHandler : IRequestHandler<GetPrescribingInformationQuery, Result>

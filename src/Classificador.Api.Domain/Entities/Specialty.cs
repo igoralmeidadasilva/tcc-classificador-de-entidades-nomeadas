@@ -2,23 +2,31 @@ namespace Classificador.Api.Domain.Entities;
 
 public sealed class Specialty : Entity<Specialty>
 {
-    public string Name { get; private set; }
+    public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }    
     public ICollection<User>? Users { get; private set; } = [];
 
-    public Specialty(string name, string? description)
+    public Specialty() : base() {} // ORM
+
+    private Specialty(Guid id, DateTime createdOnUtc, string name, string? description) : base(id, createdOnUtc)
     {
-        ArgumentValidator.ThrowIfNullOrWhitespace(name, nameof(name));
-        ArgumentValidator.ThrowIfNull(description!, nameof(description));
         Name = name;
         Description = description;
+    }
+
+    public static Specialty Create(string name, string? description)
+    {
+        ArgumentValidator.ThrowIfNullOrWhitespace(name, nameof(Name));
+        ArgumentValidator.ThrowIfNull(description!, nameof(Description));
+
+        return new(Guid.NewGuid(), DateTime.UtcNow, name, description);
     }
 
     public override Specialty Update(Specialty entity)
     {
         Name = entity.Name;
         Description = entity.Description;
+
         return this;
     }
-
 }

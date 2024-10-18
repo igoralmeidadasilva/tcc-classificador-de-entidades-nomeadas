@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Abstractions;
+
 namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public abstract class BaseReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : Entity<TEntity>
