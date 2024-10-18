@@ -1,3 +1,5 @@
+using Classificador.Api.Application.Core.Errors;
+
 namespace Classificador.Api.Tests.Unit.Application.Commands.SendEmailToContact;
 
 public sealed class SendEmailToContactCommandValidatorTests

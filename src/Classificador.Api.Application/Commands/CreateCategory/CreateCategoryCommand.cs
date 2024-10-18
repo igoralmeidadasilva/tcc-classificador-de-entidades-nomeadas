@@ -1,3 +1,5 @@
+using Classificador.Api.SharedKernel.Shared.Extensions;
+
 namespace Classificador.Api.Application.Commands.CreateCategory;
 
 public sealed record CreateCategoryCommand : ICommand<Result>
@@ -8,7 +10,7 @@ public sealed record CreateCategoryCommand : ICommand<Result>
     public CreateCategoryCommand(string name, string description)
     {
         Name = name.RemoveAccents().ToUpperInvariant();
-        Description = description;
+        Description = description ?? string.Empty;;
     }
     
 }

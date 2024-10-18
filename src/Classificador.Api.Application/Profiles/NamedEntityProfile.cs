@@ -1,4 +1,6 @@
 using System.Globalization;
+using System.Text;
+using Classificador.Api.Application.Dtos;
 
 namespace Classificador.Api.Application.Profiles;
 

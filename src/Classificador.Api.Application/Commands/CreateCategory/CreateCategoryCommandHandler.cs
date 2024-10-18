@@ -2,7 +2,7 @@ using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Application.Commands.CreateCategory;
 
-public sealed class CreateCategoryCommandHandler : IRequestHandler<CreateCategoryCommand, Result>
+public sealed class CreateCategoryCommandHandler : ICommandHandler<CreateCategoryCommand, Result>
 {
     private readonly ILogger<CreateCategoryCommandHandler> _logger;
     private readonly IMapper _mapper;
@@ -39,6 +39,6 @@ public sealed class CreateCategoryCommandHandler : IRequestHandler<CreateCategor
             nameof(CreateCategoryCommand),
             id);
 
-        return Result.Success(id);
+        return Result.Success();
     }
 }

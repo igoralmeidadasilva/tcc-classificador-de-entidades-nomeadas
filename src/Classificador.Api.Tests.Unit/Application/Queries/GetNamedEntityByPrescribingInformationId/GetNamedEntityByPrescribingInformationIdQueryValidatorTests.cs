@@ -1,4 +1,6 @@
-﻿namespace Classificador.Api.Tests.Unit.Application.Queries.GetNamedEntityByPrescribingInformationId;
+﻿using Classificador.Api.Application.Core.Errors;
+
+namespace Classificador.Api.Tests.Unit.Application.Queries.GetNamedEntityByPrescribingInformationId;
 
 public sealed class GetNamedEntityByPrescribingInformationIdQueryValidatorTests
 {

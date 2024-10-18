@@ -1,8 +1,10 @@
+using Classificador.Api.Application.Dtos;
 using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
 
-public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler : IRequestHandler<GetNamedEntityByPrescribingInformationIdQuery, Result>
+public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler 
+    : IQueryHandler<GetNamedEntityByPrescribingInformationIdQuery, Result<GetNamedEntityByPrescribingInformationIdQueryResponse>>
 {
     private readonly ILogger<GetNamedEntityByPrescribingInformationIdQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -18,7 +20,9 @@ public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler : IRequ
         _namedEntityReadOnlyRepository = namedEntityReadOnlyRepository;
     }
 
-    public async Task<Result> Handle(GetNamedEntityByPrescribingInformationIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetNamedEntityByPrescribingInformationIdQueryResponse>> Handle(
+        GetNamedEntityByPrescribingInformationIdQuery request, 
+        CancellationToken cancellationToken)
     {
         IEnumerable<NamedEntity> namedEntities = 
             await _namedEntityReadOnlyRepository.GetByPrescribingInformationAndUserAsync(request.IdPrescribingInformation, request.IdUser, cancellationToken);
@@ -28,7 +32,7 @@ public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler : IRequ
             _logger.LogInformation("{RequestName} did not find any named entities",
                 nameof(GetNamedEntityByPrescribingInformationIdQuery));
 
-            return  Result.Failure(DomainErrors.NamedEntity.NamedEntityNoneWereFound);
+            return  Result.Failure<GetNamedEntityByPrescribingInformationIdQueryResponse>(DomainErrors.NamedEntity.NamedEntityNoneWereFound);
         }
 
         if(!namedEntities.Any())
@@ -37,17 +41,16 @@ public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler : IRequ
                 nameof(GetNamedEntityByPrescribingInformationIdQuery),
                 request.IdPrescribingInformation);
 
-            return Result.Success(new List<ClassifyNamedEntityViewNamedEntityDto>());
+            return Result.Success(new GetNamedEntityByPrescribingInformationIdQueryResponse());
         }
 
         _logger.LogInformation("{RequestName} found {RecordsCount} named entities records",
             nameof(GetNamedEntityByPrescribingInformationIdQuery),
             namedEntities.Count());
 
-        List<ClassifyNamedEntityViewNamedEntityDto> mapperNamedEntities = 
+        IEnumerable<ClassifyNamedEntityViewNamedEntityDto> mapperNamedEntities = 
             namedEntities.Select(_mapper.Map<ClassifyNamedEntityViewNamedEntityDto>).ToList();
             
-        return Result.Success(mapperNamedEntities);
+        return Result.Success(new GetNamedEntityByPrescribingInformationIdQueryResponse { Response = mapperNamedEntities });
     }
-
 }

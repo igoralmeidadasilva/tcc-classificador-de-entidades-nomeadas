@@ -1,8 +1,10 @@
+using System.Text;
 using Classificador.Api.Domain.Core.Errors;
+using Classificador.Api.Domain.Models;
 
 namespace Classificador.Api.Application.Queries.GetDownloadSpacyModel;
 
-public sealed class GetDownloadSpacyModelQueryHandler : IRequestHandler<GetDownloadSpacyModelQuery, Result>
+public sealed class GetDownloadSpacyModelQueryHandler : IRequestHandler<GetDownloadSpacyModelQuery, Result<GetDownloadSpacyModelQueryResponse>>
 {
     private readonly ILogger<GetDownloadSpacyModelQueryHandler> _logger;
     private readonly IClassificationReadOnlyRepository _classificationReadOnlyRepository;
@@ -18,7 +20,7 @@ public sealed class GetDownloadSpacyModelQueryHandler : IRequestHandler<GetDownl
         _prescribingInformationReadOnlyRepository = prescribingInformationReadOnlyRepository;
     }
 
-    public async Task<Result> Handle(GetDownloadSpacyModelQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetDownloadSpacyModelQueryResponse>> Handle(GetDownloadSpacyModelQuery request, CancellationToken cancellationToken)
     {
         PrescribingInformation? prescribingInformation = 
             await _prescribingInformationReadOnlyRepository.GetByIdAsync(request.IdPrescribingInformation, cancellationToken);
@@ -28,7 +30,7 @@ public sealed class GetDownloadSpacyModelQueryHandler : IRequestHandler<GetDownl
             _logger.LogInformation("{RequestName} Prescribing information does not exist",
                 nameof(GetDownloadSpacyModelQuery));
 
-            return Result.Failure(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound);
+            return Result.Failure<GetDownloadSpacyModelQueryResponse>(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound);
         }
 
         IEnumerable<CountVoteForNamedEntity> classificationsByVotes = await _classificationReadOnlyRepository

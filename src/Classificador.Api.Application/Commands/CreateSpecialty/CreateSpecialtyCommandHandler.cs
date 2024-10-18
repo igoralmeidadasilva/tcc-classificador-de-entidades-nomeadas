@@ -2,7 +2,7 @@ using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Application.Commands.CreateSpecialty;
 
-public sealed class CreateSpecialtyCommandHandler : IRequestHandler<CreateSpecialtyCommand, Result>
+public sealed class CreateSpecialtyCommandHandler : ICommandHandler<CreateSpecialtyCommand, Result>
 {
     private readonly ILogger<CreateSpecialtyCommandHandler> _logger;
     private readonly IMapper _mapper;
@@ -39,6 +39,6 @@ public sealed class CreateSpecialtyCommandHandler : IRequestHandler<CreateSpecia
             nameof(CreateSpecialtyCommand),
             id);
 
-        return Result.Success(id);
+        return Result.Success();
     }
 }

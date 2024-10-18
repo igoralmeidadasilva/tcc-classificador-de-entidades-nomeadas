@@ -1,6 +1,8 @@
+using Classificador.Api.Domain.ValueObjects.NamedEntity;
+
 namespace Classificador.Api.Application.Commands.CreatePrescribingInformationTxt;
 
-public sealed class CreatePrescribingInformationTxtCommandHandler : IRequestHandler<CreatePrescribingInformationTxtCommand, Result>
+public sealed class CreatePrescribingInformationTxtCommandHandler : ICommandHandler<CreatePrescribingInformationTxtCommand, Result>
 {
     private readonly ILogger<CreatePrescribingInformationTxtCommandHandler> _logger;
     private readonly IMapper _mapper;
@@ -37,7 +39,7 @@ public sealed class CreatePrescribingInformationTxtCommandHandler : IRequestHand
             nameof(CreatePrescribingInformationTxtCommand),
             id);
 
-        return Result.Success(id);
+        return Result.Success();
     }
 
     private static List<NamedEntity> ExtractNamedEntities(PrescribingInformation prescribingInformation)
@@ -54,16 +56,9 @@ public sealed class CreatePrescribingInformationTxtCommandHandler : IRequestHand
                 int startPosition = entityNamed.IndexOf(entityNamed) + 1;
                 int endPosition = startPosition + (entityNamed.Length - 1);
                 WordPosition position = WordPosition.Create(startPosition, endPosition);
-                return new NamedEntity
-                (
-                    entityNamed, 
-                    $"Entidades extraidas da bula {prescribingInformation.Name}",
-                    position
-                );
-            })
-            .ToList();
+                return NamedEntity.Create(entityNamed, $"Entidades extraidas da bula {prescribingInformation.Name}", position);
+            }).ToList();
 
         return namedEntities;
     }
-
 }

@@ -1,3 +1,6 @@
+using Classificador.Api.Application.Core.Errors;
+using Microsoft.AspNetCore.Http;
+
 namespace Classificador.Api.Application.Commands.CreatePrescribingInformationTxt;
 
 public sealed class CreatePrescribingInformationTxtCommandValidator : AbstractValidator<CreatePrescribingInformationTxtCommand>

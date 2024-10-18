@@ -1,4 +1,6 @@
-﻿namespace Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
+﻿using Classificador.Api.Application.Core.Errors;
+
+namespace Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
 
 public sealed class GetNamedEntityByPrescribingInformationIdQueryValidator : AbstractValidator<GetNamedEntityByPrescribingInformationIdQuery>
 {

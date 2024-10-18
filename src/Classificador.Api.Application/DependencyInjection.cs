@@ -1,4 +1,18 @@
+using Classificador.Api.Application.Behaviors;
+using Classificador.Api.Application.Commands.CreateCategory;
+using Classificador.Api.Application.Commands.CreateClassification;
+using Classificador.Api.Application.Commands.CreatePrescribingInformationTxt;
+using Classificador.Api.Application.Commands.CreateSpecialty;
+using Classificador.Api.Application.Commands.CreateUser;
+using Classificador.Api.Application.Commands.LoginUser;
+using Classificador.Api.Application.Commands.SendEmailToContact;
+using Classificador.Api.Application.Commands.UpdateUserRoleToAdmin;
+using Classificador.Api.Application.Commands.UpdateUserRoleToStandard;
+using Classificador.Api.Application.Models.Options;
 using Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
+using Classificador.Api.Application.Queries.GetPendingClassifications;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Classificador.Api.Application;
 
@@ -53,9 +67,6 @@ public static class DependencyInjection
     {
         services.Configure<DatabaseSeedOptions>(options => configuration.GetSection(nameof(DatabaseSeedOptions))
             .Bind(options, c => c.BindNonPublicProperties = true));
-
-        services.Configure<JwtOptions>(options => configuration.GetSection(nameof(JwtOptions))
-            .Bind(options));
 
         services.Configure<EmailOptions>(options => configuration.GetSection(nameof(EmailOptions))
             .Bind(options));

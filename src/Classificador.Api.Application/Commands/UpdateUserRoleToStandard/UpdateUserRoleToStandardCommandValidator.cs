@@ -1,3 +1,5 @@
+using Classificador.Api.Application.Core.Errors;
+
 namespace Classificador.Api.Application.Commands.UpdateUserRoleToStandard;
 
 public sealed class UpdateUserRoleToStandardCommandValidator : AbstractValidator<UpdateUserRoleToStandardCommand>

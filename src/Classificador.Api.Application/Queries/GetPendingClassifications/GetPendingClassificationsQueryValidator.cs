@@ -1,3 +1,5 @@
+using Classificador.Api.Application.Core.Errors;
+
 namespace Classificador.Api.Application.Queries.GetPendingClassifications;
 
 public sealed class GetPendingClassificationsQueryValidator : AbstractValidator<GetPendingClassificationsQuery>

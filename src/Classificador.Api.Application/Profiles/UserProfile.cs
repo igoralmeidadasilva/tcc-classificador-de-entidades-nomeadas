@@ -1,3 +1,5 @@
+using Classificador.Api.Application.Commands.CreateUser;
+
 namespace Classificador.Api.Application.Profiles;
 
 public sealed class UserProfile : Profile

@@ -1,3 +1,5 @@
+using Classificador.Api.Application.Core.Errors;
+
 namespace Classificador.Api.Application.Commands.UpdateClassificationToCompleted;
 
 public sealed class UpdateClassificationToCompletedCommandValidator : AbstractValidator<UpdateClassificationToCompletedCommand>

@@ -1,10 +1,8 @@
 using Classificador.Api.Domain.Core.Errors;
-using Microsoft.Extensions.Logging;
 
 namespace Classificador.Api.Application.Commands.DeletePendingClassification;
 
-// FIXME: Handler sem logs
-public sealed class DeletePendingClassificationCommandHandler : IRequestHandler<DeletePendingClassificationCommand, Result>
+public sealed class DeletePendingClassificationCommandHandler : ICommandHandler<DeletePendingClassificationCommand, Result>
 {
     private readonly ILogger<DeletePendingClassificationCommandHandler> _logger;
     private readonly IClassificationPersistenceRepository _classificationPersistenceRepository;

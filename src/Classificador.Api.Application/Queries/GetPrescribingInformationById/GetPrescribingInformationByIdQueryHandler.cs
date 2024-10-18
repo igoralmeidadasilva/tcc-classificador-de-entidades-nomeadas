@@ -1,8 +1,9 @@
+using Classificador.Api.Application.Dtos;
 using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Application.Queries.GetPrescribingInformationById;
 
-public sealed class GetPrescribingInformationByIdQueryHandler : IRequestHandler<GetPrescribingInformationByIdQuery, Result>
+public sealed class GetPrescribingInformationByIdQueryHandler : IQueryHandler<GetPrescribingInformationByIdQuery, Result<GetPrescribingInformationByIdQueryResponse>>
 {
     private readonly ILogger<GetPrescribingInformationByIdQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -21,7 +22,7 @@ public sealed class GetPrescribingInformationByIdQueryHandler : IRequestHandler<
         _classificationReadOnlyRepository = classificationReadOnlyRepository;
     }
 
-    public async Task<Result> Handle(GetPrescribingInformationByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetPrescribingInformationByIdQueryResponse>> Handle(GetPrescribingInformationByIdQuery request, CancellationToken cancellationToken)
     {
         IEnumerable<PrescribingInformation> prescribingInformations = 
             await _prescribingInformationReadOnlyRepository.GetByNameOrDescriptionAsync(request.PrescribingInformationName!, cancellationToken);
@@ -31,14 +32,14 @@ public sealed class GetPrescribingInformationByIdQueryHandler : IRequestHandler<
             _logger.LogInformation("{RequestName} did not find any prescribing informations",
                 nameof(GetPrescribingInformationByIdQuery));
 
-            return  Result.Failure(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound);
+            return  Result.Failure<GetPrescribingInformationByIdQueryResponse>(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound);
         }
 
         _logger.LogInformation("{RequestName} found {RecordsCount} prescribing informations records",
             nameof(GetPrescribingInformationByIdQuery),
             prescribingInformations.Count());
 
-        List<ChoosePrescribingInformationViewDto> mapperPrescribingInformations = (await Task.WhenAll
+        IEnumerable<ChoosePrescribingInformationViewDto> mapperPrescribingInformations = (await Task.WhenAll
         (
             prescribingInformations.Select(async pri =>
             {
@@ -50,6 +51,6 @@ public sealed class GetPrescribingInformationByIdQueryHandler : IRequestHandler<
             })
         )).ToList();
 
-        return Result.Success(mapperPrescribingInformations);
+        return Result.Success(new GetPrescribingInformationByIdQueryResponse { Response = mapperPrescribingInformations });
     }
 }

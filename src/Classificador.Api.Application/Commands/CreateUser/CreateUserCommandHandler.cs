@@ -1,8 +1,9 @@
 using Classificador.Api.Domain.Core.Errors;
+using Classificador.Api.Domain.Core.Interfaces.Services;
 
 namespace Classificador.Api.Application.Commands.CreateUser;
 
-public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result>
+public sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, Result>
 {
     private readonly ILogger<CreateUserCommandHandler> _logger;
     private readonly IUserPersistenceRepository _userPersistenceRepository;
@@ -46,6 +47,6 @@ public sealed class CreateUserCommandHandler : IRequestHandler<CreateUserCommand
             nameof(CreateUserCommand),
             id);
 
-        return Result.Success(id);
+        return Result.Success();
     }
 }

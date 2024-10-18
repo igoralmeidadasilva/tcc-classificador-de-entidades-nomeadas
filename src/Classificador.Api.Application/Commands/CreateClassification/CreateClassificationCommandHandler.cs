@@ -2,7 +2,7 @@ using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Application.Commands.CreateClassification;
 
-public sealed class CreateClassificationCommandHandler : IRequestHandler<CreateClassificationCommand, Result>
+public sealed class CreateClassificationCommandHandler : ICommandHandler<CreateClassificationCommand, Result>
 {
     private readonly ILogger<CreateClassificationCommandHandler> _logger;
     private readonly IMapper _mapper;
@@ -39,7 +39,7 @@ public sealed class CreateClassificationCommandHandler : IRequestHandler<CreateC
         {
             _logger.LogInformation("{RequestName} some record does not exist {Result}",
                 nameof(CreateClassificationCommand),
-                entitesExists.Error.Message);
+                entitesExists.FirstError());
             return entitesExists;
         }
 
@@ -48,10 +48,10 @@ public sealed class CreateClassificationCommandHandler : IRequestHandler<CreateC
         Guid id = await _classificationPersistenceRepository.AddAsync(classification, cancellationToken);
 
         _logger.LogInformation("{RequestName} successfully created a new classification: {ClassificationId}",
-            nameof(CreateUserCommand),
+            nameof(CreateClassificationCommand),
             id);
 
-        return Result.Success(id);
+        return Result.Success();
     }
 
     private async Task<Result> VerifyEntitiesExistis(CreateClassificationCommand request, CancellationToken cancellationToken)
@@ -70,5 +70,4 @@ public sealed class CreateClassificationCommandHandler : IRequestHandler<CreateC
 
         return Result.Success();
     }
-
 }

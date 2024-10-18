@@ -1,6 +1,6 @@
 namespace Classificador.Api.Application.Queries.GetAllClassificationByVotes;
 
-public sealed record GetAllClassificationByVotesQuery : IQuery<Result>
+public sealed record GetAllClassificationByVotesQuery : IQuery<Result<GetAllClassificationByVotesQueryResponse>>
 {
     public Guid IdPrescribingInformation { get; init; }
 
@@ -8,7 +8,4 @@ public sealed record GetAllClassificationByVotesQuery : IQuery<Result>
     {
         IdPrescribingInformation = new Guid(idPrescribingInformation);
     }
-
-    public GetAllClassificationByVotesQuery()
-    { }
 }

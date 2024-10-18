@@ -14,8 +14,4 @@ public sealed record SendEmailToContactCommand : ICommand<Result>
         Email = email is null ? string.Empty : email.ToLowerInvariant();
         Message = message ?? string.Empty;
     }
-
-    public SendEmailToContactCommand() 
-    { }
-
 }

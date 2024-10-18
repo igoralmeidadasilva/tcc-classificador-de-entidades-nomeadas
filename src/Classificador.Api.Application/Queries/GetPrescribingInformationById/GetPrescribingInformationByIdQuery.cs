@@ -1,6 +1,8 @@
+using System.Text.RegularExpressions;
+
 namespace Classificador.Api.Application.Queries.GetPrescribingInformationById;
 
-public sealed record GetPrescribingInformationByIdQuery : IQuery<Result>
+public sealed record GetPrescribingInformationByIdQuery : IQuery<Result<GetPrescribingInformationByIdQueryResponse>>
 {
     public string? PrescribingInformationName { get; init; }
     public Guid IdUser { get; init; }

@@ -1,6 +1,8 @@
+using Classificador.Api.Application.Dtos;
+
 namespace Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
 
-public sealed record GetNamedEntityByPrescribingInformationIdQuery : IQuery<Result>
+public sealed record GetNamedEntityByPrescribingInformationIdQuery : IQuery<Result<GetNamedEntityByPrescribingInformationIdQueryResponse>>
 {
     public Guid IdPrescribingInformation { get; set; }
     public Guid IdUser { get; set; }

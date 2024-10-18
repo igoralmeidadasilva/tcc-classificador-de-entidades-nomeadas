@@ -2,7 +2,7 @@ using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Application.Commands.UpdateUserRoleToAdmin;
 
-public sealed class UpdateUserRoleToAdminCommandHandler : IRequestHandler<UpdateUserRoleToAdminCommand, Result>
+public sealed class UpdateUserRoleToAdminCommandHandler : ICommandHandler<UpdateUserRoleToAdminCommand, Result>
 {
     private readonly ILogger<UpdateUserRoleToAdminCommandHandler> _logger;
     private readonly IUserPersistenceRepository _userPersistenceRepository;
@@ -32,7 +32,7 @@ public sealed class UpdateUserRoleToAdminCommandHandler : IRequestHandler<Update
             return Result.Failure(DomainErrors.User.UserNotFound);
         }
 
-        user = user.UpdateRole(Domain.Enums.UserRole.Admin);
+        user = user.UpdateRole(Domain.Core.Enums.UserRole.Admin);
 
         await _userPersistenceRepository.UpdateAsync(user, cancellationToken);
 

@@ -5,7 +5,7 @@ public sealed record CreateClassificationCommand : ICommand<Result>
     public Guid IdUser { get; init; }
     public Guid IdNamedEntity { get; init; }
     public Guid IdCategory { get; init; }
-    public string? Comment { get; init; } = string.Empty;
+    public string? Comment { get; init; }
 
     public CreateClassificationCommand(Guid idUser, Guid idNamedEntity, Guid idCategory, string? comment)
     {
@@ -14,7 +14,4 @@ public sealed record CreateClassificationCommand : ICommand<Result>
         IdCategory = idCategory;
         Comment = comment ?? string.Empty;
     }
-    public CreateClassificationCommand()
-    { }
-
 }

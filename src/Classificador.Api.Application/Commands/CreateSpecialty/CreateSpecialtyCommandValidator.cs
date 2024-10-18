@@ -1,3 +1,6 @@
+using Classificador.Api.Application.Core.Errors;
+using Classificador.Api.Domain;
+
 namespace Classificador.Api.Application.Commands.CreateSpecialty;
 
 public sealed class CreateSpecialtyCommandValidator : AbstractValidator<CreateSpecialtyCommand>
@@ -7,7 +10,7 @@ public sealed class CreateSpecialtyCommandValidator : AbstractValidator<CreateSp
         RuleFor(x => x.Name)
         .NotEmpty()
             .WithError(CommandErrors.CreateSpecialtyFailures.NameIsRequired)
-        .MaximumLength(Constants.Constraints.SPECIALTY_NAME_MAX_LENGHT)
+        .MaximumLength(Constants.Constraints.Specialty.NAME_MAX_LENGHT)
             .WithError(CommandErrors.CreateSpecialtyFailures.NameMaximumLenght);
     }
 }

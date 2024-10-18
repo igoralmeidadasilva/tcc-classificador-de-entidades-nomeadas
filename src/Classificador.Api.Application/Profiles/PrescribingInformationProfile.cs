@@ -1,3 +1,8 @@
+using System.Text;
+using Classificador.Api.Application.Commands.CreatePrescribingInformationTxt;
+using Classificador.Api.Application.Dtos;
+using Microsoft.AspNetCore.Http;
+
 namespace Classificador.Api.Application.Profiles;
 
 public sealed class PrescribingInformationProfile : Profile

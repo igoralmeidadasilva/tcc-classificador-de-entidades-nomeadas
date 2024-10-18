@@ -1,4 +1,6 @@
-﻿namespace Classificador.Api.Tests.Unit.Application.Commands.DeletePendingClassification;
+﻿using Classificador.Api.Application.Core.Errors;
+
+namespace Classificador.Api.Tests.Unit.Application.Commands.DeletePendingClassification;
 
 public sealed class DeletePendingClassificationCommandValidatorTests
 {

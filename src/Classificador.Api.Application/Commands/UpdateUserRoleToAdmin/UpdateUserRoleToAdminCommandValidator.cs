@@ -1,3 +1,5 @@
+using Classificador.Api.Application.Core.Errors;
+
 namespace Classificador.Api.Application.Commands.UpdateUserRoleToAdmin;
 
 public sealed class UpdateUserRoleToAdminCommandValidator : AbstractValidator<UpdateUserRoleToAdminCommand>

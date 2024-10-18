@@ -1,3 +1,4 @@
+using FluentValidation;
 using FluentValidation.Results;
 
 namespace Classificador.Api.Application.Behaviors;

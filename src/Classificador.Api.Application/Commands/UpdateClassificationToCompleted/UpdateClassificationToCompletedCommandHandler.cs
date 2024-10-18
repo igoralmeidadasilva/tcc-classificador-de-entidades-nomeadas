@@ -2,7 +2,7 @@ using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Application.Commands.UpdateClassificationToCompleted;
 
-public sealed class UpdateClassificationToCompletedCommandHandler : IRequestHandler<UpdateClassificationToCompletedCommand, Result>
+public sealed class UpdateClassificationToCompletedCommandHandler : ICommandHandler<UpdateClassificationToCompletedCommand, Result>
 {
     private readonly ILogger<UpdateClassificationToCompletedCommandHandler> _logger;
     private readonly IClassificationPersistenceRepository _classificationPersistenceRepository;

@@ -1,7 +1,9 @@
+using Classificador.Api.Domain.Models;
+
 namespace Classificador.Api.Application.Queries.GetDownloadSpacyModel;
 
-public sealed class GetDownloadSpacyModelQueryResponse
+public sealed record GetDownloadSpacyModelQueryResponse : IQueryResponse
 {
-    public string? Text { get; set; }
-    public IEnumerable<SpacyNerModel>? Entities { get; set; }
+    public string? Text { get; init; }
+    public IEnumerable<SpacyNerModel>? Entities { get; init; }
 }

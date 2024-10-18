@@ -1,8 +1,9 @@
+using Classificador.Api.Application.Dtos;
 using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Application.Queries.GetPendingClassifications;
 
-public sealed class GetPendingClassificationsQueryHandler : IRequestHandler<GetPendingClassificationsQuery, Result>
+public sealed class GetPendingClassificationsQueryHandler : IQueryHandler<GetPendingClassificationsQuery, Result<GetPendingClassificationsQueryResponse>>
 {
     private readonly ILogger<GetPendingClassificationsQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -18,7 +19,7 @@ public sealed class GetPendingClassificationsQueryHandler : IRequestHandler<GetP
         _classificationReadOnlyRepository = classificationReadOnlyRepository;
     }
 
-    public async Task<Result> Handle(GetPendingClassificationsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetPendingClassificationsQueryResponse>> Handle(GetPendingClassificationsQuery request, CancellationToken cancellationToken)
     {
         IEnumerable<Classification> pendingClassifications = await _classificationReadOnlyRepository
                 .GetPendingClassificationsByPrescribingInformationAndIdUser(request.IdPrescribingInformation, request.IdUser, cancellationToken);
@@ -28,7 +29,7 @@ public sealed class GetPendingClassificationsQueryHandler : IRequestHandler<GetP
             _logger.LogInformation("{RequestName} did not find any classification.",
                 nameof(GetPendingClassificationsQuery));
 
-            return  Result.Failure(DomainErrors.NamedEntity.NamedEntityNoneWereFound);
+            return  Result.Failure<GetPendingClassificationsQueryResponse>(DomainErrors.NamedEntity.NamedEntityNoneWereFound);
         }
         
         if(!pendingClassifications.Any())
@@ -37,16 +38,16 @@ public sealed class GetPendingClassificationsQueryHandler : IRequestHandler<GetP
                 nameof(GetPendingClassificationsQuery),
                 request.IdPrescribingInformation);
             
-            return Result.Success(new List<ClassifyNamedEntityViewPendingClassificationDto>());
+            return Result.Success(new GetPendingClassificationsQueryResponse());
         }
 
         _logger.LogInformation("{RequestName} found {RecordsCount} pendings classifications records.",
             nameof(GetPendingClassificationsQuery),
             pendingClassifications.Count());
 
-        List<ClassifyNamedEntityViewPendingClassificationDto> mappedPendingClassifications = 
+        IEnumerable<ClassifyNamedEntityViewPendingClassificationDto> mappedPendingClassifications = 
             pendingClassifications.Select(_mapper.Map<ClassifyNamedEntityViewPendingClassificationDto>).ToList();
 
-        return Result.Success(mappedPendingClassifications);
+        return Result.Success(new GetPendingClassificationsQueryResponse { Response = mappedPendingClassifications });
     }
 }

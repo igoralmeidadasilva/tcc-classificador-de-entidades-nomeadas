@@ -1,8 +1,9 @@
 using Classificador.Api.Domain.Core.Errors;
+using Classificador.Api.Domain.Core.Interfaces.Services;
 
 namespace Classificador.Api.Application.Commands.SendEmailToContact;
 
-public sealed class SendEmailToContactCommandHandler : IRequestHandler<SendEmailToContactCommand, Result>
+public sealed class SendEmailToContactCommandHandler : ICommandHandler<SendEmailToContactCommand, Result>
 {
     private readonly ILogger<SendEmailToContactCommandHandler> _logger;
     private readonly IEmailSenderService _emailSenderService;

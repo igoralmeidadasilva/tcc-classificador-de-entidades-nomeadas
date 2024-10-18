@@ -1,6 +1,6 @@
 namespace Classificador.Api.Application.Queries.GetDownloadSpacyModel;
 
-public sealed record GetDownloadSpacyModelQuery : IQuery<Result>
+public sealed record GetDownloadSpacyModelQuery : IQuery<Result<GetDownloadSpacyModelQueryResponse>>
 {
     public Guid IdPrescribingInformation { get; init; }
     public string NamePrescribingInformation { get; init; }

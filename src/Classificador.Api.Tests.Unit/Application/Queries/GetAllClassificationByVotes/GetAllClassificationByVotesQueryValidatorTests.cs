@@ -1,4 +1,6 @@
-﻿namespace Classificador.Api.Tests.Unit.Application.Queries.GetAllClassificationByVotes;
+﻿using Classificador.Api.Application.Core.Errors;
+
+namespace Classificador.Api.Tests.Unit.Application.Queries.GetAllClassificationByVotes;
 
 public sealed class GetAllClassificationByVotesQueryValidatorTests
 {

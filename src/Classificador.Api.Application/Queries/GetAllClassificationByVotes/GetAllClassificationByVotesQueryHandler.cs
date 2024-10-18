@@ -1,8 +1,9 @@
 using Classificador.Api.Domain.Core.Errors;
+using Classificador.Api.Domain.Models;
 
 namespace Classificador.Api.Application.Queries.GetAllClassificationByVotes;
 
-public sealed class GetAllClassificationByVotesQueryHandler : IRequestHandler<GetAllClassificationByVotesQuery, Result>
+public sealed class GetAllClassificationByVotesQueryHandler : IQueryHandler<GetAllClassificationByVotesQuery, Result<GetAllClassificationByVotesQueryResponse>>
 {
     private readonly ILogger<GetAllClassificationByVotesQueryHandler> _logger;
     private readonly IClassificationReadOnlyRepository _classificationReadOnlyRepository;
@@ -18,14 +19,14 @@ public sealed class GetAllClassificationByVotesQueryHandler : IRequestHandler<Ge
         _prescribingInformationReadOnlyRepository = prescribingInformationReadOnlyRepository;
     }
 
-    public async Task<Result> Handle(GetAllClassificationByVotesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetAllClassificationByVotesQueryResponse>> Handle(GetAllClassificationByVotesQuery request, CancellationToken cancellationToken)
     {
         if(!await _prescribingInformationReadOnlyRepository.ExistsAsync(request.IdPrescribingInformation, cancellationToken))
         {
             _logger.LogInformation("{RequestName} Prescribing information does not exist",
                 nameof(GetAllClassificationByVotesQuery));
 
-            return Result.Failure(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound);
+            return Result.Failure<GetAllClassificationByVotesQueryResponse>(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound);
         }
 
         IEnumerable<CountVoteForNamedEntity> response = await _classificationReadOnlyRepository
@@ -36,7 +37,7 @@ public sealed class GetAllClassificationByVotesQueryHandler : IRequestHandler<Ge
             _logger.LogInformation("{RequestName} error to find classifications.",
                 nameof(GetAllClassificationByVotesQuery));
 
-            return Result.Failure(DomainErrors.Classification.ClassificationsCompletedNotFound);
+            return Result.Failure<GetAllClassificationByVotesQueryResponse>(DomainErrors.Classification.ClassificationsCompletedNotFound);
         }
 
         if(!response.Any())
@@ -44,7 +45,7 @@ public sealed class GetAllClassificationByVotesQueryHandler : IRequestHandler<Ge
             _logger.LogInformation("{RequestName} did not find any classification.",
                 nameof(GetAllClassificationByVotesQuery));
             
-            return Result.Success(new List<CountVoteForNamedEntity>());
+            return Result.Success(new GetAllClassificationByVotesQueryResponse());
         }
 
         IEnumerable<CountVoteForNamedEntity> filteredResponse = response.Where(x => x.Category != string.Empty);
@@ -53,6 +54,6 @@ public sealed class GetAllClassificationByVotesQueryHandler : IRequestHandler<Ge
             nameof(GetAllClassificationByVotesQuery),
             response.Count());
 
-        return Result.Success(filteredResponse.ToList());
+        return Result.Success(new GetAllClassificationByVotesQueryResponse { Response = filteredResponse.ToList() });
     }
 }

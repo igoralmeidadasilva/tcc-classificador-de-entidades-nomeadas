@@ -18,7 +18,4 @@ public sealed record CreateUserCommand : ICommand<Result>
         Contact = contact ?? string.Empty;
         IdSpecialty = idSpecialty ?? Guid.Empty;
     }
-
-    public CreateUserCommand()
-    { }
 }

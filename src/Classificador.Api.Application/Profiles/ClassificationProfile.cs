@@ -1,3 +1,6 @@
+using Classificador.Api.Application.Commands.CreateClassification;
+using Classificador.Api.Application.Dtos;
+
 namespace Classificador.Api.Application.Profiles;
 
 public sealed class ClassificationProfile : Profile

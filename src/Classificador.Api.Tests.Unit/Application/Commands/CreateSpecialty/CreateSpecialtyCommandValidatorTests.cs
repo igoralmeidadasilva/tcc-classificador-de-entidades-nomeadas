@@ -1,3 +1,5 @@
+using Classificador.Api.Application.Core.Errors;
+
 namespace Classificador.Api.Tests.Unit.Application.Commands.CreateSpecialty;
 
 public sealed class CreateSpecialtyCommandValidatorTests
