@@ -1,11 +1,15 @@
+using Classificador.Api.Domain.Core.Interfaces;
+
 namespace Classificador.Api.Domain.Entities;
 
-public sealed class PrescribingInformation : Entity<PrescribingInformation>
+public sealed class PrescribingInformation : Entity<PrescribingInformation>, ISoftDeletableEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string Text { get; private set; }  = string.Empty;
     public string? Description { get; private set; }
     public ICollection<NamedEntity>? NamedEntities{ get; set; }
+    public bool IsDeleted {get; private set; }
+    public DateTime DeletedOnUtc { get; private set; }
 
     public PrescribingInformation() : base() {} //ORM
 
@@ -32,5 +36,16 @@ public sealed class PrescribingInformation : Entity<PrescribingInformation>
         Description = entity.Description;
 
         return this;
+    }
+
+    public void Delete()
+    {
+        IsDeleted = true;
+        DeletedOnUtc = DateTime.UtcNow;
+    }
+
+    public void Restore()
+    {
+        IsDeleted = false;
     }
 }

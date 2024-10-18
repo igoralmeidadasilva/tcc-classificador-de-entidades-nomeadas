@@ -1,8 +1,9 @@
 using Classificador.Api.Domain.Core.Enums;
+using Classificador.Api.Domain.Core.Interfaces;
 
 namespace Classificador.Api.Domain.Entities;
 
-public sealed class Classification : Entity<Classification>
+public sealed class Classification : Entity<Classification>, ISoftDeletableEntity, IAggregateRoot
 {
     public string? Comment { get; private set; }
     public ClassificationStatus Status { get; private set; }
@@ -12,6 +13,8 @@ public sealed class Classification : Entity<Classification>
     public NamedEntity? NamedEntity { get; set; }
     public Category? Category { get; set; }
     public User? User { get; set; }
+    public bool IsDeleted {get; private set; }
+    public DateTime DeletedOnUtc { get; private set; }
 
     public Classification() : base() {} //ORM
 
@@ -42,6 +45,17 @@ public sealed class Classification : Entity<Classification>
         Comment = entity.Comment;
 
         return this;
+    }
+
+    public void Delete()
+    {
+        IsDeleted = true;
+        DeletedOnUtc = DateTime.UtcNow;
+    }
+
+    public void Restore()
+    {
+        IsDeleted = false;
     }
 
     public Classification UpdateToComplete()

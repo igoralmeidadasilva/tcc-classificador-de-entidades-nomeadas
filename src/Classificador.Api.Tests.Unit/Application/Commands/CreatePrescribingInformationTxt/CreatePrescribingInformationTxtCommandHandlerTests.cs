@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Interfaces.Repositories.Persistence;
+
 namespace Classificador.Api.Tests.Unit.Application.Commands.CreatePrescribingInformationTxt;
 
 public sealed class CreatePrescribingInformationTxtCommandHandlerTests

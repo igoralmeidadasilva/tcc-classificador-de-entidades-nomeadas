@@ -1,5 +1,7 @@
 ﻿using Classificador.Api.Application.Commands.DeletePendingClassification;
 using Classificador.Api.Domain.Core.Errors;
+using Classificador.Api.Domain.Core.Interfaces.Repositories.Persistence;
+using Classificador.Api.Domain.Core.Interfaces.Repositories.ReadOnly;
 
 namespace Classificador.Api.Tests.Unit.Application.Commands.DeletePendingClassification;
 

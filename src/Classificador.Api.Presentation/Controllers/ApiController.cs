@@ -1,4 +1,5 @@
-using Classificador.Api.Domain.Interfaces.Services;
+using Classificador.Api.Domain.Core.Interfaces.Services;
+
 
 // FIXME: This class is being replaced by other controllers
 namespace Classificador.Api.Presentation.Controllers;

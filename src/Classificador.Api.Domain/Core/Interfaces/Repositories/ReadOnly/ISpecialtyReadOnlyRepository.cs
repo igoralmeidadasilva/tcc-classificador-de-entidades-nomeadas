@@ -1,4 +1,4 @@
-namespace Classificador.Api.Domain.Interfaces.Repositories.ReadOnly;
+namespace Classificador.Api.Domain.Core.Interfaces.Repositories.ReadOnly;
 
 public interface ISpecialtyReadOnlyRepository : IReadOnlyRepository<Specialty>
 {

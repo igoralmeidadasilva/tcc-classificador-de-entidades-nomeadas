@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Interfaces;
+
 namespace Classificador.Api.Domain.ValueObjects.NamedEntity;
 
 public sealed record WordPosition : IValueObject

@@ -1,4 +1,5 @@
 using Classificador.Api.Domain.Core.Enums;
+using Classificador.Api.Domain.Core.Interfaces.Repositories.ReadOnly;
 
 namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 

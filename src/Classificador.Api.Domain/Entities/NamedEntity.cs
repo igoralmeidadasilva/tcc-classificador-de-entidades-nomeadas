@@ -1,6 +1,9 @@
+using Classificador.Api.Domain.Core.Interfaces;
+using Classificador.Api.Domain.ValueObjects.NamedEntity;
+
 namespace Classificador.Api.Domain.Entities;
 
-public sealed class NamedEntity : Entity<NamedEntity>
+public sealed class NamedEntity : Entity<NamedEntity>, ISoftDeletableEntity, IAggregateRoot
 {
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
@@ -8,6 +11,8 @@ public sealed class NamedEntity : Entity<NamedEntity>
     public Guid? IdPrescribingInformation { get; init; }
     public PrescribingInformation? PrescribingInformation { get; init; }
     public ICollection<Classification>? Classifications { get; init; }  = [];
+    public bool IsDeleted {get; private set; }
+    public DateTime DeletedOnUtc { get; private set; }
 
     public NamedEntity() : base() {} // ORM
 
@@ -35,4 +40,14 @@ public sealed class NamedEntity : Entity<NamedEntity>
         return this;
     }
 
+    public void Delete()
+    {
+        IsDeleted = true;
+        DeletedOnUtc = DateTime.UtcNow;
+    }
+
+    public void Restore()
+    {
+        IsDeleted = false;
+    }
 }

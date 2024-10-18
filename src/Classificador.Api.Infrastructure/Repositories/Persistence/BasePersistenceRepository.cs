@@ -1,4 +1,5 @@
 using Classificador.Api.Domain.Core.Abstractions;
+using Classificador.Api.Domain.Core.Interfaces.Repositories.Persistence;
 
 namespace Classificador.Api.Infrastructure.Repositories.Persistence;
 

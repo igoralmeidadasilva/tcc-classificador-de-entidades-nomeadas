@@ -1,5 +1,6 @@
 
 using Classificador.Api.Domain.Core.Enums;
+using Classificador.Api.Domain.Core.Interfaces.Repositories.Persistence;
 
 namespace Classificador.Api.Infrastructure.Repositories.Persistence;
 

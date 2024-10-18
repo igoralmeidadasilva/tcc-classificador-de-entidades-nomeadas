@@ -1,3 +1,7 @@
+using Classificador.Api.Domain.Core.Interfaces.Repositories.Persistence;
+using Classificador.Api.Domain.Core.Interfaces.Repositories.ReadOnly;
+using Classificador.Api.Domain.Core.Interfaces.Services;
+
 namespace Classificador.Api.Infrastructure;
 
 public static class DependencyInjection

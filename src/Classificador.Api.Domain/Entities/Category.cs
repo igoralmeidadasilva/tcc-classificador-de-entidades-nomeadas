@@ -1,10 +1,14 @@
+using Classificador.Api.Domain.Core.Interfaces;
+
 namespace Classificador.Api.Domain.Entities;
 
-public sealed class Category : Entity<Category>
+public sealed class Category : Entity<Category>, ISoftDeletableEntity
 {
     public string Name { get; private set; } = string.Empty;
     public string? Description { get; private set; }
     public ICollection<Classification>? Classifications { get; init; } = [];
+    public bool IsDeleted {get; private set; }
+    public DateTime DeletedOnUtc { get; private set; }
 
     public Category() : base() {} //ORM
 
@@ -28,5 +32,16 @@ public sealed class Category : Entity<Category>
         Description = entity.Description;
         
         return this;
+    }
+
+    public void Delete()
+    {
+        IsDeleted = true;
+        DeletedOnUtc = DateTime.UtcNow;
+    }
+
+    public void Restore()
+    {
+        IsDeleted = false;
     }
 }

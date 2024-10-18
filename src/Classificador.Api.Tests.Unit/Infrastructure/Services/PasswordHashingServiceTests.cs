@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Interfaces.Services;
+
 namespace Classificador.Api.Tests.Unit.Infrastructure.Services;
 
 public sealed class PasswordHashingServiceTests

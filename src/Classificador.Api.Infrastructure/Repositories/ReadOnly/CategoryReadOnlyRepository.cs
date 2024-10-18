@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Interfaces.Repositories.ReadOnly;
+
 namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public sealed class CategoryReadOnlyRepository : BaseReadOnlyRepository<Category>, ICategoryReadOnlyRepository

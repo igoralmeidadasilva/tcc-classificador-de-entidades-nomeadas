@@ -62,5 +62,4 @@ public static class DomainErrors
     {
         public static Error FailedToSendEmail => Error.Create("EmailSend.Failure", "Não foi possivel enviar o email.", ErrorType.Failure);
     }
-
 }

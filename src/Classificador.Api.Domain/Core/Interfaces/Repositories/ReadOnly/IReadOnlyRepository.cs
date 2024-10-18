@@ -1,6 +1,4 @@
-using Classificador.Api.Domain.Core.Abstractions;
-
-namespace Classificador.Api.Domain.Interfaces.Repositories.ReadOnly;
+namespace Classificador.Api.Domain.Core.Interfaces.Repositories.ReadOnly;
 
 public interface IReadOnlyRepository<TEntity> where TEntity : Entity<TEntity>
 {

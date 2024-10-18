@@ -1,6 +1,7 @@
 using System.Text;
 using Classificador.Api.Application.Queries.GetDownloadSpacyModel;
 using Classificador.Api.Application.Queries.GetGetPrescribingInformation;
+using Classificador.Api.Domain.Core.Interfaces.Repositories.ReadOnly;
 using Newtonsoft.Json;
 
 namespace Classificador.Api.Presentation.Controllers;

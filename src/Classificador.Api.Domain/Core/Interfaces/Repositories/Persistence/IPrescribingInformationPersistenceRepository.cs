@@ -1,6 +1,6 @@
-namespace Classificador.Api.Domain.Interfaces.Repositories.Persistence;
+namespace Classificador.Api.Domain.Core.Interfaces.Repositories.Persistence;
 
 public interface IPrescribingInformationPersistenceRepository : IPersistenceRepository<PrescribingInformation>
 {
-    
+
 }

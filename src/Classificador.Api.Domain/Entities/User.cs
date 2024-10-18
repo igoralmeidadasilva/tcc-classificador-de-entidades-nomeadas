@@ -1,8 +1,9 @@
 using Classificador.Api.Domain.Core.Enums;
+using Classificador.Api.Domain.Core.Interfaces;
 
 namespace Classificador.Api.Domain.Entities;
 
-public sealed class User : Entity<User>
+public sealed class User : Entity<User>, ISoftDeletableEntity, IAggregateRoot
 {
     public string Email { get; private set; } = string.Empty;
     public string HashedPassword { get; private set; } = string.Empty;
@@ -12,6 +13,8 @@ public sealed class User : Entity<User>
     public Guid? IdSpecialty { get; private set; }
     public Specialty? Specialty{ get; init; }
     public ICollection<Classification>? Classifications { get; init; } = [];
+    public bool IsDeleted {get; private set; }
+    public DateTime DeletedOnUtc { get; private set; }
 
     public User() {} //ORM
 
@@ -60,5 +63,16 @@ public sealed class User : Entity<User>
         Role = role;
 
         return this;
+    }
+
+    public void Delete()
+    {
+        IsDeleted = true;
+        DeletedOnUtc = DateTime.UtcNow;
+    }
+
+    public void Restore()
+    {
+        IsDeleted = false;
     }
 }

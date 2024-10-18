@@ -1,4 +1,4 @@
-namespace Classificador.Api.Domain.Interfaces.Repositories.Persistence;
+namespace Classificador.Api.Domain.Core.Interfaces.Repositories.Persistence;
 
 public interface IClassificationPersistenceRepository : IPersistenceRepository<Classification>
 {

@@ -1,4 +1,4 @@
-namespace Classificador.Api.Domain.Interfaces.Services;
+namespace Classificador.Api.Domain.Core.Interfaces.Services;
 
 public interface IPasswordHashingService
 {

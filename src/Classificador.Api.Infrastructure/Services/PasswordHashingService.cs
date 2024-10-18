@@ -1,3 +1,5 @@
+using Classificador.Api.Domain.Core.Interfaces.Services;
+
 namespace Classificador.Api.Infrastructure.Services;
 
 public sealed class PasswordHashingService : IPasswordHashingService
