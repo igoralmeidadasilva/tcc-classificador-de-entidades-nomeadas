@@ -15,9 +15,9 @@ internal sealed class PageNotFoundMiddleware
     {
         await _next(context);
 
-        if (context.Response.StatusCode == (int)HttpStatusCode.NotFound)
+        if(context.Response.StatusCode == (int)HttpStatusCode.NotFound)
         {
-            context.Request.Path = "/Home/PageNotFound";
+            context.Request.Path = "/page-not-found";
             await _next(context);
         }
     }

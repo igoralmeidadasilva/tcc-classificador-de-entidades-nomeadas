@@ -1,3 +1,4 @@
+using Classificador.Api.Application.Queries.GetAllCategories;
 using Classificador.Api.Domain.Core.Errors;
 using Classificador.Api.Domain.Core.Interfaces.Repositories.ReadOnly;
 
@@ -5,17 +6,17 @@ namespace Classificador.Api.Tests.Unit.Application.Queries.GetCategories;
 public sealed class GetCategoriesQueryHandlerTests
 {
     private readonly Mock<ICategoryReadOnlyRepository> _categoryReadOnlyRepositoryMock;
-    private readonly Mock<ILogger<GetCategoriesQueryHandler>> _loggerMock;
+    private readonly Mock<ILogger<GetAllCategoriesQueryHandler>> _loggerMock;
     private readonly Mock<IMapper> _mapperMock;
-    private readonly GetCategoriesQueryHandler _handler;
+    private readonly GetAllCategoriesQueryHandler _handler;
 
     public GetCategoriesQueryHandlerTests()
     {
         _categoryReadOnlyRepositoryMock = new Mock<ICategoryReadOnlyRepository>();
-        _loggerMock = new Mock<ILogger<GetCategoriesQueryHandler>>();
+        _loggerMock = new Mock<ILogger<GetAllCategoriesQueryHandler>>();
         _mapperMock = new Mock<IMapper>();
 
-        _handler = new GetCategoriesQueryHandler(
+        _handler = new GetAllCategoriesQueryHandler(
             _loggerMock.Object,
             _mapperMock.Object,
             _categoryReadOnlyRepositoryMock.Object);

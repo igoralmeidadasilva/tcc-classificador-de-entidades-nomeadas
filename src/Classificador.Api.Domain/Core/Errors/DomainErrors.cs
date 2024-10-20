@@ -36,14 +36,16 @@ public static class DomainErrors
 
     public static class Specialty
     {
+        public static Error SpecialtyEntityNoneWereFound => 
+            Error.Create("Specialty.NoneWereFound", "Não foi possivel encontrar nenhuma especialidade.", ErrorType.NotFound);
         public static Error SpecialtyEntityNotFound => Error.Create("Specialty.NotFound", "Não foi possivel encontrar a especialidade.", ErrorType.NotFound);
         public static Error NameAlredyExists => Error.Create("Specialty.Name.AlreadyExists", "Uma especialidae com esse nome já existe.", ErrorType.Conflict);
     }
 
     public static class PrescribingInformation
     {
-        public static Error PrescribingInformationEntityNotFound  => 
-            Error.Create("PrescribingInformation.NotFound", "Não foi possivel encontrar a bula farmacêutica.", ErrorType.NotFound);
+        public static Error PrescribingInformationEntityNoneWereFound  => 
+            Error.Create("PrescribingInformation.NotFound", "Não foi possivel encontrar nenhuma bula farmacêutica.", ErrorType.NotFound);
     }
 
     public static class Classification

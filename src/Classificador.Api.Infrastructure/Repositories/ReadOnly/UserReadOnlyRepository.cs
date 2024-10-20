@@ -4,7 +4,7 @@ namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public class UserReadOnlyRepository : BaseReadOnlyRepository<User>, IUserReadOnlyRepository
 {
-    public UserReadOnlyRepository(IDbContextFactory<ClassifierContext> context) : base(context)
+    public UserReadOnlyRepository(IDbContextFactory<MedTaggerContext> context) : base(context)
     {
     }
 

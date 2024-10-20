@@ -33,4 +33,8 @@ public static class Constants
         }
     }
 
+    public static class SuccessMessages
+    {
+        public const string SendSuccessfully = "A sua mensagem foi enviada com sucesso. Em breve alguem entrara em contato pelo email fornecido.";
+    }
 }

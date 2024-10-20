@@ -4,7 +4,7 @@ namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public sealed class CategoryReadOnlyRepository : BaseReadOnlyRepository<Category>, ICategoryReadOnlyRepository
 {
-    public CategoryReadOnlyRepository(IDbContextFactory<ClassifierContext> contextFactory) : base(contextFactory)
+    public CategoryReadOnlyRepository(IDbContextFactory<MedTaggerContext> contextFactory) : base(contextFactory)
     {
     }
 

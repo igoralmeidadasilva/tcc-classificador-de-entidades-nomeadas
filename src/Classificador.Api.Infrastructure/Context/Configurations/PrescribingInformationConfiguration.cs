@@ -1,6 +1,8 @@
+using Classificador.Api.Infrastructure.Context.Configurations.Abstractions;
+
 namespace Classificador.Api.Infrastructure.Context.Configurations;
 
-public class PrescribingInformationConfiguration : EntityConfiguration<PrescribingInformation>
+public class PrescribingInformationConfiguration : SoftDeletableEntityConfiguration<PrescribingInformation>
 {
     public override void Configure(EntityTypeBuilder<PrescribingInformation> builder)
     {
@@ -10,7 +12,7 @@ public class PrescribingInformationConfiguration : EntityConfiguration<Prescribi
 
         builder.Property(x => x.Name)
             .HasColumnName("nome")
-            .HasMaxLength(Constants.Constraints.PRESCRIBING_INFORMATION_NAME_MAX_LENGHT)
+            .HasMaxLength(Constants.Constraints.PrescribingInformation.NAME_MAX_LENGHT)
             .IsRequired();
 
         builder.Property(x => x.Text)

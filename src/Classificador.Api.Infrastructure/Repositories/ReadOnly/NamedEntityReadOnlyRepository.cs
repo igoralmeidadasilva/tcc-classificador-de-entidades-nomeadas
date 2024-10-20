@@ -4,7 +4,7 @@ namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public class NamedEntityReadOnlyRepository : BaseReadOnlyRepository<NamedEntity>, INamedEntityReadOnlyRepository
 {
-    public NamedEntityReadOnlyRepository(IDbContextFactory<ClassifierContext> context) : base(context)
+    public NamedEntityReadOnlyRepository(IDbContextFactory<MedTaggerContext> context) : base(context)
     { }
 
     public async Task<IEnumerable<NamedEntity>> GetByPrescribingInformationAndUserAsync(

@@ -2,5 +2,6 @@ namespace Classificador.Api.Domain.Core.Interfaces.Services;
 
 public interface IEmailSenderService
 {
-    public Task<bool> SendEmailAsync(string from, string name, string subject, string body, CancellationToken cancellationToken = default);
+    public Task<bool> SendEmailAsync(
+        string emailForContact, string contactName, string messageSubject, string messageBody, CancellationToken cancellationToken = default);
 }

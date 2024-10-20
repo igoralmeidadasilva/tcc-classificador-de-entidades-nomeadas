@@ -5,7 +5,7 @@ using Classificador.Api.Application.Commands.CreatePrescribingInformationTxt;
 using Classificador.Api.Application.Commands.CreateSpecialty;
 using Classificador.Api.Application.Commands.CreateUser;
 using Classificador.Api.Application.Commands.LoginUser;
-using Classificador.Api.Application.Commands.SendEmailToContact;
+using Classificador.Api.Application.Commands.SendEmailToAdmins;
 using Classificador.Api.Application.Commands.UpdateUserRoleToAdmin;
 using Classificador.Api.Application.Commands.UpdateUserRoleToStandard;
 using Classificador.Api.Application.Models.Options;
@@ -49,7 +49,7 @@ public static class DependencyInjection
         services.AddScoped<IValidator<CreatePrescribingInformationTxtCommand>, CreatePrescribingInformationTxtCommandValidator>();
         services.AddScoped<IValidator<CreateCategoryCommand>, CreateCategoryCommandValidator>();
         services.AddScoped<IValidator<CreateSpecialtyCommand>, CreateSpecialtyCommandValidator>();
-        services.AddScoped<IValidator<SendEmailToContactCommand>, SendEmailToContactCommandValidator>();
+        services.AddScoped<IValidator<SendEmailToAdminsCommand>, SendEmailToAdminsCommandValidator>();
         services.AddScoped<IValidator<CreateClassificationCommand>, CreateClassificationCommandValidator>();
         services.AddScoped<IValidator<GetPendingClassificationsQuery>, GetPendingClassificationsQueryValidator>();
         services.AddScoped<IValidator<GetNamedEntityByPrescribingInformationIdQuery>, GetNamedEntityByPrescribingInformationIdQueryValidator>();

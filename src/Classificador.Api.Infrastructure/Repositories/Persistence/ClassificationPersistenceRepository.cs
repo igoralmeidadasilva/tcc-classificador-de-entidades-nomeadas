@@ -6,7 +6,7 @@ namespace Classificador.Api.Infrastructure.Repositories.Persistence;
 
 public sealed class ClassificationPersistenceRepository : BasePersistenceRepository<Classification>, IClassificationPersistenceRepository
 {
-    public ClassificationPersistenceRepository(IDbContextFactory<ClassifierContext> contextFactory) : base(contextFactory)
+    public ClassificationPersistenceRepository(IDbContextFactory<MedTaggerContext> contextFactory) : base(contextFactory)
     {
     }
 

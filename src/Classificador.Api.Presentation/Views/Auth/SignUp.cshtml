@@ -1,0 +1,181 @@
+@model SignUpViewModel;
+@{
+    ViewData["Title"] = "Cadastrar";
+    @* var emailFailures = TempData["EmailFailures"] as List<string>;
+    var passwordFailures = TempData["PasswordFailures"] as List<string>;
+    var confirmPasswordFailures = TempData["ConfirmPasswordFailures"] as List<string>;
+    var nameFailures = TempData["NameFailures"] as List<string>;  
+    var contactFailures = TempData["ContactFailures"] as List<string>; 
+    var specialtyFailures = TempData["SpecialtyFailures"] as List<string>;  *@
+}
+
+<div class="container my-5">
+    <section class="row justify-content-center">
+        <form 
+            class="col-10 col-md-6 border rounded p-3 bg-light shadow-sm needs-validation" 
+            method="post"
+            asp-action="PostSignUp" 
+            asp-controller="Home"
+        >
+            <h1 class="display-6 text-color-success">Cadastrar</h1>
+            <hr>
+            <div class="form-floating mb-3 position-relative">
+                <input 
+                    class="form-control" 
+                    type="email" 
+                    id="InputEmail" 
+                    placeholder="Email" 
+                    asp-for="Email" 
+                    maxlength=@Classificador.Api.Domain.Constants.Constraints.User.EMAIL_MAX_LENGHT
+                    required
+                >
+                <label class="form-label" for="InputEmail">Email</label>
+                @* @if(emailFailures != null && emailFailures.Count() != 0)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                        @foreach(var failure in emailFailures)
+                        {
+                            <span>•</span> @failure
+                            <br> 
+                        }
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                } *@
+            </div>
+
+            <div class="form-floating mb-3 position-relative">
+                <input 
+                    class="form-control" 
+                    type="password" 
+                    id="InputPassword" 
+                    placeholder="Senha" 
+                    asp-for="Password" 
+                    minlength=@Classificador.Api.Domain.Constants.Constraints.User.PASSWORD_MIN_LENGHT 
+                    maxlength=@Classificador.Api.Domain.Constants.Constraints.User.PASSWORD_MAX_LENGHT
+                    required
+                >
+
+                <label class="form-label" for="InputPassword">Senha</label>
+                @* @if(passwordFailures != null && passwordFailures.Count() != 0)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                        @foreach(var failure in passwordFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                } *@
+            </div>
+
+            <div class="form-floating mb-3 position-relative">
+                <input 
+                    class="form-control" 
+                    type="password" 
+                    id="InputConfirmPassword" 
+                    placeholder="Confirmar a senha" 
+                    asp-for="ConfirmPassword" 
+                    minlength=@Classificador.Api.Domain.Constants.Constraints.User.PASSWORD_MIN_LENGHT 
+                    maxlength=@Classificador.Api.Domain.Constants.Constraints.User.PASSWORD_MAX_LENGHT 
+                    required
+                >
+
+                <label class="form-label" for="InputConfirmPassword">Confirmar a Senha</label>
+                @* @if(confirmPasswordFailures != null && confirmPasswordFailures.Count() != 0)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                        @foreach(var failure in confirmPasswordFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                } *@
+            </div>
+
+            <div class="form-floating mb-3 position-relative">
+                <input 
+                    class="form-control" 
+                    type="text" 
+                    id="InputName" 
+                    placeholder="Nome Completo" 
+                    asp-for="Name" 
+                    maxlength=@Classificador.Api.Domain.Constants.Constraints.User.NAME_MAX_LENGHT 
+                    required
+                >
+
+                <label class="form-label" for="InputName">Nome Completo</label>
+                @* @if(nameFailures != null && nameFailures.Count() != 0)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                        @foreach(var failure in nameFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                } *@
+            </div>
+
+            <div class="form-floating mb-3 position-relative">
+                <input 
+                    class="form-control" 
+                    type="text" 
+                    id="InputContact" 
+                    placeholder="Contato" 
+                    minlength=@Classificador.Api.Domain.Constants.Constraints.User.CONTACT_MAX_LENGHT 
+                    maxlength=@Classificador.Api.Domain.Constants.Constraints.User.CONTACT_MAX_LENGHT
+                    data-mask="tel" 
+                    asp-for="Contact"
+                >
+
+                <label class="form-label" for="InputContact">Contato</label>
+                @* @if(contactFailures != null && contactFailures.Count() != 0)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                        @foreach(var failure in contactFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                } *@
+
+            </div>
+            
+            <div class="mb-3">
+                <select class="form-select" asp-for="SpecialtyId" asp-items="@Model.Specialties" required>
+                    <option disabled selected value=""> -- Por favor selecione uma especialidade -- </option>
+                </select>
+                
+                @* @if(specialtyFailures != null && specialtyFailures.Count() != 0)
+                {
+                    <div class="alert alert-danger alert-dismissible fade show m-1" role="alert">
+                        @foreach(var failure in specialtyFailures)
+                        {
+                            <span>•</span> @failure
+                            <br>   
+                        }
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+                    </div>
+                } *@
+            </div>
+
+            <div class="d-flex flex-column">
+                <button type="submit" class="btn btn-medtagger-primary w-25 mb-3">Criar Conta</button>
+                <a 
+                    class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" 
+                    asp-controller="Home" 
+                    asp-action="Login">
+                    Já tem uma conta? Clique aqui para entrar.
+                </a>
+            </div>
+        </form>
+    </section>
+</div>
+
+<script src="~/js/inputMasks.js"></script>

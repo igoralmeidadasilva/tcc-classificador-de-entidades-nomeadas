@@ -5,9 +5,9 @@ namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public abstract class BaseReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity> where TEntity : Entity<TEntity>
 {
-    protected readonly IDbContextFactory<ClassifierContext> _contextFactory;
+    protected readonly IDbContextFactory<MedTaggerContext> _contextFactory;
 
-    public BaseReadOnlyRepository(IDbContextFactory<ClassifierContext> contextFactory)
+    public BaseReadOnlyRepository(IDbContextFactory<MedTaggerContext> contextFactory)
     {
         _contextFactory = contextFactory;
     }

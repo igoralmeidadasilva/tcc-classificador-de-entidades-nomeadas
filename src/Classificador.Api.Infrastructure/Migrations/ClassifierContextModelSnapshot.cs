@@ -10,7 +10,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Classificador.Api.Infrastructure.Migrations
 {
-    [DbContext(typeof(ClassifierContext))]
+    [DbContext(typeof(MedTaggerContext))]
     partial class ClassifierContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -26,11 +26,16 @@ namespace Classificador.Api.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
-                    b.Property<DateTime>("CreatedAtOnUtc")
+                    b.Property<DateTime>("CreatedOnUtc")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("data_criacao");
+                        .HasColumnName("data_criacao_utc");
+
+                    b.Property<DateTime>("DeletedOnUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("data_remocao_utc");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
@@ -55,15 +60,20 @@ namespace Classificador.Api.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Comment")
                         .HasColumnType("text")
                         .HasColumnName("comentarios");
 
-                    b.Property<DateTime>("CreatedAtOnUtc")
+                    b.Property<DateTime>("CreatedOnUtc")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("data_criacao");
+                        .HasColumnName("data_criacao_utc");
+
+                    b.Property<DateTime>("DeletedOnUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("data_remocao_utc");
 
                     b.Property<Guid>("IdCategory")
                         .HasColumnType("uuid")
@@ -101,11 +111,16 @@ namespace Classificador.Api.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
-                    b.Property<DateTime>("CreatedAtOnUtc")
+                    b.Property<DateTime>("CreatedOnUtc")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("data_criacao");
+                        .HasColumnName("data_criacao_utc");
+
+                    b.Property<DateTime>("DeletedOnUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("data_remocao_utc");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
@@ -137,11 +152,16 @@ namespace Classificador.Api.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
-                    b.Property<DateTime>("CreatedAtOnUtc")
+                    b.Property<DateTime>("CreatedOnUtc")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("data_criacao");
+                        .HasColumnName("data_criacao_utc");
+
+                    b.Property<DateTime>("DeletedOnUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("data_remocao_utc");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
@@ -171,11 +191,16 @@ namespace Classificador.Api.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
-                    b.Property<DateTime>("CreatedAtOnUtc")
+                    b.Property<DateTime>("CreatedOnUtc")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("data_criacao");
+                        .HasColumnName("data_criacao_utc");
+
+                    b.Property<DateTime>("DeletedOnUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("data_remocao_utc");
 
                     b.Property<string>("Description")
                         .HasColumnType("text")
@@ -200,16 +225,21 @@ namespace Classificador.Api.Infrastructure.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
 
                     b.Property<string>("Contact")
                         .HasMaxLength(15)
                         .HasColumnType("character varying(15)")
                         .HasColumnName("contato");
 
-                    b.Property<DateTime>("CreatedAtOnUtc")
+                    b.Property<DateTime>("CreatedOnUtc")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("data_criacao");
+                        .HasColumnName("data_criacao_utc");
+
+                    b.Property<DateTime>("DeletedOnUtc")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("data_remocao_utc");
 
                     b.Property<string>("Email")
                         .IsRequired()

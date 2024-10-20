@@ -4,8 +4,8 @@ public sealed record GetAllClassificationByVotesQuery : IQuery<Result<GetAllClas
 {
     public Guid IdPrescribingInformation { get; init; }
 
-    public GetAllClassificationByVotesQuery(string idPrescribingInformation)
+    public GetAllClassificationByVotesQuery(Guid idPrescribingInformation)
     {
-        IdPrescribingInformation = new Guid(idPrescribingInformation);
+        IdPrescribingInformation = idPrescribingInformation;
     }
 }

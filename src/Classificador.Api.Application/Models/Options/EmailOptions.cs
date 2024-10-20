@@ -5,5 +5,6 @@ public sealed record EmailOptions
     public string? SmtpServer { get; init; }
     public int Port { get; init; }
     public string? EmailAddress { get; init; }
-    public string? EmailPassword { get; init; } = Environment.GetEnvironmentVariable("EmailOptions__EmailPassword");
+    public string? EmailPassword { get; init; }
+    public IReadOnlyCollection<string>? AdminsEmailAddress { get; init; }
 }

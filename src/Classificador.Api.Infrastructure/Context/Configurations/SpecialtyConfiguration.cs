@@ -1,6 +1,8 @@
+using Classificador.Api.Infrastructure.Context.Configurations.Abstractions;
+
 namespace Classificador.Api.Infrastructure.Context.Configurations;
 
-public sealed class SpecialtyConfiguration : EntityConfiguration<Specialty>
+public sealed class SpecialtyConfiguration : SoftDeletableEntityConfiguration<Specialty>
 {
     public override void Configure(EntityTypeBuilder<Specialty> builder)
     {
@@ -10,7 +12,7 @@ public sealed class SpecialtyConfiguration : EntityConfiguration<Specialty>
 
         builder.Property(x => x.Name)
             .HasColumnName("nome")
-            .HasMaxLength(Constants.Constraints.SPECIALTY_NAME_MAX_LENGHT)
+            .HasMaxLength(Constants.Constraints.Specialty.NAME_MAX_LENGHT)
             .IsRequired();
         
         builder.Property(x => x.Description)

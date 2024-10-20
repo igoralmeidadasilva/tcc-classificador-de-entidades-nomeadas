@@ -19,7 +19,7 @@
                     id="InputEmail" 
                     placeholder="Email" 
                     asp-for="Email"
-                    maxlength=@Classificador.Api.Domain.Constants.Constraints.USER_EMAIL_MAX_LENGHT
+                    maxlength=@Classificador.Api.Domain.Constants.Constraints.User.EMAIL_MAX_LENGHT
                     required
                 >
 
@@ -44,8 +44,8 @@
                     id="InputPassword" 
                     placeholder="Senha" 
                     asp-for="Password" 
-                    minlength=@Classificador.Api.Domain.Constants.Constraints.USER_PASSWORD_MIN_LENGHT 
-                    maxlength=@Classificador.Api.Domain.Constants.Constraints.USER_PASSWORD_MAX_LENGHT
+                    minlength=@Classificador.Api.Domain.Constants.Constraints.User.PASSWORD_MIN_LENGHT 
+                    maxlength=@Classificador.Api.Domain.Constants.Constraints.User.PASSWORD_MAX_LENGHT
                     required
                 >
                 

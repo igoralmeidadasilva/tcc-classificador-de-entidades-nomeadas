@@ -10,13 +10,13 @@
 
             <div class="navbar-nav me-auto mb-2 mb-lg-0">
                 <a asp-controller="Home" asp-action="WhereToStart" class="nav-link">Como Funciona?</a>
-                <a asp-controller="Home" asp-action="Classifications" class="nav-link">Classificações</a>
+                <a asp-controller="Home" asp-action="ClassifiedPrescribingInformation" class="nav-link">Bulas Classificadas</a>
                 <a asp-controller="Home" asp-action="Contact" class="nav-link">Contatos</a>
                 <a asp-controller="Home" asp-action="About" class="nav-link">Sobre</a>
                 @if(!User!.Identity!.IsAuthenticated)
                 {
-                    <a asp-controller="Home" asp-action="Login" class="nav-link">Entrar</a>
-                    <a asp-controller="Home" asp-action="SignUp" class="nav-link">Cadastro</a>
+                    <a asp-controller="Auth" asp-action="Login" class="nav-link">Entrar</a>
+                    <a asp-controller="Auth" asp-action="SignUp" class="nav-link">Cadastro</a>
                 }
             </div>
 

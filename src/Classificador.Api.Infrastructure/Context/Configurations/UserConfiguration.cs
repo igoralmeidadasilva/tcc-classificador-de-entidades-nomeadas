@@ -1,6 +1,8 @@
+using Classificador.Api.Infrastructure.Context.Configurations.Abstractions;
+
 namespace Classificador.Api.Infrastructure.Context.Configurations;
 
-public sealed class UserConfiguration : EntityConfiguration<User>
+public sealed class UserConfiguration : SoftDeletableEntityConfiguration<User>
 {
     public override void Configure(EntityTypeBuilder<User> builder)
     {
@@ -10,7 +12,7 @@ public sealed class UserConfiguration : EntityConfiguration<User>
 
         builder.Property(x => x.Email)
             .HasColumnName("email")
-            .HasMaxLength(Constants.Constraints.USER_EMAIL_MAX_LENGHT)
+            .HasMaxLength(Constants.Constraints.User.EMAIL_MAX_LENGHT)
             .IsRequired();
 
         builder.HasIndex(x => x.Email)
@@ -18,17 +20,17 @@ public sealed class UserConfiguration : EntityConfiguration<User>
 
         builder.Property(x => x.HashedPassword)
             .HasColumnName("senha")
-            .HasMaxLength(Constants.Constraints.USER_PASSWORD_MAX_LENGHT)
+            .HasMaxLength(Constants.Constraints.User.PASSWORD_MAX_LENGHT)
             .IsRequired();
 
         builder.Property(x => x.Name)
             .HasColumnName("nome")
-            .HasMaxLength(Constants.Constraints.USER_FIRST_NAME_MAX_LENGHT)
+            .HasMaxLength(Constants.Constraints.User.NAME_MAX_LENGHT)
             .IsRequired();
 
         builder.Property(x => x.Contact)
             .HasColumnName("contato")
-            .HasMaxLength(Constants.Constraints.USER_CONTACT_MAX_LENGHT);
+            .HasMaxLength(Constants.Constraints.User.CONTACT_MAX_LENGHT);
         
         builder.Property(x => x.Role)
             .HasColumnName("funcao")

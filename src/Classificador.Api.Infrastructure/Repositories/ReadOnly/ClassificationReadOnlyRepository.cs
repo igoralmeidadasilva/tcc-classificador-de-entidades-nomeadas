@@ -5,7 +5,7 @@ namespace Classificador.Api.Infrastructure.Repositories.ReadOnly;
 
 public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Classification>, IClassificationReadOnlyRepository
 {
-    public ClassificationReadOnlyRepository(IDbContextFactory<ClassifierContext> context) : base(context)
+    public ClassificationReadOnlyRepository(IDbContextFactory<MedTaggerContext> context) : base(context)
     {
     }
 
@@ -52,20 +52,20 @@ public sealed class ClassificationReadOnlyRepository : BaseReadOnlyRepository<Cl
                 SELECT 
                     en.nome AS nome_entidade,
                     ca.nome AS nome_categoria,
-                    COUNT(cl.""Id"") AS quantidade,
+                    COUNT(cl.id) AS quantidade,
                     en.posicao_inicial AS posicao_inicial,
                     en.posicao_final AS posicao_final,
-                    ROW_NUMBER() OVER (PARTITION BY en.""Id"" ORDER BY COUNT(*) DESC) AS rank
+                    ROW_NUMBER() OVER (PARTITION BY en.id ORDER BY COUNT(*) DESC) AS rank
                 FROM
                     entidades_nomeadas en
                 LEFT JOIN
-                    classificacoes cl ON en.""Id"" = cl.id_entidade_nomeada AND cl.status = 'Completo'
+                    classificacoes cl ON en.id = cl.id_entidade_nomeada AND cl.status = 'Completo'
                 LEFT JOIN
-                    categorias ca ON cl.id_categoria = ca.""Id""
+                    categorias ca ON cl.id_categoria = ca.id
                 WHERE 
                     en.id_bula = {0}
                 GROUP BY
-                    en.""Id"", en.nome, ca.nome, en.posicao_inicial, en.posicao_final
+                    en.id, en.nome, ca.nome, en.posicao_inicial, en.posicao_final
                 ORDER BY 
                     en.nome
             )

@@ -36,7 +36,7 @@ public sealed class GetAllClassificationByVotesQueryHandlerTests
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound, result.Error);
+        Assert.Equal(DomainErrors.PrescribingInformation.PrescribingInformationEntityNoneWereFound, result.Error);
     }
 
     [Fact]

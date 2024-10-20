@@ -1,6 +1,8 @@
+using Classificador.Api.Infrastructure.Context.Configurations.Abstractions;
+
 namespace Classificador.Api.Infrastructure.Context.Configurations;
 
-public sealed class ClassificationConfiguration : EntityConfiguration<Classification>
+public sealed class ClassificationConfiguration : SoftDeletableEntityConfiguration<Classification>
 {
     public override void Configure(EntityTypeBuilder<Classification> builder)
     {

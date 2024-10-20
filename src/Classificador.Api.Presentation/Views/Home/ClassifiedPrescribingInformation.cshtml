@@ -1,0 +1,46 @@
+@model ClassifiedPrescribingInformationViewModel;
+@{
+    ViewData["Title"] = "Bulas Classificadas";
+}
+
+<div class="container my-5">
+    <div class="row row-cols-1 p-3 shadow-sm border rounded bg-light ">
+        <div class="col">
+            <h1 class="display-6 text-color-success">Bulas Farmacêuticas</h1>
+            <hr>
+            <table class="table table-hover">
+                <thead>
+                    <tr class="table-dark">
+                        <th class="fw-bolder" scope="col">Nome</th>
+                        <th class="fw-bolder" scope="col">Qtde. de Entidades</th>
+                        <th class="fw-bolder" scope="col">Descrição</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if(Model.PrescribingInformations != null)
+                    {
+                        @foreach(var item in Model.PrescribingInformations)
+                        {
+                            <tr>
+                                <td>
+                                    <a 
+                                        class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover" 
+                                        asp-controller="Home" 
+                                        asp-action="ClassifiedPrescribingInformationDetails"
+                                        asp-route-idPrescribingInformation=@item.Id>
+                                            @item.Name
+                                    </a>
+                                </td>
+
+                                <td>@item.Amount</td>
+                                <td>@item.Description</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    

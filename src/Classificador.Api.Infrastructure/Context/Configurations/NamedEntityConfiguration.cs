@@ -1,6 +1,8 @@
+using Classificador.Api.Infrastructure.Context.Configurations.Abstractions;
+
 namespace Classificador.Api.Infrastructure.Context.Configurations;
 
-public sealed class NamedEntityConfiguration : EntityConfiguration<NamedEntity>
+public sealed class NamedEntityConfiguration : SoftDeletableEntityConfiguration<NamedEntity>
 {
     public override void Configure(EntityTypeBuilder<NamedEntity> builder)
     {
@@ -10,7 +12,7 @@ public sealed class NamedEntityConfiguration : EntityConfiguration<NamedEntity>
 
         builder.Property(x => x.Name)
             .HasColumnName("nome")
-            .HasMaxLength(Constants.Constraints.NAMED_ENTITY_NAME_MAX_LENGHT)
+            .HasMaxLength(Constants.Constraints.NamedEntity.NAME_MAX_LENGHT)
             .IsRequired();
         
         builder.Property(x => x.Description)

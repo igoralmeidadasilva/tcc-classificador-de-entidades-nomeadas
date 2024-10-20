@@ -21,12 +21,15 @@ public sealed class GetAllClassificationByVotesQueryHandler : IQueryHandler<GetA
 
     public async Task<Result<GetAllClassificationByVotesQueryResponse>> Handle(GetAllClassificationByVotesQuery request, CancellationToken cancellationToken)
     {
-        if(!await _prescribingInformationReadOnlyRepository.ExistsAsync(request.IdPrescribingInformation, cancellationToken))
+        PrescribingInformation prescribingInformation =
+            await _prescribingInformationReadOnlyRepository.GetByIdAsync(request.IdPrescribingInformation, cancellationToken);
+
+        if(prescribingInformation is null)
         {
             _logger.LogInformation("{RequestName} Prescribing information does not exist",
                 nameof(GetAllClassificationByVotesQuery));
 
-            return Result.Failure<GetAllClassificationByVotesQueryResponse>(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound);
+            return Result.Failure<GetAllClassificationByVotesQueryResponse>(DomainErrors.PrescribingInformation.PrescribingInformationEntityNoneWereFound);
         }
 
         IEnumerable<CountVoteForNamedEntity> response = await _classificationReadOnlyRepository
@@ -45,7 +48,7 @@ public sealed class GetAllClassificationByVotesQueryHandler : IQueryHandler<GetA
             _logger.LogInformation("{RequestName} did not find any classification.",
                 nameof(GetAllClassificationByVotesQuery));
             
-            return Result.Success(new GetAllClassificationByVotesQueryResponse());
+            return Result.Success(new GetAllClassificationByVotesQueryResponse { Name = prescribingInformation.Name });
         }
 
         IEnumerable<CountVoteForNamedEntity> filteredResponse = response.Where(x => x.Category != string.Empty);
@@ -54,6 +57,6 @@ public sealed class GetAllClassificationByVotesQueryHandler : IQueryHandler<GetA
             nameof(GetAllClassificationByVotesQuery),
             response.Count());
 
-        return Result.Success(new GetAllClassificationByVotesQueryResponse { Response = filteredResponse.ToList() });
+        return Result.Success(new GetAllClassificationByVotesQueryResponse { Classifications = filteredResponse.ToList(), Name = prescribingInformation.Name });
     }
 }

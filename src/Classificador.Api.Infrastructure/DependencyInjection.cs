@@ -1,3 +1,4 @@
+using Classificador.Api.Domain.Core.Enums;
 using Classificador.Api.Domain.Core.Interfaces.Repositories.Persistence;
 using Classificador.Api.Domain.Core.Interfaces.Repositories.ReadOnly;
 using Classificador.Api.Domain.Core.Interfaces.Services;
@@ -19,15 +20,14 @@ public static class DependencyInjection
 
     private static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = configuration.GetConnectionString("PostgreSQL");
-        // services.AddSingleton<SoftDeleteInterceptor>();
-        
-        services.AddDbContextFactory<ClassifierContext>
-        (
-            // (sp, opt) => opt.UseNpgsql(connectionString)
-            //     .AddInterceptors(sp.GetRequiredService<SoftDeleteInterceptor>())
-            opt => opt.UseNpgsql(connectionString)
-        );
+        string? connectionString = configuration.GetConnectionString("PostgreSQL");
+        services.AddSingleton<SoftDeleteInterceptor>();
+
+        services.AddDbContextFactory<MedTaggerContext>((serviceProvider, options) =>
+        {
+            options.UseNpgsql(connectionString)
+                .AddInterceptors(serviceProvider.GetRequiredService<SoftDeleteInterceptor>());;
+        });
 
         return services;
     }
@@ -55,32 +55,7 @@ public static class DependencyInjection
     {
         services.AddSingleton<IPasswordHashingService, PasswordHashingService>();
         services.AddSingleton<IDatabaseSeedService, DatabaseSeedService>();
-        services.AddSingleton<IJwtSecurityTokenService, JwtSecurityTokenService>();
         services.AddSingleton<IEmailSenderService, EmailSenderService>();
-
-        return services;
-    }
-
-    private static IServiceCollection AddJwtAuthentication(this IServiceCollection services, IConfiguration configuration)
-    {
-        services.AddAuthentication(options => 
-        {
-            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-        .AddJwtBearer(opt =>
-        {
-            opt.RequireHttpsMetadata = false;
-            opt.SaveToken = true;
-            opt.TokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = false,
-                ValidateAudience = false,
-                ValidateLifetime = true,
-                ValidateIssuerSigningKey = true,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(configuration.GetSection("JwtOptions:TokenSecurityKey").Value!)),
-            };
-        });
 
         return services;
     }

@@ -32,7 +32,7 @@ public sealed class GetPrescribingInformationByIdQueryHandler : IQueryHandler<Ge
             _logger.LogInformation("{RequestName} did not find any prescribing informations",
                 nameof(GetPrescribingInformationByIdQuery));
 
-            return  Result.Failure<GetPrescribingInformationByIdQueryResponse>(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound);
+            return  Result.Failure<GetPrescribingInformationByIdQueryResponse>(DomainErrors.PrescribingInformation.PrescribingInformationEntityNoneWereFound);
         }
 
         _logger.LogInformation("{RequestName} found {RecordsCount} prescribing informations records",

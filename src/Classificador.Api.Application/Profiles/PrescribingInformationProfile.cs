@@ -21,7 +21,7 @@ public sealed class PrescribingInformationProfile : Profile
             .ReverseMap()
             .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.NamedEntities!.Count()));
         
-        CreateMap<PrescribingInformationClassificationViewDto, PrescribingInformation>()
+        CreateMap<PrescribingInformationClassifiedDto, PrescribingInformation>()
             .ReverseMap()
             .ForMember(dest => dest.Amount, opt => opt.MapFrom(src => src.NamedEntities!.Count()));
     }

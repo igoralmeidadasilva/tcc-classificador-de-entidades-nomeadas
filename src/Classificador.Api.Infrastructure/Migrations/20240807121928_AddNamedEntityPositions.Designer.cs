@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Classificador.Api.Infrastructure.Migrations
 {
-    [DbContext(typeof(ClassifierContext))]
+    [DbContext(typeof(MedTaggerContext))]
     [Migration("20240807121928_AddNamedEntityPositions")]
     partial class AddNamedEntityPositions
     {

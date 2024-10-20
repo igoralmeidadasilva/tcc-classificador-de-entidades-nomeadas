@@ -136,14 +136,14 @@ public static class CommandErrors
             ErrorType.Validation);
     }
 
-    public static class SendEmailToContact
+    public static class SendEmailToAdmins
     {
-        public static Error NameIsRequired => Error.Create("SendEmailToContact.Name.IsRequired", "O Nome não pode ser vazio.", ErrorType.Validation);
-        public static Error SubjectIsRequired => Error.Create("SendEmailToContact.Subject.IsRequired", "O Assunto não pode ser vazio.", ErrorType.Validation);
-        public static Error EmailIsRequired => Error.Create("SendEmailToContact.Email.IsRequired", "O Endereço de Email não pode ser vazio.", ErrorType.Validation);
-        public static Error EmailFormat => Error.Create("SendEmailToContact.Email.FormatInvalid", "O Formato do email é inválido.", ErrorType.Validation);
-        public static Error MessageIsRequired => Error.Create("SendEmailToContact.Message.IsRequired", "A Mensagem não pode ser vazia.", ErrorType.Validation);
-
+        public static Error NameIsRequired => Error.Create("SendEmailToAdmins.ContactName.IsRequired", "O Nome não pode ser vazio.", ErrorType.Validation);
+        public static Error SubjectIsRequired => Error.Create("SendEmailToAdmins.MessageSubject.IsRequired", "O Assunto não pode ser vazio.", ErrorType.Validation);
+        public static Error EmailIsRequired => 
+            Error.Create("SendEmailToAdmins.EmailForContact.IsRequired", "O Endereço de Email não pode ser vazio.", ErrorType.Validation);
+        public static Error EmailFormat => Error.Create("SendEmailToAdmins.EmailForContact.FormatInvalid", "O Formato do email é inválido.", ErrorType.Validation);
+        public static Error MessageIsRequired => Error.Create("SendEmailToAdmins.MessageBody.IsRequired", "A Mensagem não pode ser vazia.", ErrorType.Validation);
     }
 
     public static class CreateClassificationFailures

@@ -10,9 +10,11 @@ builder.Services.AddInfrastructure(builder.Configuration);
 builder.Services.AddApplication(builder.Configuration);
 builder.Services.AddPresentation(builder.Configuration);
 
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
 var app = builder.Build();
 
-app.UseExceptionHandler("/Home/Error");
+app.UseExceptionHandler("/error");
 app.UseMiddleware<PageNotFoundMiddleware>();
 
 if (app.Environment.IsDevelopment())
@@ -38,6 +40,6 @@ await seeder!.ExecuteSeedAsync();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=home}/{action=index}/{id?}");
 
 app.Run();

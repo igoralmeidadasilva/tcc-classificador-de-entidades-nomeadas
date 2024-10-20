@@ -39,7 +39,7 @@ public sealed class GetPrescribingInformationQueryHandlerTests
 
         // Assert
         Assert.False(result.IsSuccess);
-        Assert.Equal(DomainErrors.PrescribingInformation.PrescribingInformationEntityNotFound.Code, result.Error.Code);
+        Assert.Equal(DomainErrors.PrescribingInformation.PrescribingInformationEntityNoneWereFound.Code, result.Error.Code);
     }
 
     [Fact]

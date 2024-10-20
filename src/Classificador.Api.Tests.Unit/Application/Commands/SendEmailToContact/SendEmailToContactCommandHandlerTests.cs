@@ -1,3 +1,4 @@
+using Classificador.Api.Application.Commands.SendEmailToAdmins;
 using Classificador.Api.Domain.Core.Errors;
 using Classificador.Api.Domain.Core.Interfaces.Services;
 
@@ -6,15 +7,15 @@ namespace Classificador.Api.Tests.Unit.Application.Commands.SendEmailToContact;
 
 public class SendEmailToContactCommandHandlerTests
 {
-    private readonly Mock<ILogger<SendEmailToContactCommandHandler>> _loggerMock;
+    private readonly Mock<ILogger<SendEmailToAdminsCommandHandler>> _loggerMock;
     private readonly Mock<IEmailSenderService> _emailSenderServiceMock;
-    private readonly SendEmailToContactCommandHandler _handler;
+    private readonly SendEmailToAdminsCommandHandler _handler;
 
     public SendEmailToContactCommandHandlerTests()
     {
-        _loggerMock = new Mock<ILogger<SendEmailToContactCommandHandler>>();
+        _loggerMock = new Mock<ILogger<SendEmailToAdminsCommandHandler>>();
         _emailSenderServiceMock = new Mock<IEmailSenderService>();
-        _handler = new SendEmailToContactCommandHandler(_loggerMock.Object, _emailSenderServiceMock.Object);
+        _handler = new SendEmailToAdminsCommandHandler(_loggerMock.Object, _emailSenderServiceMock.Object);
     }
 
     [Fact]

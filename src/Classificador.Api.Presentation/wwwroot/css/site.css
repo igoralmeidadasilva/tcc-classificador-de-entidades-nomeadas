@@ -9,35 +9,45 @@
 }
 
 :root {
-  --primary-bg-color: #03A678;
-  --secondary-bg-color: #02735E;
-  --success-bg-color: #014040;
-  --warning-bg-color: #F27405;
-  --danger-bg-color: #731702;
+  --medtagger-bg-primary: #014040;
+  --medtagger-bg-success: #03A678;
+  --medtagger-bg-secondary: #02735E;
+  --medtagger-bg-warning: #F27405;
+  --medtagger-bg-danger: #731702;
 }
 
 .nav-link:hover{
-  color: var(--secondary-bg-color) !important;
+  color: var(--medtagger-bg-secondary) !important;
 }
 
-.text-color-primary {
-  color: var(--primary-bg-color)
-}
-
-.btn-color-success {
-  background-color: var(--success-bg-color);
-  color: white;
-}
-.btn-color-success:hover, .btn-color-success:active {
-  background-color: var(--secondary-bg-color) !important;
+.btn-medtagger-primary {
+  background-color: var(--medtagger-bg-primary) !important;
   color: white !important;
 }
-
-.btn-color-warning {
-  background-color: var(--warning-bg-color);
-  color: white;
+.btn-medtagger-primary:hover {
+  background-color: var(--medtagger-bg-secondary) !important;
 }
-.btn-color-warning:hover, .btn-color-success:active {
-  background-color: var(--warning-bg-color) !important;
+
+.btn-medtagger-primary:active{
+  background-color: var(--medtagger-bg-warning) !important;
+}
+
+.btn-medtagger-warning {
+  background-color: var(--medtagger-bg-warning) !important;
   color: white !important;
+}
+.btn-medtagger-warning:hover {
+  background-color: var(--medtagger-bg-secondary) !important;
+}
+
+.btn-medtagger-warning:active{
+  background-color: var(--medtagger-bg-primary) !important;
+}
+
+.text-color-success {
+  color: var(--medtagger-bg-success)
+}
+
+.navbar-brand:hover{
+  color: var(--medtagger-bg-success) !important;
 }

@@ -28,7 +28,7 @@ public sealed class DatabaseSeedService(
             return;
         }
 
-        var context = scope.ServiceProvider.GetService<ClassifierContext>()
+        var context = scope.ServiceProvider.GetService<MedTaggerContext>()
             ?? throw new Exception("An error occurred when trying to recover the Database.");
         
         if(context.Specialties.Any())
@@ -56,7 +56,7 @@ public sealed class DatabaseSeedService(
             return;
         }
 
-        var context = scope.ServiceProvider.GetService<ClassifierContext>() 
+        var context = scope.ServiceProvider.GetService<MedTaggerContext>() 
             ?? throw new Exception("An error occurred when trying to recover the Database.");
         
         if(context.Categories.Any())
@@ -84,7 +84,7 @@ public sealed class DatabaseSeedService(
             return;
         }
 
-        var context = scope.ServiceProvider.GetService<ClassifierContext>() 
+        var context = scope.ServiceProvider.GetService<MedTaggerContext>() 
             ?? throw new Exception("An error occurred when trying to recover the Database.");
         var passwordHashingService = scope.ServiceProvider.GetService<IPasswordHashingService>()
             ?? throw new Exception("An error occurred when trying to recover the Hashing Password Service.");
@@ -129,7 +129,7 @@ public sealed class DatabaseSeedService(
 
         using IServiceScope scope = _scopeFactory.CreateScope();
 
-        var contextFactory = scope.ServiceProvider.GetService<IDbContextFactory<ClassifierContext>>() 
+        var contextFactory = scope.ServiceProvider.GetService<IDbContextFactory<MedTaggerContext>>() 
             ?? throw new Exception("An error occurred when trying to recover the Database.");
 
         using var context = contextFactory.CreateDbContext();
