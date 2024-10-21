@@ -35,7 +35,7 @@ public sealed class HomeController : WebController<HomeController>
     [HttpGet("/contact")]
     public IActionResult Contact() => View();
 
-    [HttpPost(nameof(PostSendEmailToAdmin))]
+    [HttpPost]
     public async Task<IActionResult> PostSendEmailToAdmin(SendEmailToAdminsCommand command)
     {
         Result response = await Mediator.Send(command);
