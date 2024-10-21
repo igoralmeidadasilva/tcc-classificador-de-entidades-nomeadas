@@ -33,11 +33,10 @@ public sealed class CreateCategoryCommandHandler : ICommandHandler<CreateCategor
 
         Category category = _mapper.Map<Category>(request);
 
-        Guid id = await _categoryPersistenceRepository.AddAsync(category, cancellationToken);
+        await _categoryPersistenceRepository.AddAsync(category, cancellationToken);
 
-        _logger.LogInformation("{RequestName} successfully created a new category: {CategoryId}",
-            nameof(CreateCategoryCommand),
-            id);
+        _logger.LogInformation("{RequestName} successfully created a new category.",
+            nameof(CreateCategoryCommand));
 
         return Result.Success();
     }

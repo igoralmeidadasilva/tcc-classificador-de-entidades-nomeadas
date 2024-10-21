@@ -30,22 +30,20 @@ public sealed class CreateUserCommandHandler : ICommandHandler<CreateUserCommand
         if(await _userReadOnlyRepository.IsEmailAlreadyExists(request.Email, cancellationToken))
         {
             _logger.LogInformation("{RequestName} user email already exists. {User}",
-                nameof(CreateUserCommandHandler),
+                nameof(CreateUserCommand),
                 request.Email);
 
             return Result.Failure(DomainErrors.User.EmailAlreadyExists);
         }
 
-        User user = _mapper.Map<User>(request with 
-        { 
-            Password = _passwordHashingService.HashPassword(request.Password)
-        });
+        User newUser = User.Create(request.Email, request.Password, request.Name, request.IdSpecialty, request.Contact);
+        newUser = newUser.UpdateHashedPassword(_passwordHashingService.HashPassword(newUser.HashedPassword));
 
-        Guid id = await _userPersistenceRepository.AddAsync(user, cancellationToken);
+        await _userPersistenceRepository.AddAsync(newUser, cancellationToken);
 
-        _logger.LogInformation("{RequestName} successfully created a new user: {UserId}",
+        _logger.LogInformation("{RequestName} successfully created a new user with id: {UserId}.",
             nameof(CreateUserCommand),
-            id);
+            newUser.Id);
 
         return Result.Success();
     }

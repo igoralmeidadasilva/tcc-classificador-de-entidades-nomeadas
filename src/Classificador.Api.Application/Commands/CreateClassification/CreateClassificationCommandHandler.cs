@@ -45,11 +45,10 @@ public sealed class CreateClassificationCommandHandler : ICommandHandler<CreateC
 
         Classification classification = _mapper.Map<Classification>(request);
 
-        Guid id = await _classificationPersistenceRepository.AddAsync(classification, cancellationToken);
+        await _classificationPersistenceRepository.AddAsync(classification, cancellationToken);
 
-        _logger.LogInformation("{RequestName} successfully created a new classification: {ClassificationId}",
-            nameof(CreateClassificationCommand),
-            id);
+        _logger.LogInformation("{RequestName} successfully created a new classification.",
+            nameof(CreateClassificationCommand));
 
         return Result.Success();
     }

@@ -1,4 +1,5 @@
 using Classificador.Api.Application.Queries.GetAllSpecialties;
+using Classificador.Api.Domain;
 using Classificador.Api.SharedKernel.Shared.Results;
 
 namespace Classificador.Api.Presentation.Controllers;
@@ -15,56 +16,60 @@ public sealed class AuthController : WebController<AuthController>
     {
         Result<IEnumerable<SpecialtySignUpViewDto>> response = await Mediator.Send(new GetAllSpecialtiesQuery());
 
+        if(response.IsFailure)
+        {
+            GenerateErrorMessage(response.FirstError().Message);
+            return View(viewModel);
+        }
+
         viewModel.Specialties = new SelectList(response.Value, nameof(SpecialtySignUpViewDto.Id), nameof(SpecialtySignUpViewDto.Name));
         return View(viewModel);
     }
 
-    // [ValidateAntiForgeryToken]
-    // [HttpPost(nameof(SignUp))]
-    // public async Task<IActionResult> PostSignUp(SignUpViewModel viewModel, [FromServices] ISpecialtyReadOnlyRepository _repo)
-    // {
-    //     CreateUserCommand command = viewModel;
-    //     Result response = await _mediator.Send(command);
+    [ValidateAntiForgeryToken]
+    [HttpPost]
+    public async Task<IActionResult> PostCreateUser(SignUpViewModel viewModel)
+    {
+        if (viewModel.CreateUserForm == null)
+        {
+            GenerateErrorMessage(Constants.Messages.InvalidForm);
+            return RedirectToAction(nameof(SignUp));
+        }
 
-    //     if (!response.IsSuccess)
-    //     {
-    //         GenerateErrorMessage(response.Error.Message);
-    //         var validationError = response.Error as ValidationError;
+        CreateUserCommand command = viewModel.CreateUserForm;
+        Result response = await Mediator.Send(command);
 
-    //         if(validationError != null)
-    //         {
-    //             TempData["EmailFailures"] = validationError!.ExtractValidationErrors("CreateUser.Email");
-    //             TempData["PasswordFailures"] = validationError!.ExtractValidationErrors("CreateUser.Password");
-    //             TempData["ConfirmPasswordFailures"] = validationError!.ExtractValidationErrors("CreateUser.ConfirmPassword");
-    //             TempData["NameFailures"] = validationError!.ExtractValidationErrors("CreateUser.Name");
-    //             TempData["ContactFailures"] = validationError!.ExtractValidationErrors("CreateUser.Contact");
-    //             TempData["SpecialtyFailures"] = validationError!.ExtractValidationErrors("CreateUser.Specialty");
-    //         }
+        if(response.IsFailure)
+        {
+            if(response.FirstErrorTypeOf(ErrorType.Conflict))
+                TempData["EmailFailures"] = response.GetErrorsByCode("User.Email").ExtractErrorsMessages().ToList();
+            
+            if(response.FirstErrorTypeOf(ErrorType.Validation))
+            {
+                TempData["EmailFailures"] = response.GetErrorsByCode("CreateUser.Email").ExtractErrorsMessages().ToList();
+                TempData["PasswordFailures"] = response.GetErrorsByCode("CreateUser.Password").ExtractErrorsMessages().ToList();
+                TempData["ConfirmPasswordFailures"] = response.GetErrorsByCode("CreateUser.ConfirmPassword").ExtractErrorsMessages().ToList();
+                TempData["NameFailures"] = response.GetErrorsByCode("CreateUser.Name").ExtractErrorsMessages().ToList();
+                TempData["ContactFailures"] = response.GetErrorsByCode("CreateUser.Contact").ExtractErrorsMessages().ToList();
+                TempData["SpecialtyFailures"] = response.GetErrorsByCode("CreateUser.Specialty").ExtractErrorsMessages().ToList();
+            }
 
-    //         await LoadSpecialtiesAsync(viewModel, _repo);
-    //         return View(nameof(SignUp), viewModel);
-    //     }
+            return RedirectToAction(nameof(SignUp));
+        }
 
-    //     GenerateSuccessMessage(Constants.Messages.SignUpSuccess);
-    //     return RedirectToAction(nameof(Login));
-    // }
-
-    // private static async Task LoadSpecialtiesAsync(SignUpViewModel viewModel, ISpecialtyReadOnlyRepository repo)
-    // {
-    //     var specialties = await repo.GetAllAsync();
-    //     viewModel.Specialties = new SelectList(specialties, nameof(Specialty.Id), nameof(Specialty.Name));
-    // }
-
+        GenerateSuccessMessage(Constants.Messages.SignUpSuccess);
+        return RedirectToAction(nameof(Login));
+    }
     
-    // [HttpGet(nameof(Login))]
-    // public IActionResult Login(string returnUrl = null!)
-    // {
-    //     if(returnUrl != null)
-    //     {
-    //         GenerateErrorMessage(Constants.Messages.AccessDenied);
-    //     }
-    //     return View();
-    // }
+    [HttpGet("login")]
+    public IActionResult Login(string returnUrl = null!)
+    {
+        if(returnUrl != null)
+        {
+            GenerateErrorMessage(Constants.Messages.AccessDenied);
+        }
+        return View();
+    }
 
     // [HttpPost(nameof(Login))]
     // [ValidateAntiForgeryToken]

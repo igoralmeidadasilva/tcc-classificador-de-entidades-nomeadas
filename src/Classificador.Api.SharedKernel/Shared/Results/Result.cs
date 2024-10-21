@@ -33,6 +33,6 @@ public class Result : IResult
 
     public bool HasOneError() => Errors.Count == 1;
 
-    public bool ErrorOrSucces() => !Errors.Any();
+    public bool FirstErrorTypeOf(ErrorType errorType) => FirstError().Type.Equals(errorType);
 
 }

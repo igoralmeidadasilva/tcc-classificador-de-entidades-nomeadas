@@ -50,7 +50,7 @@ public sealed class HomeController : WebController<HomeController>
             return RedirectToAction(nameof(Contact));
         }
 
-        GenerateSuccessMessage(Domain.Constants.SuccessMessages.SendSuccessfully);
+        GenerateSuccessMessage(Domain.Constants.Messages.SendSuccessfully);
         return RedirectToAction(nameof(Contact));
     }
 

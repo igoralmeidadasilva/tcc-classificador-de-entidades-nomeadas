@@ -33,11 +33,10 @@ public sealed class CreatePrescribingInformationTxtCommandHandler : ICommandHand
 
         prescribingInformation.NamedEntities = namedEntities;
 
-        Guid id = await _prescribingInformationPersistenceRepository.AddAsync(prescribingInformation, cancellationToken);
+        await _prescribingInformationPersistenceRepository.AddAsync(prescribingInformation, cancellationToken);
 
-        _logger.LogInformation("{RequestName} successfully created a new PrescribingInformation: {PrescribingInformationId}",
-            nameof(CreatePrescribingInformationTxtCommand),
-            id);
+        _logger.LogInformation("{RequestName} successfully created a new PrescribingInformation",
+            nameof(CreatePrescribingInformationTxtCommand));
 
         return Result.Success();
     }

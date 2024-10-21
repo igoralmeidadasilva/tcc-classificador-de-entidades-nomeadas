@@ -33,11 +33,10 @@ public sealed class CreateSpecialtyCommandHandler : ICommandHandler<CreateSpecia
 
         Specialty specialty = _mapper.Map<Specialty>(request);
 
-        Guid id = await _specialtyPersistenceRepository.AddAsync(specialty, cancellationToken);
+        await _specialtyPersistenceRepository.AddAsync(specialty, cancellationToken);
 
-        _logger.LogInformation("{RequestName} successfully created a new specialty: {SpecialtyId}",
-            nameof(CreateSpecialtyCommand),
-            id);
+        _logger.LogInformation("{RequestName} successfully created a new specialty.",
+            nameof(CreateSpecialtyCommand));
 
         return Result.Success();
     }

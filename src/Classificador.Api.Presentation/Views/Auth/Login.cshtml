@@ -1,12 +1,13 @@
 @model LoginViewModel;
 @{
     ViewData["Title"] = "Entrar";
-    var emailFailures = TempData["EmailFailures"] as List<string>;
-    var passwordFailures = TempData["PasswordFailures"] as List<string>;
+    @* var emailFailures = TempData["EmailFailures"] as List<string>;
+    var passwordFailures = TempData["PasswordFailures"] as List<string>; *@
 }
 
 <div class="container my-5">
-    <section class="row justify-content-center">
+    <h1>Login</h1>
+    @* <section class="row justify-content-center">
         <form class="col-10 col-md-6 border rounded p-3 bg-light shadow-sm needs-validation" method="post">
             <h1 class="display-6 text-color-primary">Entrar</h1>
 
@@ -74,6 +75,6 @@
             </div>
 
         </form>
-    </section>
+    </section> *@
 
 </div>
