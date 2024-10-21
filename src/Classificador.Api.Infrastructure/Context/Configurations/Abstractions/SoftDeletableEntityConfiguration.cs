@@ -16,8 +16,7 @@ public abstract class SoftDeletableEntityConfiguration<TEntity> : EntityConfigur
 
         builder.Property(e => e.DeletedOnUtc)
             .HasColumnName("data_remocao_utc")
-            .IsRequired();
-
+            .IsRequired(false);
     }
 }
 

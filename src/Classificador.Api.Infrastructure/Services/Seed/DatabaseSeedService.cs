@@ -37,10 +37,17 @@ public sealed class DatabaseSeedService(
             return;
         }
 
-        await context!.Specialties.AddRangeAsync(_options.Specialties!, cancellationToken);
+        var specialtiesToInsert =  _options.Specialties!.Select(specialty => 
+        {
+            Specialty newSpecialty = Specialty.Create(specialty.Name, specialty.Description);
+
+            return newSpecialty;
+        }).ToList();
+
+        await context!.Specialties.AddRangeAsync(specialtiesToInsert, cancellationToken);
         await context!.SaveChangesAsync(cancellationToken);
 
-        foreach(var specialty in _options.Specialties!)
+        foreach(var specialty in specialtiesToInsert)
         {
             _logger.LogInformation("Specialty '{SpecialtyName}' was entered with the Id {SpecialtyId}.",
                 specialty.Name,
@@ -65,10 +72,17 @@ public sealed class DatabaseSeedService(
             return;
         }
 
-        await context!.Categories.AddRangeAsync(_options.Categories!, cancellationToken);
+        var categoriesToInsert =  _options.Categories!.Select(category => 
+        {
+            Category newCategory = Category.Create(category.Name, category.Description);
+
+            return newCategory;
+        }).ToList();
+
+        await context!.Categories.AddRangeAsync(categoriesToInsert, cancellationToken);
         await context!.SaveChangesAsync(cancellationToken);
 
-        foreach(var category in _options.Categories!)
+        foreach(var category in categoriesToInsert)
         {
             _logger.LogInformation("Category '{CategoryName}' was entered with the Id {CategoryId}.",
                 category.Name,
@@ -101,16 +115,18 @@ public sealed class DatabaseSeedService(
             return;
         }
 
-        var usersWithPasswordsIsHashing =  _options.Users!.Select(user => 
+        var usersToInsert =  _options.Users!.Select(user => 
         {
-            var passwordHashing = passwordHashingService.HashPassword(user.HashedPassword);
-            return user.UpdateHashedPassword(passwordHashing);
+            User newUser = User.Create(user.Email, user.HashedPassword, user.Name, user.IdSpecialty, user.Contact);
+            newUser = newUser.UpdateRole(user.Role);
+            var passwordHashing = passwordHashingService.HashPassword(newUser.HashedPassword);
+            return newUser.UpdateHashedPassword(passwordHashing);
         }).ToList();
 
-        await context!.Users.AddRangeAsync(usersWithPasswordsIsHashing, cancellationToken);
+        await context!.Users.AddRangeAsync(usersToInsert, cancellationToken);
         await context!.SaveChangesAsync(cancellationToken);
 
-        foreach(var user in _options.Users!)
+        foreach(var user in usersToInsert)
         {
             _logger.LogInformation("User {UserName} with the role of {UserRole} was entered with the Id {UserId}.",
                 user.Name,

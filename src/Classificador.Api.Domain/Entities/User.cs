@@ -1,5 +1,6 @@
 using Classificador.Api.Domain.Core.Enums;
 using Classificador.Api.Domain.Core.Interfaces;
+using Classificador.Api.Domain.Core.Interfaces.Services;
 
 namespace Classificador.Api.Domain.Entities;
 
@@ -14,11 +15,11 @@ public sealed class User : Entity<User>, ISoftDeletableEntity, IAggregateRoot
     public Specialty? Specialty{ get; init; }
     public ICollection<Classification>? Classifications { get; init; } = [];
     public bool IsDeleted {get; private set; }
-    public DateTime DeletedOnUtc { get; private set; }
+    public DateTime? DeletedOnUtc { get; private set; }
 
-    public User() {} //ORM
+    public User() {} // ORM
 
-    private User(Guid id, DateTime createdOnUtc, string email, string hashedPassword, string name, UserRole role, Guid idSpecialty, string? contact) 
+    private User(Guid id, DateTime createdOnUtc, string email, string hashedPassword, string name, UserRole role, Guid? idSpecialty, string? contact) 
         : base(id, createdOnUtc)
     {
         Email = email;
@@ -29,12 +30,11 @@ public sealed class User : Entity<User>, ISoftDeletableEntity, IAggregateRoot
         Contact = contact;
     }
 
-    public static User Create(string email, string hashedPassword, string name, Guid idSpecialty, string? contact)
+    public static User Create(string email, string hashedPassword, string name, Guid? idSpecialty, string? contact)
     {
         ArgumentValidator.ThrowIfNullOrWhitespace(email, nameof(Email));
         ArgumentValidator.ThrowIfNullOrWhitespace(hashedPassword, nameof(HashedPassword));
         ArgumentValidator.ThrowIfNullOrWhitespace(name, nameof(Name));
-        ArgumentValidator.ThrowIfNull(idSpecialty, nameof(IdSpecialty));
         ArgumentValidator.ThrowIfNull(contact!, nameof(Contact));
 
         return new(Guid.NewGuid(), DateTime.UtcNow, email, hashedPassword, name, UserRole.Padrao, idSpecialty, contact);

@@ -8,7 +8,7 @@ public sealed class Specialty : Entity<Specialty>, ISoftDeletableEntity
     public string? Description { get; private set; }    
     public ICollection<User>? Users { get; private set; } = [];
     public bool IsDeleted {get; private set; }
-    public DateTime DeletedOnUtc { get; private set; }
+    public DateTime? DeletedOnUtc { get; private set; }
 
     public Specialty() : base() {} // ORM
 

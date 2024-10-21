@@ -13,10 +13,6 @@ public abstract class EntityConfiguration<TEntity> : IEntityTypeConfiguration<TE
 
         builder.Property(x => x.CreatedOnUtc)
             .HasColumnName("data_criacao_utc")
-            .IsRequired();
-
-        // builder.Property(x => x.IsDeleted)
-        //     .HasColumnName("foi_deletado")
-        //     .IsRequired();         
+            .IsRequired();        
     }
 }

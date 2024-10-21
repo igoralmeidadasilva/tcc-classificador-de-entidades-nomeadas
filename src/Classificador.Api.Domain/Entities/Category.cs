@@ -8,7 +8,7 @@ public sealed class Category : Entity<Category>, ISoftDeletableEntity
     public string? Description { get; private set; }
     public ICollection<Classification>? Classifications { get; init; } = [];
     public bool IsDeleted {get; private set; }
-    public DateTime DeletedOnUtc { get; private set; }
+    public DateTime? DeletedOnUtc { get; private set; }
 
     public Category() : base() {} //ORM
 

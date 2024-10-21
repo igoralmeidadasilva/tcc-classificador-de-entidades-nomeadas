@@ -14,7 +14,7 @@ public sealed class Classification : Entity<Classification>, ISoftDeletableEntit
     public Category? Category { get; set; }
     public User? User { get; set; }
     public bool IsDeleted {get; private set; }
-    public DateTime DeletedOnUtc { get; private set; }
+    public DateTime? DeletedOnUtc { get; private set; }
 
     public Classification() : base() {} //ORM
 

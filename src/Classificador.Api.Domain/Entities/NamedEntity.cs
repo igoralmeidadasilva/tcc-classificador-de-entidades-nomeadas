@@ -12,7 +12,7 @@ public sealed class NamedEntity : Entity<NamedEntity>, ISoftDeletableEntity, IAg
     public PrescribingInformation? PrescribingInformation { get; init; }
     public ICollection<Classification>? Classifications { get; init; }  = [];
     public bool IsDeleted {get; private set; }
-    public DateTime DeletedOnUtc { get; private set; }
+    public DateTime? DeletedOnUtc { get; private set; }
 
     public NamedEntity() : base() {} // ORM
 

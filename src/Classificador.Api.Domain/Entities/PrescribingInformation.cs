@@ -9,7 +9,7 @@ public sealed class PrescribingInformation : Entity<PrescribingInformation>, ISo
     public string? Description { get; private set; }
     public ICollection<NamedEntity>? NamedEntities{ get; set; }
     public bool IsDeleted {get; private set; }
-    public DateTime DeletedOnUtc { get; private set; }
+    public DateTime? DeletedOnUtc { get; private set; }
 
     public PrescribingInformation() : base() {} //ORM
 
