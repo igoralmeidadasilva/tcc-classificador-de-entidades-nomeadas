@@ -35,7 +35,7 @@ public static class Constants
 
     public static class Messages
     {
-        public const string InvalidForm = "Ocorreu um erro ao enviar o formulário, por favor revise seus dados, se o error persistir, entre em contato.";
+        public const string InvalidForm = "Ocorreu um erro ao enviar o formulário, por favor revise seus dados. Se o error persistir, entre em contato.";
         public const string SendSuccessfully = "A sua mensagem foi enviada com sucesso. Em breve alguem entrara em contato pelo email fornecido.";
         public const string SignUpSuccess = "Cadastro realizado com sucesso.";
         public const string AccessDenied = "Acesso não autorizado. Por favor faça Login para continuar.";
