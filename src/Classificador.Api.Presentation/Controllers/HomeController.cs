@@ -3,7 +3,6 @@ using Classificador.Api.Application.Commands.SendEmailToAdmins;
 using Classificador.Api.Application.Queries.ClassifiedPrescribingInformation;
 using Classificador.Api.Application.Queries.DownloadSpacyModel;
 using Classificador.Api.Application.Queries.GetAllClassificationByVotes;
-using Classificador.Api.SharedKernel.Shared.Results;
 using Newtonsoft.Json;
 
 namespace Classificador.Api.Presentation.Controllers;
@@ -95,7 +94,7 @@ public sealed class HomeController : WebController<HomeController>
     {
         Result<DownloadSpacyModelQueryResponse> response = await Mediator.Send(new DownloadSpacyModelQuery(idPrescribingInformation));
 
-        if(!response.IsSuccess)
+        if(response.IsFailure)
         {
             GenerateWarningMessage(response.FirstError().Message);
             return RedirectToAction(nameof(ClassifiedPrescribingInformation));
@@ -104,6 +103,6 @@ public sealed class HomeController : WebController<HomeController>
         string serializeEntities = JsonConvert.SerializeObject(response.Value, Formatting.Indented);
 
         byte[] bytes = Encoding.UTF8.GetBytes(serializeEntities);
-        return File(bytes, "text/plain", $"Taggers.{response.Value!.Name}.json");
+        return File(bytes, "text/plain", $"Classification.{response.Value!.Name}.json");
     }
 }

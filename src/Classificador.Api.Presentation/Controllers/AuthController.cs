@@ -1,6 +1,5 @@
 using Classificador.Api.Application.Queries.GetAllSpecialties;
 using Classificador.Api.Domain;
-using Classificador.Api.SharedKernel.Shared.Results;
 
 namespace Classificador.Api.Presentation.Controllers;
 
@@ -30,30 +29,29 @@ public sealed class AuthController : WebController<AuthController>
     [HttpPost]
     public async Task<IActionResult> PostCreateUser(SignUpViewModel viewModel)
     {
-        if (viewModel.CreateUserForm == null)
+        if (viewModel.CreateUserForm is null)
         {
             GenerateErrorMessage(Constants.Messages.InvalidForm);
             return RedirectToAction(nameof(SignUp));
         }
 
-        CreateUserCommand command = viewModel.CreateUserForm;
-        Result response = await Mediator.Send(command);
+        Result response = await Mediator.Send(viewModel.CreateUserForm.ToCommand());
 
         if(response.IsFailure)
         {
             if(response.FirstErrorTypeOf(ErrorType.Conflict))
-                TempData["EmailFailures"] = response.GetErrorsByCode("User.Email").ExtractErrorsMessages().ToList();
-            
-            if(response.FirstErrorTypeOf(ErrorType.Validation))
             {
-                TempData["EmailFailures"] = response.GetErrorsByCode("CreateUser.Email").ExtractErrorsMessages().ToList();
-                TempData["PasswordFailures"] = response.GetErrorsByCode("CreateUser.Password").ExtractErrorsMessages().ToList();
-                TempData["ConfirmPasswordFailures"] = response.GetErrorsByCode("CreateUser.ConfirmPassword").ExtractErrorsMessages().ToList();
-                TempData["NameFailures"] = response.GetErrorsByCode("CreateUser.Name").ExtractErrorsMessages().ToList();
-                TempData["ContactFailures"] = response.GetErrorsByCode("CreateUser.Contact").ExtractErrorsMessages().ToList();
-                TempData["SpecialtyFailures"] = response.GetErrorsByCode("CreateUser.Specialty").ExtractErrorsMessages().ToList();
+                TempData["EmailFailures"] = response.GetErrorsByCode("User.Email").ExtractErrorsMessages().ToList();
+                return RedirectToAction(nameof(SignUp));
             }
-
+        
+            TempData["EmailFailures"] = response.GetErrorsByCode("CreateUser.Email").ExtractErrorsMessages().ToList();
+            TempData["PasswordFailures"] = response.GetErrorsByCode("CreateUser.Password").ExtractErrorsMessages().ToList();
+            TempData["ConfirmPasswordFailures"] = response.GetErrorsByCode("CreateUser.ConfirmPassword").ExtractErrorsMessages().ToList();
+            TempData["NameFailures"] = response.GetErrorsByCode("CreateUser.Name").ExtractErrorsMessages().ToList();
+            TempData["ContactFailures"] = response.GetErrorsByCode("CreateUser.Contact").ExtractErrorsMessages().ToList();
+            TempData["SpecialtyFailures"] = response.GetErrorsByCode("CreateUser.Specialty").ExtractErrorsMessages().ToList();
+            
             return RedirectToAction(nameof(SignUp));
         }
 
