@@ -1,4 +1,3 @@
-global using Microsoft.AspNetCore.Diagnostics;
 global using Microsoft.AspNetCore.Mvc;
 global using Classificador.Api.Infrastructure;
 global using Classificador.Api.Application;
@@ -19,3 +18,5 @@ global using Microsoft.AspNetCore.Mvc.Rendering;
 global using Classificador.Api.Application.Commands.UpdateClassificationToCompleted;
 global using Classificador.Api.Application.Commands.DeletePendingClassification;
 global using Classificador.Api.Presentation.Models;
+global using Classificador.Api.Presentation.Core.Extensions;
+global using Classificador.Api.SharedKernel.Shared.Results;

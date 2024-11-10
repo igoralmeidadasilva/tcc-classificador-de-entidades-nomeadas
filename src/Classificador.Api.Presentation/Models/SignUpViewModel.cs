@@ -14,7 +14,4 @@ public sealed class CreateUserForm
     public string? Name { get; init; }
     public string? Contact { get; init; }
     public Guid? SpecialtyId { get; set; }
-
-    public static implicit operator CreateUserCommand(CreateUserForm viewModel) =>
-        new(viewModel.Email!, viewModel.Password!, viewModel.ConfirmPassword!, viewModel.Name!, viewModel.Contact, viewModel.SpecialtyId);
 }
