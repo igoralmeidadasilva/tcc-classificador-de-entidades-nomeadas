@@ -1,12 +1,12 @@
 @model SignUpViewModel;
 @{
     ViewData["Title"] = "Cadastrar";
-    var emailFailures = TempData["EmailFailures"] as IEnumerable<string>;
-    var passwordFailures = TempData["PasswordFailures"] as IEnumerable<string>;
-    var confirmPasswordFailures = TempData["ConfirmPasswordFailures"] as IEnumerable<string>;
-    var nameFailures = TempData["NameFailures"] as IEnumerable<string>;
-    var contactFailures = TempData["ContactFailures"] as IEnumerable<string>;
-    var specialtyFailures = TempData["SpecialtyFailures"] as IEnumerable<string>;
+    var emailFailures = TempData["EmailFailures"] as IReadOnlyList<string>;
+    var passwordFailures = TempData["PasswordFailures"] as IReadOnlyList<string>;
+    var confirmPasswordFailures = TempData["ConfirmPasswordFailures"] as IReadOnlyList<string>;
+    var nameFailures = TempData["NameFailures"] as IReadOnlyList<string>;
+    var contactFailures = TempData["ContactFailures"] as IReadOnlyList<string>;
+    var specialtyFailures = TempData["SpecialtyFailures"] as IReadOnlyList<string>;
 }
 
 <div class="container my-5">

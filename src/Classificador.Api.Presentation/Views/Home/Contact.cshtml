@@ -1,9 +1,9 @@
 ﻿@{
     ViewData["Title"] = "Contatos";
-    var nameFailures = TempData["ContactNameFailures"] as IEnumerable<string>;
-    var emailFailures = TempData["EmailForContactFailures"] as IEnumerable<string>;
-    var subjectFailures = TempData["MessageSubjectFailures"] as IEnumerable<string>;
-    var messageFailures = TempData["MessageBodyFailures"] as IEnumerable<string>;
+    var nameFailures = TempData["ContactNameFailures"] as IReadOnlyList<string>;
+    var emailFailures = TempData["EmailForContactFailures"] as IReadOnlyList<string>;
+    var subjectFailures = TempData["MessageSubjectFailures"] as IReadOnlyList<string>;
+    var messageFailures = TempData["MessageBodyFailures"] as IReadOnlyList<string>;
 }
 
 <div class="container my-5">
