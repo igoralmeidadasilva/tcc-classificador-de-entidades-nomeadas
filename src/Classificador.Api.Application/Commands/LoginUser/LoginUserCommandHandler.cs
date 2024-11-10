@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Classificador.Api.Application.Commands.LoginUser;
 
-public sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, Result<LoginUserCommandResponse>>
+public sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, Result<ClaimsIdentity>>
 {
     private readonly ILogger<LoginUserCommandHandler> _logger;
     private readonly IUserReadOnlyRepository _userReadOnlyRepository;
@@ -21,7 +21,7 @@ public sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, 
         _passwordHashingService = passwordHashingService;
     }
 
-    public async Task<Result<LoginUserCommandResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<ClaimsIdentity>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         User user = await _userReadOnlyRepository.GetByEmailAsync(request.Email!, cancellationToken);
 
@@ -31,7 +31,7 @@ public sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, 
                 nameof(LoginUserCommand),
                 request.Email);
 
-            return Result.Failure<LoginUserCommandResponse>(DomainErrors.User.UserNotFound);
+            return Result.Failure<ClaimsIdentity>(DomainErrors.User.UserNotFound);
         }
 
         if (!_passwordHashingService.VerifyPassword(user.HashedPassword, request.Password!))
@@ -40,7 +40,7 @@ public sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, 
                 nameof(LoginUserCommand),
                 request.Email);
 
-            return Result.Failure<LoginUserCommandResponse>(DomainErrors.User.AuthenticationPasswordFailed);
+            return Result.Failure<ClaimsIdentity>(DomainErrors.User.AuthenticationPasswordFailed);
         }
 
         IEnumerable<Claim> claims =
@@ -57,7 +57,7 @@ public sealed class LoginUserCommandHandler : ICommandHandler<LoginUserCommand, 
             nameof(LoginUserCommand),
             user.Email);
 
-        return Result.Success(new LoginUserCommandResponse { Response = claimsIdentity });
+        return Result.Success(claimsIdentity);
     }
 
 }

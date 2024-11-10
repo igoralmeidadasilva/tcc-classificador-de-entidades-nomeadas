@@ -1,171 +1,175 @@
-// namespace Classificador.Api.Presentation.Controllers;
+using Classificador.Api.Domain.Core.Enums;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
-// [Route("[controller]")]
-// [Authorize(Roles = $"{nameof(UserRole.Padrao)},{nameof(UserRole.Admin)}")]
+namespace Classificador.Api.Presentation.Controllers;
 
-// public sealed class UserController(ILogger<UserController> logger, IMediator mediator) : WebController<UserController>(logger, mediator)
-// {
-//     [HttpPost(nameof(Logout))]
-//     public async Task<IActionResult> Logout()
-//     {
-//         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-//         return RedirectToAction("Login", "Home");
-//     }
+[Route("[controller]")]
+[Authorize(Roles = $"{nameof(UserRole.Padrao)},{nameof(UserRole.Admin)}")]
 
-//     [HttpGet(nameof(ChoosePrescribingInformation))]
-//     public async Task<IActionResult> ChoosePrescribingInformation(
-//         ChoosePrescribingInformationViewModel viewModel,
-//         [FromQuery] string prescribingInformationName = "")
-//     {
-//         string idUser = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+public sealed class UserController(ILogger<UserController> logger, IMediator mediator) : WebController<UserController>(logger, mediator)
+{
+    [HttpPost(nameof(Logout))]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Login", "Home");
+    }
 
-//         var response = await _mediator.Send(new GetPrescribingInformationByIdQuery(prescribingInformationName, idUser));
+    // [HttpGet(nameof(ChoosePrescribingInformation))]
+    // public async Task<IActionResult> ChoosePrescribingInformation(
+    //     ChoosePrescribingInformationViewModel viewModel,
+    //     [FromQuery] string prescribingInformationName = "")
+    // {
+    //     string idUser = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+
+    //     var response = await _mediator.Send(new GetPrescribingInformationByIdQuery(prescribingInformationName, idUser));
         
-//         if(!response.IsSuccess)
-//         {
-//             GenerateErrorMessage(response.Error.Message);
-//             return View();
-//         }     
+    //     if(!response.IsSuccess)
+    //     {
+    //         GenerateErrorMessage(response.Error.Message);
+    //         return View();
+    //     }     
 
-//         var valueResponse = response as Result<List<ChoosePrescribingInformationViewDto>>
-//             ?? throw new ResultConvertionException();
+    //     var valueResponse = response as Result<List<ChoosePrescribingInformationViewDto>>
+    //         ?? throw new ResultConvertionException();
 
-//         viewModel.PrescribingInformations = valueResponse.Value!;
+    //     viewModel.PrescribingInformations = valueResponse.Value!;
 
-//         return View(viewModel);
-//     }
+    //     return View(viewModel);
+    // }
 
-//     [HttpGet("[action]/{idPrescribingInformation}")]
-//     public async Task<IActionResult> ClassifyNamedEntity(
-//         ClassifyNamedEntityViewModel viewModel, 
-//         string idPrescribingInformation, 
-//         string namePrescribingInformation, 
-//         int entityIndex)
-//     {
-//         viewModel.NamePrescribingInformation = namePrescribingInformation;
-//         string idUser = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+    // [HttpGet("[action]/{idPrescribingInformation}")]
+    // public async Task<IActionResult> ClassifyNamedEntity(
+    //     ClassifyNamedEntityViewModel viewModel, 
+    //     string idPrescribingInformation, 
+    //     string namePrescribingInformation, 
+    //     int entityIndex)
+    // {
+    //     viewModel.NamePrescribingInformation = namePrescribingInformation;
+    //     string idUser = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
 
-//         var responseGetCategoriesQuery = await _mediator.Send(new GetCategoriesQuery());
-//         if(!responseGetCategoriesQuery.IsSuccess)
-//         {
-//             GenerateErrorMessage(responseGetCategoriesQuery.Error.Message);
-//             return RedirectToAction(nameof(ChoosePrescribingInformation));
-//         }
-//         var valueOfGetCategoriesQuery = responseGetCategoriesQuery as Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>> 
-//             ?? throw new ResultConvertionException();
+    //     var responseGetCategoriesQuery = await _mediator.Send(new GetCategoriesQuery());
+    //     if(!responseGetCategoriesQuery.IsSuccess)
+    //     {
+    //         GenerateErrorMessage(responseGetCategoriesQuery.Error.Message);
+    //         return RedirectToAction(nameof(ChoosePrescribingInformation));
+    //     }
+    //     var valueOfGetCategoriesQuery = responseGetCategoriesQuery as Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>> 
+    //         ?? throw new ResultConvertionException();
 
-//         var responseGetNamedEntity = await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(idPrescribingInformation, idUser));
-//         if(!responseGetNamedEntity.IsSuccess)
-//         {
-//             GenerateErrorMessage(responseGetNamedEntity.Error.Message);
-//             return RedirectToAction(nameof(ChoosePrescribingInformation));
-//         }
-//         var valueOfGetNamedEntity = responseGetNamedEntity as Result<List<ClassifyNamedEntityViewNamedEntityDto>> 
-//             ?? throw new ResultConvertionException();
+    //     var responseGetNamedEntity = await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(idPrescribingInformation, idUser));
+    //     if(!responseGetNamedEntity.IsSuccess)
+    //     {
+    //         GenerateErrorMessage(responseGetNamedEntity.Error.Message);
+    //         return RedirectToAction(nameof(ChoosePrescribingInformation));
+    //     }
+    //     var valueOfGetNamedEntity = responseGetNamedEntity as Result<List<ClassifyNamedEntityViewNamedEntityDto>> 
+    //         ?? throw new ResultConvertionException();
 
-//         var responseGetPendingClassifications = await _mediator.Send(new GetPendingClassificationsQuery(idUser, idPrescribingInformation));
-//         if(!responseGetPendingClassifications.IsSuccess)
-//         {
-//             GenerateErrorMessage(responseGetPendingClassifications.Error.Message);
-//             return RedirectToAction(nameof(ChoosePrescribingInformation));
-//         }
-//         var valueOfGetPendingClassifications = responseGetPendingClassifications as Result<List<ClassifyNamedEntityViewPendingClassificationDto>> 
-//             ?? throw new ResultConvertionException();
+    //     var responseGetPendingClassifications = await _mediator.Send(new GetPendingClassificationsQuery(idUser, idPrescribingInformation));
+    //     if(!responseGetPendingClassifications.IsSuccess)
+    //     {
+    //         GenerateErrorMessage(responseGetPendingClassifications.Error.Message);
+    //         return RedirectToAction(nameof(ChoosePrescribingInformation));
+    //     }
+    //     var valueOfGetPendingClassifications = responseGetPendingClassifications as Result<List<ClassifyNamedEntityViewPendingClassificationDto>> 
+    //         ?? throw new ResultConvertionException();
 
-//         viewModel.IdPrescribingInformation = new Guid(idPrescribingInformation);
-//         viewModel.Categories = valueOfGetCategoriesQuery.Value!.ToList();
-//         viewModel.NamedEntityIndex = entityIndex;
+    //     viewModel.IdPrescribingInformation = new Guid(idPrescribingInformation);
+    //     viewModel.Categories = valueOfGetCategoriesQuery.Value!.ToList();
+    //     viewModel.NamedEntityIndex = entityIndex;
 
-//         ViewData["NamedEntitiesList"] = valueOfGetNamedEntity.Value;
-//         ViewData["PendingClassificationsList"] = valueOfGetPendingClassifications.Value;
-//         ViewBag.ReturnUrl = Request.Path + Request.QueryString;
+    //     ViewData["NamedEntitiesList"] = valueOfGetNamedEntity.Value;
+    //     ViewData["PendingClassificationsList"] = valueOfGetPendingClassifications.Value;
+    //     ViewBag.ReturnUrl = Request.Path + Request.QueryString;
 
-//         return View(viewModel);
-//     }
+    //     return View(viewModel);
+    // }
 
-//     [HttpPost(nameof(PostCreateClassification))]
-//     public async Task<IActionResult> PostCreateClassification(
-//         CreateClassificationViewModel viewModel, 
-//         string idPrescribingInformation, 
-//         string namePrescribingInformation)
-//     {
-//         CreateClassificationCommand command = viewModel;
+    // [HttpPost(nameof(PostCreateClassification))]
+    // public async Task<IActionResult> PostCreateClassification(
+    //     CreateClassificationViewModel viewModel, 
+    //     string idPrescribingInformation, 
+    //     string namePrescribingInformation)
+    // {
+    //     CreateClassificationCommand command = viewModel;
 
-//         ClassifyNamedEntityViewModel classifyNamedEntityViewModel = new()
-//         {
-//             IdPrescribingInformation = new Guid(idPrescribingInformation),
-//             NamePrescribingInformation = namePrescribingInformation
-//         };
+    //     ClassifyNamedEntityViewModel classifyNamedEntityViewModel = new()
+    //     {
+    //         IdPrescribingInformation = new Guid(idPrescribingInformation),
+    //         NamePrescribingInformation = namePrescribingInformation
+    //     };
 
-//         Result response = await _mediator.Send(command);
+    //     Result response = await _mediator.Send(command);
 
-//         if (!response.IsSuccess)
-//         {
-//             GenerateErrorMessage(response.Error.Message);
-//             return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
-//         }
+    //     if (!response.IsSuccess)
+    //     {
+    //         GenerateErrorMessage(response.Error.Message);
+    //         return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
+    //     }
 
-//         GenerateSuccessMessage(Constants.Messages.ClassificationSuccessfully);
-//         return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
-//     }
+    //     GenerateSuccessMessage(Constants.Messages.ClassificationSuccessfully);
+    //     return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
+    // }
         
-//     [HttpPost(nameof(PostUpdateClassificationToCompleted))]
-//     public async Task<IActionResult> PostUpdateClassificationToCompleted(PatchClassificationToCompletedViewModel viewModel, string returnUrl = "")
-//     {
-//         UpdateClassificationToCompletedCommand command = viewModel;
+    // [HttpPost(nameof(PostUpdateClassificationToCompleted))]
+    // public async Task<IActionResult> PostUpdateClassificationToCompleted(PatchClassificationToCompletedViewModel viewModel, string returnUrl = "")
+    // {
+    //     UpdateClassificationToCompletedCommand command = viewModel;
 
-//         Result response = await _mediator.Send(command);
+    //     Result response = await _mediator.Send(command);
 
-//         if(!response.IsSuccess)
-//         {
-//             GenerateWarningMessage(response.Error.Message);
+    //     if(!response.IsSuccess)
+    //     {
+    //         GenerateWarningMessage(response.Error.Message);
 
-//             return string.IsNullOrEmpty(returnUrl) 
-//                 ? RedirectToAction(nameof(ChoosePrescribingInformation)) 
-//                 : Redirect(returnUrl);
-//         }
+    //         return string.IsNullOrEmpty(returnUrl) 
+    //             ? RedirectToAction(nameof(ChoosePrescribingInformation)) 
+    //             : Redirect(returnUrl);
+    //     }
 
-//         return RedirectToAction(nameof(ThanksForTheClassifications));
-//     }
+    //     return RedirectToAction(nameof(ThanksForTheClassifications));
+    // }
 
-//     [HttpPost(nameof(PostDeletePendingClassification))]
-//     public async Task<IActionResult> PostDeletePendingClassification(
-//         DeletePendingClassificationViewModel viewModel,
-//         string idPrescribingInformation, 
-//         string namePrescribingInformation)
-//     {
-//         DeletePendingClassificationCommand command = viewModel;
+    // [HttpPost(nameof(PostDeletePendingClassification))]
+    // public async Task<IActionResult> PostDeletePendingClassification(
+    //     DeletePendingClassificationViewModel viewModel,
+    //     string idPrescribingInformation, 
+    //     string namePrescribingInformation)
+    // {
+    //     DeletePendingClassificationCommand command = viewModel;
 
-//         ClassifyNamedEntityViewModel classifyNamedEntityViewModel = new()
-//         {
-//             IdPrescribingInformation = new Guid(idPrescribingInformation),
-//             NamePrescribingInformation = namePrescribingInformation
-//         };
+    //     ClassifyNamedEntityViewModel classifyNamedEntityViewModel = new()
+    //     {
+    //         IdPrescribingInformation = new Guid(idPrescribingInformation),
+    //         NamePrescribingInformation = namePrescribingInformation
+    //     };
 
-//         Result response = await _mediator.Send(command);
+    //     Result response = await _mediator.Send(command);
 
-//         if(!response.IsSuccess)
-//         {
-//             GenerateErrorMessage(response.Error.Message);
-//             return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
-//         }
+    //     if(!response.IsSuccess)
+    //     {
+    //         GenerateErrorMessage(response.Error.Message);
+    //         return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
+    //     }
 
-//         GenerateSuccessMessage(Constants.Messages.DeletePendingClassificationSuccessfully);
-//         return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
-//     }
+    //     GenerateSuccessMessage(Constants.Messages.DeletePendingClassificationSuccessfully);
+    //     return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
+    // }
 
-//     [HttpGet(nameof(ThanksForTheClassifications))]
-//     public IActionResult ThanksForTheClassifications()
-//     {
-//         return View();
-//     }
+    // [HttpGet(nameof(ThanksForTheClassifications))]
+    // public IActionResult ThanksForTheClassifications()
+    // {
+    //     return View();
+    // }
 
-//     [HttpGet(nameof(YourClassifications))]
-//     public IActionResult YourClassifications()
-//     {
-//         return View();
-//     }
+    // [HttpGet(nameof(YourClassifications))]
+    // public IActionResult YourClassifications()
+    // {
+    //     return View();
+    // }
 
-// }
+}
 
 

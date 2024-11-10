@@ -1,18 +1,15 @@
 @model LoginViewModel;
 @{
     ViewData["Title"] = "Entrar";
-    @* var emailFailures = TempData["EmailFailures"] as List<string>;
-    var passwordFailures = TempData["PasswordFailures"] as List<string>; *@
+    var emailFailures = TempData["EmailFailures"] as IReadOnlyList<string>;
+    var passwordFailures = TempData["PasswordFailures"] as IReadOnlyList<string>;
 }
 
 <div class="container my-5">
-    <h1>Login</h1>
-    @* <section class="row justify-content-center">
+    <section class="row justify-content-center">
         <form class="col-10 col-md-6 border rounded p-3 bg-light shadow-sm needs-validation" method="post">
-            <h1 class="display-6 text-color-primary">Entrar</h1>
-
+            <h1 class="display-6 text-color-success">Entrar</h1>
             <hr>
-
             <div class="form-floating mb-3 position-relative">
                 <input 
                     class="form-control" 
@@ -65,16 +62,14 @@
             </div>
 
             <div class="d-flex flex-column">
-                <button type="submit" class="btn btn-color-success w-25 mb-3">Entrar</button>
+                <button type="submit" class="btn btn-medtagger-primary w-25 mb-3">Entrar</button>
                 <a 
-                    class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" 
-                    asp-controller="Home" 
+                    class="lead link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" 
+                    asp-controller="Auth" 
                     asp-action="SignUp">
                     Ainda não tem uma conta? Clique aqui para se cadastrar.
                 </a>
             </div>
-
         </form>
-    </section> *@
-
+    </section>
 </div>

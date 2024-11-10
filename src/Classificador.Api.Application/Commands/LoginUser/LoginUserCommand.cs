@@ -2,7 +2,7 @@ using System.Security.Claims;
 
 namespace Classificador.Api.Application.Commands.LoginUser;
 
-public sealed record LoginUserCommand : ICommand<Result<LoginUserCommandResponse>>
+public sealed record LoginUserCommand : ICommand<Result<ClaimsIdentity>>
 {
     public string Email { get; init; }
     public string Password { get; init; }

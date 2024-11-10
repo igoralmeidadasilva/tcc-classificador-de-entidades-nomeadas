@@ -1,5 +1,7 @@
 using Classificador.Api.Application.Queries.GetAllSpecialties;
 using Classificador.Api.Domain;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Classificador.Api.Presentation.Controllers;
 
@@ -25,8 +27,8 @@ public sealed class AuthController : WebController<AuthController>
         return View(viewModel);
     }
 
-    [ValidateAntiForgeryToken]
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> PostCreateUser(SignUpViewModel viewModel)
     {
         if (viewModel.CreateUserForm is null)
@@ -60,49 +62,42 @@ public sealed class AuthController : WebController<AuthController>
     }
     
     [HttpGet("login")]
-    public IActionResult Login(string returnUrl = null!)
+    public IActionResult Login(string returnUrl = "") => View();
+    
+    [HttpPost(nameof(Login))]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Login(LoginViewModel viewModel, string returnUrl = "")
     {
-        if(returnUrl != null)
+        if (viewModel is null)
         {
-            GenerateErrorMessage(Constants.Messages.AccessDenied);
+            GenerateErrorMessage(Constants.Messages.InvalidForm);
+            return RedirectToAction(nameof(Login));
         }
-        return View();
+
+        Result<ClaimsIdentity> response = await Mediator.Send(viewModel.ToCommand());
+
+        if(response.IsFailure)
+        {
+            if(response.FirstErrorTypeOf(ErrorType.NotFound))
+            {
+                TempData["EmailFailures"] = response.GetErrorsByCode("User.NotFound").ExtractErrorsMessages().ToList();
+                return View();
+            }
+
+            if(response.FirstErrorTypeOf(ErrorType.Unauthorized))
+            {
+                TempData["PasswordFailures"] = response.GetErrorsByCode("User.AuthenticationPassword").ExtractErrorsMessages().ToList();
+                return View();
+            }
+
+            TempData["EmailFailures"] = response.GetErrorsByCode("LoginUser.Email").ExtractErrorsMessages().ToList();
+            TempData["PasswordFailures"] =  response.GetErrorsByCode("LoginUser.Password").ExtractErrorsMessages().ToList();
+            return View();
+        }
+        AuthenticationProperties authProperties = new();
+        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(response.Value!), authProperties);
+        
+        return RedirectToAction("Index", "Home");
     }
-
-    // [HttpPost(nameof(Login))]
-    // [ValidateAntiForgeryToken]
-    // public async Task<IActionResult> Login(LoginViewModel viewModel, string returnUrl = null!)
-    // {
-    //     LoginUserCommand command = viewModel;
-    //     Result response = await _mediator.Send(command);
-
-    //     if(!response.IsSuccess)
-    //     {
-    //         ValidationError? validationError = response.Error as ValidationError;
-
-    //         if(validationError != null)
-    //         {
-    //             TempData["EmailFailures"] = validationError!.ExtractValidationErrors("LoginUser.Email");
-    //             TempData["PasswordFailures"] = validationError!.ExtractValidationErrors("LoginUser.Password");
-    //         }
-    //         else
-    //         {
-    //             GenerateErrorMessage(response.Error.Message);
-    //         }
-    //         return View();
-    //     }
-
-    //     Result<ClaimsIdentity>? valueResponse = response as Result<ClaimsIdentity> 
-    //         ?? throw new ResultConvertionException();
-
-    //     AuthenticationProperties authProperties = new();
-
-    //     await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(valueResponse!.Value!), authProperties);
-    //     if(Url.IsLocalUrl(returnUrl))
-    //     {
-    //         return Redirect(returnUrl);
-    //     }
-    //     return RedirectToAction(nameof(Index));
-    // }
-
+    
 }
