@@ -1,14 +1,14 @@
 @model ClassifyNamedEntityViewModel;
 @{
     ViewData["Title"] = "Classificar";
-    var namedEntities = ViewData["NamedEntitiesList"] as List<ClassifyNamedEntityViewNamedEntityDto>;
+    @* var namedEntities = ViewData["NamedEntitiesList"] as List<ClassifyNamedEntityViewNamedEntityDto>;
     var pendingClassificationsList = ViewData["PendingClassificationsList"] as List<ClassifyNamedEntityViewPendingClassificationDto>;
-    var namedEntitiesCount = namedEntities != null ? namedEntities.Count : 0;
+    var namedEntitiesCount = namedEntities != null ? namedEntities.Count : 0; *@
 }
 
 <div class="container my-5">
 
-    <div class="row mb-4">
+    @* <div class="row mb-4">
         <div class="row">
             @if(namedEntities != null && namedEntitiesCount != 0)
             {
@@ -171,5 +171,5 @@
                 </table>
             </div>
         </section>
-    </div>
+    </div> *@
 </div>

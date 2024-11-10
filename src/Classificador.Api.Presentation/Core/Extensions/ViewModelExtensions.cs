@@ -7,4 +7,8 @@ public static class ViewModelExtensions
 
     public static LoginUserCommand ToCommand(this LoginViewModel viewModel) 
         => new(viewModel.Email, viewModel.Password);
+
+    public static CreatePrescribingInformationTxtCommand ToCommand(this CreatePrescribingInformationViewModel viewModel)
+        => new(viewModel.File, viewModel.Description);
+
 }

@@ -14,7 +14,7 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
     public async Task<IActionResult> Logout()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        return RedirectToAction("Login", "Home");
+        return RedirectToAction("Login", "Auth");
     }
 
     [HttpGet("choose-prescribing-information")]
@@ -36,10 +36,10 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
         return View(viewModel);
     }
 
-    // [HttpGet("[action]/{idPrescribingInformation}")]
+    // [HttpGet("classify-named-entity/{idPrescribingInformation:guid}")]
     // public async Task<IActionResult> ClassifyNamedEntity(
     //     ClassifyNamedEntityViewModel viewModel, 
-    //     string idPrescribingInformation, 
+    //     Guid idPrescribingInformation, 
     //     string namePrescribingInformation, 
     //     int entityIndex)
     // {

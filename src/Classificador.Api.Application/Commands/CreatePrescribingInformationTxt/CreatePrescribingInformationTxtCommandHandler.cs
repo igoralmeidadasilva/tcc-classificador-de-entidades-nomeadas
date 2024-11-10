@@ -18,6 +18,7 @@ public sealed class CreatePrescribingInformationTxtCommandHandler : ICommandHand
         _prescribingInformationPersistenceRepository = prescribingInformationPersistenceRepository;
     }
 
+    // TODO: Revisar este método e tentar descobrir por que ele não retorna erro nenhum
     public async Task<Result> Handle(CreatePrescribingInformationTxtCommand request, CancellationToken cancellationToken)
     {
         PrescribingInformation prescribingInformation = _mapper.Map<PrescribingInformation>(request);
