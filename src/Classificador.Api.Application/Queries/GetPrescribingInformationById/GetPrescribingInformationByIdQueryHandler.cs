@@ -3,7 +3,8 @@ using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Application.Queries.GetPrescribingInformationById;
 
-public sealed class GetPrescribingInformationByIdQueryHandler : IQueryHandler<GetPrescribingInformationByIdQuery, Result<GetPrescribingInformationByIdQueryResponse>>
+public sealed class GetPrescribingInformationByIdQueryHandler 
+    : IQueryHandler<GetPrescribingInformationByIdQuery, Result<IEnumerable<ChoosePrescribingInformationViewDto>>>
 {
     private readonly ILogger<GetPrescribingInformationByIdQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -22,7 +23,7 @@ public sealed class GetPrescribingInformationByIdQueryHandler : IQueryHandler<Ge
         _classificationReadOnlyRepository = classificationReadOnlyRepository;
     }
 
-    public async Task<Result<GetPrescribingInformationByIdQueryResponse>> Handle(GetPrescribingInformationByIdQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<ChoosePrescribingInformationViewDto>>> Handle(GetPrescribingInformationByIdQuery request, CancellationToken cancellationToken)
     {
         IEnumerable<PrescribingInformation> prescribingInformations = 
             await _prescribingInformationReadOnlyRepository.GetByNameOrDescriptionAsync(request.PrescribingInformationName!, cancellationToken);
@@ -32,7 +33,7 @@ public sealed class GetPrescribingInformationByIdQueryHandler : IQueryHandler<Ge
             _logger.LogInformation("{RequestName} did not find any prescribing informations",
                 nameof(GetPrescribingInformationByIdQuery));
 
-            return  Result.Failure<GetPrescribingInformationByIdQueryResponse>(DomainErrors.PrescribingInformation.PrescribingInformationEntityNoneWereFound);
+            return  Result.Failure<IEnumerable<ChoosePrescribingInformationViewDto>>(DomainErrors.PrescribingInformation.PrescribingInformationEntityNoneWereFound);
         }
 
         _logger.LogInformation("{RequestName} found {RecordsCount} prescribing informations records",
@@ -51,6 +52,6 @@ public sealed class GetPrescribingInformationByIdQueryHandler : IQueryHandler<Ge
             })
         )).ToList();
 
-        return Result.Success(new GetPrescribingInformationByIdQueryResponse { Response = mapperPrescribingInformations });
+        return Result.Success(mapperPrescribingInformations);
     }
 }

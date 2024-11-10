@@ -1,3 +1,4 @@
+using Classificador.Api.Application.Queries.GetPrescribingInformationById;
 using Classificador.Api.Domain.Core.Enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -16,28 +17,24 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
         return RedirectToAction("Login", "Home");
     }
 
-    // [HttpGet(nameof(ChoosePrescribingInformation))]
-    // public async Task<IActionResult> ChoosePrescribingInformation(
-    //     ChoosePrescribingInformationViewModel viewModel,
-    //     [FromQuery] string prescribingInformationName = "")
-    // {
-    //     string idUser = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+    [HttpGet("choose-prescribing-information")]
+    public async Task<IActionResult> ChoosePrescribingInformation(
+        ChoosePrescribingInformationViewModel viewModel)
+    {
+        Guid idUser = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-    //     var response = await _mediator.Send(new GetPrescribingInformationByIdQuery(prescribingInformationName, idUser));
+        Result<IEnumerable<ChoosePrescribingInformationViewDto>> response = 
+            await Mediator.Send(new GetPrescribingInformationByIdQuery(viewModel.SearchTerm, idUser));
         
-    //     if(!response.IsSuccess)
-    //     {
-    //         GenerateErrorMessage(response.Error.Message);
-    //         return View();
-    //     }     
+        if(response.IsFailure)
+        {
+            GenerateErrorMessage(response.FirstError().Message);
+            return View();
+        }     
 
-    //     var valueResponse = response as Result<List<ChoosePrescribingInformationViewDto>>
-    //         ?? throw new ResultConvertionException();
-
-    //     viewModel.PrescribingInformations = valueResponse.Value!;
-
-    //     return View(viewModel);
-    // }
+        viewModel.PrescribingInformations = response.Value;
+        return View(viewModel);
+    }
 
     // [HttpGet("[action]/{idPrescribingInformation}")]
     // public async Task<IActionResult> ClassifyNamedEntity(

@@ -7,7 +7,7 @@
     <div class="row row-cols-1 row-cols-md-2 p-3 shadow-sm border rounded bg-light ">
         <div class="col">
             <form class="p-3" asp-controller="User" asp-action="ChoosePrescribingInformation" method="get">
-                <h1 class="display-6 text-color-primary">Buscar</h1>
+                <h1 class="display-6 text-color-success">Buscar</h1>
 
                 <hr>
 
@@ -17,13 +17,13 @@
                         type="text"
                         id="InputPrescribingInformation"
                         placeholder="Bula Farmacêutica" 
-                        asp-for="PrescribingInformationName"
+                        asp-for="SearchTerm"
                     >
                     <label class="form-label" for="InputPrescribingInformation">Insira o nome da bula.</label>
                 </div>
 
                 <div>
-                    <button type="submit" class="btn btn-color-success w-25 mb-3">Buscar</button>
+                    <button type="submit" class="btn btn-medtagger-primary w-25 mb-3">Buscar</button>
                 </div>
             </form>
         </div>
@@ -46,7 +46,7 @@
                             <tr>
                                 <td>
                                     <a 
-                                        class="link-body-emphasis link-offset-2 link-underline-opacity-0 link-underline-opacity-75-hover" 
+                                        class="lead link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" 
                                         asp-controller="User" 
                                         asp-action="ClassifyNamedEntity" 
                                         asp-route-idPrescribingInformation=@item.Id
