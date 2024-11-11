@@ -27,7 +27,7 @@ public sealed class AuthController : WebController<AuthController>
         return View(viewModel);
     }
 
-    [HttpPost]
+    [HttpPost(nameof(PostCreateUser))]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> PostCreateUser(SignUpViewModel viewModel)
     {
@@ -99,5 +99,4 @@ public sealed class AuthController : WebController<AuthController>
         
         return RedirectToAction("Index", "Home");
     }
-    
 }

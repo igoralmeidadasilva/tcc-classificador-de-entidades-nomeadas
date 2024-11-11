@@ -34,7 +34,7 @@ public sealed class HomeController : WebController<HomeController>
     [HttpGet("/contact")]
     public IActionResult Contact() => View();
 
-    [HttpPost]
+    [HttpPost(nameof(PostSendEmailToAdmin))]
     public async Task<IActionResult> PostSendEmailToAdmin(SendEmailToAdminsCommand command)
     {
         Result response = await Mediator.Send(command);
@@ -89,8 +89,7 @@ public sealed class HomeController : WebController<HomeController>
         return View(viewModel);
     }
 
-    // TODO: método sobre fase de testes
-    [HttpGet(nameof(DownloadClassificationSpacyModel))]
+    [HttpGet]
     public async Task<IActionResult> DownloadClassificationSpacyModel(Guid idPrescribingInformation)
     {
         Result<DownloadSpacyModelQueryResponse> response = await Mediator.Send(new DownloadSpacyModelQuery(idPrescribingInformation));
