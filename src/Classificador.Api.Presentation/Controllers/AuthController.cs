@@ -64,7 +64,7 @@ public sealed class AuthController : WebController<AuthController>
     [HttpGet("login")]
     public IActionResult Login(string returnUrl = "")
     {
-        if(returnUrl != null)
+        if(returnUrl != "")
         {
             GenerateErrorMessage(Constants.Messages.AccessDenied);
         }
