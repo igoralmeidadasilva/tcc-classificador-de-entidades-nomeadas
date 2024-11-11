@@ -61,7 +61,6 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
             return RedirectToAction(nameof(ChoosePrescribingInformation));
         }
         
-        // ViewBag.ReturnUrl = Request.Path + Request.QueryString;
         return View(viewModel);
     }
 
