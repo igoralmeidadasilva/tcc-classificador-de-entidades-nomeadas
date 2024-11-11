@@ -67,8 +67,8 @@ public static class DependencyInjection
         services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
         .AddCookie(options =>
         {
-            options.LoginPath =  new PathString("/Home/Login");
-            options.AccessDeniedPath = new PathString("/Home/AccessDenied");
+            options.LoginPath =  new PathString("/auth/login");
+            options.AccessDeniedPath = new PathString("/access-denied");
             options.ExpireTimeSpan = TimeSpan.FromMinutes(Convert.ToInt32(expireTimeSpan));
             options.SlidingExpiration = true;
             options.Cookie.HttpOnly = true;
