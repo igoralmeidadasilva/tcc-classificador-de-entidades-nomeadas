@@ -62,7 +62,14 @@ public sealed class AuthController : WebController<AuthController>
     }
     
     [HttpGet("login")]
-    public IActionResult Login(string returnUrl = "") => View();
+    public IActionResult Login(string returnUrl = "")
+    {
+        if(returnUrl != null)
+        {
+            GenerateErrorMessage(Constants.Messages.AccessDenied);
+        }
+        return View();
+    }
     
     [HttpPost(nameof(Login))]
     [ValidateAntiForgeryToken]
