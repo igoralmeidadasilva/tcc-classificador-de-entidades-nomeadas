@@ -89,6 +89,7 @@ public sealed class HomeController : WebController<HomeController>
         return View(viewModel);
     }
 
+    // TODO: método sobre fase de testes
     [HttpGet(nameof(DownloadClassificationSpacyModel))]
     public async Task<IActionResult> DownloadClassificationSpacyModel(Guid idPrescribingInformation)
     {

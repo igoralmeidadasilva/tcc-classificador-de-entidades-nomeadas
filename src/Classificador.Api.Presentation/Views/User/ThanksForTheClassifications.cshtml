@@ -4,7 +4,7 @@
 
 <div class="container my-5">
     <div class="mb-4">
-        <h1 class="display-6 text-color-primary">Agradecimentos</h4>
+        <h1 class="display-6 text-color-success">Agradecimentos</h4>
         <h2 class="display-4">
             Muito obrigado pela sua contribuição!
         </h2>
@@ -26,9 +26,21 @@
         </p>
 
         <p class="lead">
-            <a asp-controller="User" asp-action="ChoosePrescribingInformation">Voltar a seleção de bulas</a>
+            <a 
+                class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" 
+                asp-controller="User" 
+                asp-action="ChoosePrescribingInformation"
+            >
+                Voltar a seleção de bulas
+            </a> |
             @* | <a asp-controller="User" asp-action="YourClassifications">Veja suas classificações anteriores</a>   *@
-            | <a asp-controller="Home" asp-action="WhereToStart">Descubra mais recursos úteis</a>
+            <a 
+                class="link-offset-2 link-offset-3-hover link-underline link-underline-opacity-0 link-underline-opacity-75-hover" 
+                asp-controller="Home" 
+                asp-action="WhereToStart"
+            >
+                Descubra mais recursos úteis
+            </a>
         </p>
 
         <p class="lead">
@@ -40,7 +52,6 @@
             <br>
             <strong>Equipe MedTagger</strong>
         </p>
-            
 
     </div>
 

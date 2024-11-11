@@ -1,4 +1,8 @@
+using Classificador.Api.Application.Queries.GetAllCategories;
+using Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
+using Classificador.Api.Application.Queries.GetPendingClassifications;
 using Classificador.Api.Application.Queries.GetPrescribingInformationById;
+using Classificador.Api.Domain;
 using Classificador.Api.Domain.Core.Enums;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -36,131 +40,135 @@ public sealed class UserController(ILogger<UserController> logger, IMediator med
         return View(viewModel);
     }
 
-    // [HttpGet("classify-named-entity/{idPrescribingInformation:guid}")]
-    // public async Task<IActionResult> ClassifyNamedEntity(
-    //     ClassifyNamedEntityViewModel viewModel, 
-    //     Guid idPrescribingInformation, 
-    //     string namePrescribingInformation, 
-    //     int entityIndex)
-    // {
-    //     viewModel.NamePrescribingInformation = namePrescribingInformation;
-    //     string idUser = User.FindFirstValue(ClaimTypes.NameIdentifier)!;
+    [HttpGet("classify-named-entity/{idPrescribingInformation:guid}")]
+    public async Task<IActionResult> ClassifyNamedEntity(
+        ClassifyNamedEntityViewModel viewModel,
+        Guid idPrescribingInformation,
+        int entityIndex = 0)
+    {
+        viewModel.NamedEntityIndex = entityIndex;
+        viewModel.IdPrescribingInformation = idPrescribingInformation;
+        Guid idUser = Guid.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier)!);
 
-    //     var responseGetCategoriesQuery = await _mediator.Send(new GetCategoriesQuery());
-    //     if(!responseGetCategoriesQuery.IsSuccess)
-    //     {
-    //         GenerateErrorMessage(responseGetCategoriesQuery.Error.Message);
-    //         return RedirectToAction(nameof(ChoosePrescribingInformation));
-    //     }
-    //     var valueOfGetCategoriesQuery = responseGetCategoriesQuery as Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>> 
-    //         ?? throw new ResultConvertionException();
+        bool[] isAllLoadSuccess = await Task.WhenAll(
+            LoadCategories(viewModel),
+            LoadNamedEntities(viewModel, idUser),
+            LoadPendingClassification(viewModel, idUser)
+        );
 
-    //     var responseGetNamedEntity = await _mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(idPrescribingInformation, idUser));
-    //     if(!responseGetNamedEntity.IsSuccess)
-    //     {
-    //         GenerateErrorMessage(responseGetNamedEntity.Error.Message);
-    //         return RedirectToAction(nameof(ChoosePrescribingInformation));
-    //     }
-    //     var valueOfGetNamedEntity = responseGetNamedEntity as Result<List<ClassifyNamedEntityViewNamedEntityDto>> 
-    //         ?? throw new ResultConvertionException();
-
-    //     var responseGetPendingClassifications = await _mediator.Send(new GetPendingClassificationsQuery(idUser, idPrescribingInformation));
-    //     if(!responseGetPendingClassifications.IsSuccess)
-    //     {
-    //         GenerateErrorMessage(responseGetPendingClassifications.Error.Message);
-    //         return RedirectToAction(nameof(ChoosePrescribingInformation));
-    //     }
-    //     var valueOfGetPendingClassifications = responseGetPendingClassifications as Result<List<ClassifyNamedEntityViewPendingClassificationDto>> 
-    //         ?? throw new ResultConvertionException();
-
-    //     viewModel.IdPrescribingInformation = new Guid(idPrescribingInformation);
-    //     viewModel.Categories = valueOfGetCategoriesQuery.Value!.ToList();
-    //     viewModel.NamedEntityIndex = entityIndex;
-
-    //     ViewData["NamedEntitiesList"] = valueOfGetNamedEntity.Value;
-    //     ViewData["PendingClassificationsList"] = valueOfGetPendingClassifications.Value;
-    //     ViewBag.ReturnUrl = Request.Path + Request.QueryString;
-
-    //     return View(viewModel);
-    // }
-
-    // [HttpPost(nameof(PostCreateClassification))]
-    // public async Task<IActionResult> PostCreateClassification(
-    //     CreateClassificationViewModel viewModel, 
-    //     string idPrescribingInformation, 
-    //     string namePrescribingInformation)
-    // {
-    //     CreateClassificationCommand command = viewModel;
-
-    //     ClassifyNamedEntityViewModel classifyNamedEntityViewModel = new()
-    //     {
-    //         IdPrescribingInformation = new Guid(idPrescribingInformation),
-    //         NamePrescribingInformation = namePrescribingInformation
-    //     };
-
-    //     Result response = await _mediator.Send(command);
-
-    //     if (!response.IsSuccess)
-    //     {
-    //         GenerateErrorMessage(response.Error.Message);
-    //         return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
-    //     }
-
-    //     GenerateSuccessMessage(Constants.Messages.ClassificationSuccessfully);
-    //     return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
-    // }
+        if (!isAllLoadSuccess.All(success => success))
+        {
+            return RedirectToAction(nameof(ChoosePrescribingInformation));
+        }
         
-    // [HttpPost(nameof(PostUpdateClassificationToCompleted))]
-    // public async Task<IActionResult> PostUpdateClassificationToCompleted(PatchClassificationToCompletedViewModel viewModel, string returnUrl = "")
-    // {
-    //     UpdateClassificationToCompletedCommand command = viewModel;
+        // ViewBag.ReturnUrl = Request.Path + Request.QueryString;
+        return View(viewModel);
+    }
 
-    //     Result response = await _mediator.Send(command);
+    private async Task<bool> LoadCategories(ClassifyNamedEntityViewModel viewModel)
+    {
+        Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>> response = await Mediator.Send(new GetAllCategoriesQuery());
+        if(response.IsFailure)
+        {
+            GenerateErrorMessage(response.FirstError().Message);
+            return response.IsSuccess;
+        }
+        viewModel.Categories = response.Value!.ToList();
+        return response.IsSuccess;
+    }
 
-    //     if(!response.IsSuccess)
-    //     {
-    //         GenerateWarningMessage(response.Error.Message);
+    private async Task<bool> LoadNamedEntities(ClassifyNamedEntityViewModel viewModel, Guid idUser)
+    {
+        Result<IEnumerable<ClassifyNamedEntityViewNamedEntityDto>> response = 
+            await Mediator.Send(new GetNamedEntityByPrescribingInformationIdQuery(viewModel.IdPrescribingInformation, idUser));
+        if(response.IsFailure)
+        {
+            GenerateErrorMessage(response.FirstError().Message);
+            return response.IsSuccess;
+        }
+        viewModel.NamedEntities = response.Value!.ToList();
+        return response.IsSuccess;
+    }
 
-    //         return string.IsNullOrEmpty(returnUrl) 
-    //             ? RedirectToAction(nameof(ChoosePrescribingInformation)) 
-    //             : Redirect(returnUrl);
-    //     }
+    private async Task<bool> LoadPendingClassification(ClassifyNamedEntityViewModel viewModel, Guid idUser)
+    {
+        Result<IEnumerable<ClassifyNamedEntityViewPendingClassificationDto>> response = 
+            await Mediator.Send(new GetPendingClassificationsQuery(idUser, viewModel.IdPrescribingInformation));
+        if(response.IsFailure)
+        {
+            GenerateErrorMessage(response.FirstError().Message);
+            return response.IsSuccess;
+        }
+        viewModel.PendingClassifications = response.Value!.ToList();
+        return response.IsSuccess;
+    }
 
-    //     return RedirectToAction(nameof(ThanksForTheClassifications));
-    // }
+    [HttpPost(nameof(PostCreateClassification))]
+    public async Task<IActionResult> PostCreateClassification(
+        CreateClassificationForm form, 
+        Guid idPrescribingInformation)
+    {
+        ClassifyNamedEntityViewModel viewModel = new()
+        {
+            IdPrescribingInformation = idPrescribingInformation
+        };
+        Result response = await Mediator.Send(form.ToCommand());
 
-    // [HttpPost(nameof(PostDeletePendingClassification))]
-    // public async Task<IActionResult> PostDeletePendingClassification(
-    //     DeletePendingClassificationViewModel viewModel,
-    //     string idPrescribingInformation, 
-    //     string namePrescribingInformation)
-    // {
-    //     DeletePendingClassificationCommand command = viewModel;
+        if (response.IsFailure)
+        {
+            GenerateErrorMessage(response.FirstError().Message);
+            return RedirectToAction(nameof(ClassifyNamedEntity), viewModel);
+        }
 
-    //     ClassifyNamedEntityViewModel classifyNamedEntityViewModel = new()
-    //     {
-    //         IdPrescribingInformation = new Guid(idPrescribingInformation),
-    //         NamePrescribingInformation = namePrescribingInformation
-    //     };
+        GenerateSuccessMessage(Constants.Messages.ClassificationSuccessfully);
+        return RedirectToAction(nameof(ClassifyNamedEntity), viewModel);
+    }
 
-    //     Result response = await _mediator.Send(command);
+    [HttpPost(nameof(PostDeletePendingClassification))]
+    public async Task<IActionResult> PostDeletePendingClassification(
+        DeletePendingClassificationForm form,
+        Guid idPrescribingInformation, 
+        string namePrescribingInformation)
+    {
+        ClassifyNamedEntityViewModel viewModel = new()
+        {
+            IdPrescribingInformation = idPrescribingInformation
+        };
 
-    //     if(!response.IsSuccess)
-    //     {
-    //         GenerateErrorMessage(response.Error.Message);
-    //         return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
-    //     }
+        Result response = await Mediator.Send(form.ToCommand());
 
-    //     GenerateSuccessMessage(Constants.Messages.DeletePendingClassificationSuccessfully);
-    //     return RedirectToAction(nameof(ClassifyNamedEntity), classifyNamedEntityViewModel);
-    // }
+        if(response.IsFailure)
+        {
+            GenerateErrorMessage(response.FirstError().Message);
+            return RedirectToAction(nameof(ClassifyNamedEntity), viewModel);
+        }
 
-    // [HttpGet(nameof(ThanksForTheClassifications))]
-    // public IActionResult ThanksForTheClassifications()
-    // {
-    //     return View();
-    // }
+        GenerateSuccessMessage(Constants.Messages.DeletePendingClassificationSuccessfully);
+        return RedirectToAction(nameof(ClassifyNamedEntity), viewModel);
+    }
+        
+    [HttpPost(nameof(PostUpdateClassificationToCompleted))]
+    public async Task<IActionResult> PostUpdateClassificationToCompleted(PatchClassificationToCompletedForm form, Guid idPrescribingInformation)
+    {
+        Result response = await Mediator.Send(form.ToCommand());
 
+        ClassifyNamedEntityViewModel viewModel = new()
+        {
+            IdPrescribingInformation = idPrescribingInformation
+        };
+
+        if(response.IsFailure)
+        {
+            GenerateWarningMessage(response.FirstError().Message);
+            return RedirectToAction(nameof(ClassifyNamedEntity), viewModel);
+        }
+
+        return RedirectToAction(nameof(ThanksForTheClassifications));
+    }
+
+    [HttpGet("thanks-for-the-classifications")]
+    public IActionResult ThanksForTheClassifications() => View();
+    
     // [HttpGet(nameof(YourClassifications))]
     // public IActionResult YourClassifications()
     // {

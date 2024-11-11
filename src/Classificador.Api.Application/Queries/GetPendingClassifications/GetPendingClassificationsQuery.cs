@@ -1,12 +1,14 @@
+using Classificador.Api.Application.Dtos;
+
 namespace Classificador.Api.Application.Queries.GetPendingClassifications;
 
-public sealed record GetPendingClassificationsQuery : IQuery<Result<GetPendingClassificationsQueryResponse>>
+public sealed record GetPendingClassificationsQuery : IQuery<Result<IEnumerable<ClassifyNamedEntityViewPendingClassificationDto>>>
 {
     public Guid IdUser { get; init; }
     public Guid IdPrescribingInformation { get; init; }
-    public GetPendingClassificationsQuery(string idUser, string idPrescribingInformation)
+    public GetPendingClassificationsQuery(Guid idUser, Guid idPrescribingInformation)
     {
-        IdUser = new Guid(idUser);
-        IdPrescribingInformation = new Guid(idPrescribingInformation);
+        IdUser = idUser;
+        IdPrescribingInformation = idPrescribingInformation;
     }
 }

@@ -2,15 +2,14 @@ using Classificador.Api.Application.Dtos;
 
 namespace Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
 
-public sealed record GetNamedEntityByPrescribingInformationIdQuery : IQuery<Result<GetNamedEntityByPrescribingInformationIdQueryResponse>>
+public sealed record GetNamedEntityByPrescribingInformationIdQuery : IQuery<Result<IEnumerable<ClassifyNamedEntityViewNamedEntityDto>>>
 {
-    public Guid IdPrescribingInformation { get; set; }
-    public Guid IdUser { get; set; }
+    public Guid IdPrescribingInformation { get; init; }
+    public Guid IdUser { get; init; }
 
-    public GetNamedEntityByPrescribingInformationIdQuery(string idPrescribingInformation, string idUser)
+    public GetNamedEntityByPrescribingInformationIdQuery(Guid idPrescribingInformation, Guid idUser)
     {
-        IdPrescribingInformation = new Guid(idPrescribingInformation);
-        IdUser = new Guid(idUser);
+        IdPrescribingInformation = idPrescribingInformation;
+        IdUser = idUser;
     }
-    
 }

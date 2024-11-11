@@ -4,7 +4,7 @@ using Classificador.Api.Domain.Core.Errors;
 namespace Classificador.Api.Application.Queries.GetNamedEntityByPrescribingInformationId;
 
 public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler 
-    : IQueryHandler<GetNamedEntityByPrescribingInformationIdQuery, Result<GetNamedEntityByPrescribingInformationIdQueryResponse>>
+    : IQueryHandler<GetNamedEntityByPrescribingInformationIdQuery, Result<IEnumerable<ClassifyNamedEntityViewNamedEntityDto>>>
 {
     private readonly ILogger<GetNamedEntityByPrescribingInformationIdQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -20,7 +20,7 @@ public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler
         _namedEntityReadOnlyRepository = namedEntityReadOnlyRepository;
     }
 
-    public async Task<Result<GetNamedEntityByPrescribingInformationIdQueryResponse>> Handle(
+    public async Task<Result<IEnumerable<ClassifyNamedEntityViewNamedEntityDto>>> Handle(
         GetNamedEntityByPrescribingInformationIdQuery request, 
         CancellationToken cancellationToken)
     {
@@ -32,7 +32,7 @@ public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler
             _logger.LogInformation("{RequestName} did not find any named entities",
                 nameof(GetNamedEntityByPrescribingInformationIdQuery));
 
-            return  Result.Failure<GetNamedEntityByPrescribingInformationIdQueryResponse>(DomainErrors.NamedEntity.NamedEntityNoneWereFound);
+            return  Result.Failure<IEnumerable<ClassifyNamedEntityViewNamedEntityDto>>(DomainErrors.NamedEntity.NamedEntityNoneWereFound);
         }
 
         if(!namedEntities.Any())
@@ -41,7 +41,7 @@ public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler
                 nameof(GetNamedEntityByPrescribingInformationIdQuery),
                 request.IdPrescribingInformation);
 
-            return Result.Success(new GetNamedEntityByPrescribingInformationIdQueryResponse());
+            return Result.Success(Enumerable.Empty<ClassifyNamedEntityViewNamedEntityDto>());
         }
 
         _logger.LogInformation("{RequestName} found {RecordsCount} named entities records",
@@ -51,6 +51,6 @@ public sealed class GetNamedEntityByPrescribingInformationIdQueryHandler
         IEnumerable<ClassifyNamedEntityViewNamedEntityDto> mapperNamedEntities = 
             namedEntities.Select(_mapper.Map<ClassifyNamedEntityViewNamedEntityDto>).ToList();
             
-        return Result.Success(new GetNamedEntityByPrescribingInformationIdQueryResponse { Response = mapperNamedEntities });
+        return Result.Success(mapperNamedEntities);
     }
 }

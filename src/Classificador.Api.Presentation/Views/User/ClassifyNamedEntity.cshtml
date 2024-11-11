@@ -1,25 +1,21 @@
 @model ClassifyNamedEntityViewModel;
 @{
     ViewData["Title"] = "Classificar";
-    @* var namedEntities = ViewData["NamedEntitiesList"] as List<ClassifyNamedEntityViewNamedEntityDto>;
-    var pendingClassificationsList = ViewData["PendingClassificationsList"] as List<ClassifyNamedEntityViewPendingClassificationDto>;
-    var namedEntitiesCount = namedEntities != null ? namedEntities.Count : 0; *@
 }
 
 <div class="container my-5">
 
-    @* <div class="row mb-4">
+    <div class="row mb-4">
         <div class="row">
-            @if(namedEntities != null && namedEntitiesCount != 0)
+            @if(Model.NamedEntities != null && Model.NamedEntities.Count != 0)
             {
-                <h1 class="display-6 text-color-primary">Por favor, classifique a entidade a baixo:</h1>
-                <h2 class="display-4">@namedEntities[Model.NamedEntityIndex].Name</h2>
+                <h1 class="display-6 text-color-success">Por favor, classifique a entidade a baixo:</h1>
+                <h2 class="display-4">@Model.ActualEntity().Name</h2>
             }
             else
             {
                 <h2 class="display-4">Essa bula não tem mais entidades para você classificar</h2>
             }
-
         </div>
 
         <section class="row row-col-1 row-cols-md-2 p-3 shadow-sm border rounded bg-light mb-4">
@@ -31,17 +27,16 @@
                             asp-action="PostCreateClassification" 
                             asp-controller="User" 
                             asp-route-idPrescribingInformation="@Model.IdPrescribingInformation" 
-                            asp-route-namePrescribingInformation="@Model.NamePrescribingInformation"
                             method="post">
 
                             <input type="hidden" id="InputIdCategory" asp-for="CreateClassificationForm!.IdCategory" name="IdCategory">
                             <input type="hidden" id="InputIdUser" asp-for="CreateClassificationForm!.IdUser" name="IdUser"
                                 value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
 
-                            @if(namedEntities != null && namedEntitiesCount != 0)
+                            @if(Model.NamedEntities != null && Model.NamedEntities.Count != 0)
                             {
                                 <input type="hidden" id="InputIdNamedEntity" asp-for="CreateClassificationForm!.IdNamedEntity" name="IdNamedEntity" 
-                                    value="@namedEntities![Model.NamedEntityIndex]!.Id">
+                                    value="@Model.ActualEntity().Id">
                             }
 
                             <div class="row row-cols-2 row-cols-md-3">
@@ -52,7 +47,7 @@
                                         <div class="col d-grid mb-2">
                                             <button 
                                                 type="submit" 
-                                                class="btn btn-primary text-break @(namedEntitiesCount == 0 ? "disabled" : "")" 
+                                                class="btn btn-primary text-break @(Model.NamedEntities!.Count == 0 ? "disabled" : "")" 
                                                 onclick="SetValueToCategoryInput(event, '@category.Id')"
                                             >
                                                 @category
@@ -64,7 +59,7 @@
 
                             <div class="form-floating mb-3">
                                 <textarea 
-                                    class="form-control @(namedEntitiesCount == 0 ? "disabled" : "")" 
+                                    class="form-control @(Model.NamedEntities!.Count == 0 ? "disabled" : "")" 
                                     id="TextAreaComment"
                                     asp-for="CreateClassificationForm!.Comment" 
                                     name="Comment" 
@@ -81,21 +76,21 @@
                 <div class="row row-cols-2">
                     <div class="col d-grid gap-2 d-md-flex mb-2 mb-md-0">
                         <a
-                            class="btn btn-dark flex-fill @(Model.NamedEntityIndex <= 0 ? "disabled" : "")"
+                            class="btn btn-dark flex-fill @(Model.HasPrev() ? "" : "disabled")"
                             asp-controller="User" 
                             asp-action="ClassifyNamedEntity" 
                             asp-route-entityIndex="@(Model.NamedEntityIndex-1)"
-                            asp-route-namePrescribingInformation="@Model.NamePrescribingInformation">
-                                Voltar
+                        >
+                            Voltar
                         </a>
                         
                         <a
-                            class="btn btn-dark flex-fill @(Model.NamedEntityIndex >= (namedEntities!.Count-1) ? "disabled" : "")" 
+                            class="btn btn-dark flex-fill @(Model.HasNext() ? "" : "disabled")" 
                             asp-controller="User" 
                             asp-action="ClassifyNamedEntity" 
                             asp-route-entityIndex="@(Model.NamedEntityIndex+1)"
-                            asp-route-namePrescribingInformation="@Model.NamePrescribingInformation">
-                                Pular
+                        >
+                            Pular
                         </a>
                     </div>
                     <form 
@@ -103,7 +98,7 @@
                         class="col d-grid" 
                         asp-action="PostUpdateClassificationToCompleted"
                         asp-controller="User"
-                        asp-route-returnUrl = "@(ViewBag.ReturnURL != null ? ViewBag.ReturnURL : ' ')"
+                        asp-route-idPrescribingInformation="@Model.IdPrescribingInformation" 
                         method="post" 
                     >
                         <input type="hidden" asp-for="PatchClassificationForm!.IdUser" name="IdUser" value="@User.FindFirstValue(ClaimTypes.NameIdentifier)">
@@ -132,9 +127,9 @@
                     </thead>
 
                     <tbody>
-                        @if(pendingClassificationsList != null)
+                        @if(Model.PendingClassifications != null || Model.PendingClassifications!.Count != 0)
                         {
-                            @foreach(var cls in pendingClassificationsList)
+                            @foreach(var cls in Model.PendingClassifications)
                             {
                                 <tr>
                                     <td>@cls.NamedEntity</td>
@@ -145,7 +140,6 @@
                                             asp-action="PostDeletePendingClassification"
                                             asp-controller="User"
                                             asp-route-idPrescribingInformation="@Model.IdPrescribingInformation" 
-                                            asp-route-namePrescribingInformation="@Model.NamePrescribingInformation"
                                             method="post" 
                                         >
                                             <input type="hidden" asp-for="DeletePendingClassificationForm!.IdClassification" 
@@ -161,15 +155,15 @@
                     </tbody>
 
                     <tfoot>
-                        @if(pendingClassificationsList != null)
+                        @if(Model.PendingClassifications != null || Model.PendingClassifications!.Count != 0)
                         {
                             <tr>
-                                <td colspan="3" class="bg-body-secondary">Quantidade: @pendingClassificationsList.Count</td>
+                                <td colspan="3" class="bg-body-secondary">Quantidade: @Model.PendingClassifications.Count</td>
                             </tr>
                         }
                     </tfoot>
                 </table>
             </div>
         </section>
-    </div> *@
+    </div>
 </div>

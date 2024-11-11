@@ -3,7 +3,7 @@ using Classificador.Api.Domain.Core.Errors;
 
 namespace Classificador.Api.Application.Queries.GetAllCategories;
 
-public sealed class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery, Result<GetAllCategoriesQueryResponse>>
+public sealed class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategoriesQuery, Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>>>
 {
     private readonly ILogger<GetAllCategoriesQueryHandler> _logger;
     private readonly IMapper _mapper;
@@ -16,7 +16,7 @@ public sealed class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategorie
         _categoryReadOnlyRepository = categoryReadOnlyRepository;
     }
 
-    public async Task<Result<GetAllCategoriesQueryResponse>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
+    public async Task<Result<IEnumerable<ClassifyNamedEntityViewCategoryDto>>> Handle(GetAllCategoriesQuery request, CancellationToken cancellationToken)
     {
         IEnumerable<Category> categories = await _categoryReadOnlyRepository.GetAllAsync(cancellationToken);
 
@@ -25,7 +25,7 @@ public sealed class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategorie
             _logger.LogInformation("{RequestName} did not find any categories.",
                 nameof(GetAllCategoriesQuery));
 
-            return Result.Failure<GetAllCategoriesQueryResponse>(DomainErrors.Category.CategoryEntityNoneWereFound);
+            return Result.Failure<IEnumerable<ClassifyNamedEntityViewCategoryDto>>(DomainErrors.Category.CategoryEntityNoneWereFound);
         }
 
         _logger.LogInformation("{RequestName} found {RecordsCount} categories records.",
@@ -34,6 +34,6 @@ public sealed class GetAllCategoriesQueryHandler : IQueryHandler<GetAllCategorie
 
         IEnumerable<ClassifyNamedEntityViewCategoryDto> mapperCategories = categories.Select(_mapper.Map<ClassifyNamedEntityViewCategoryDto>);
 
-        return Result.Success(new GetAllCategoriesQueryResponse { Response = mapperCategories });
+        return Result.Success(mapperCategories);
     }
 }
