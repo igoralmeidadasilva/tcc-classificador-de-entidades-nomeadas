@@ -40,3 +40,9 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
       - POSTGRES_USER=${POSTGRES_USER}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    volumes:
+      - medtagger-db-data:/var/lib/postgresql/data
+
+volumes:
+  medtagger-db-data:
+    driver: local
